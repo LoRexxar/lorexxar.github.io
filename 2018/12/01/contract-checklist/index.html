@@ -1,0 +1,4882 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="LoRexxar">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LoRexxar">
+    
+    <meta name="keywords" content="LoRexxar,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="这篇文章前前后后完成周期超过2个月，很幸运前段时间还是公开了，不管怎么样都希望对读者有所帮助。 在以太坊合约审计checkList中，我将以太坊合约审计中遇到的问题分为5大种，包括编码规范问题、设计缺陷问题、编码安全问题、编码设计问题、编码问题隐患。其中涵盖了超过29种会出现以太坊智能合约审计过程中遇到的问题。帮助智能合约的开发者和安全工作者快速入门智能合约安全。 本CheckList在完成过程中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以太坊智能合约审计CheckList">
+<meta property="og:url" content="https://lorexxar.cn/2018/12/01/contract-checklist/index.html">
+<meta property="og:site_name" content="LoRexxar&#39;s Blog">
+<meta property="og:description" content="这篇文章前前后后完成周期超过2个月，很幸运前段时间还是公开了，不管怎么样都希望对读者有所帮助。 在以太坊合约审计checkList中，我将以太坊合约审计中遇到的问题分为5大种，包括编码规范问题、设计缺陷问题、编码安全问题、编码设计问题、编码问题隐患。其中涵盖了超过29种会出现以太坊智能合约审计过程中遇到的问题。帮助智能合约的开发者和安全工作者快速入门智能合约安全。 本CheckList在完成过程中">
+<meta property="article:published_time" content="2018-12-01T03:32:56.000Z">
+<meta property="article:modified_time" content="2018-12-07T03:36:00.000Z">
+<meta property="article:author" content="LoRexxar">
+<meta property="article:tag" content="contract">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <link rel="alternate" href="/atom.xml" title="LoRexxar&#39;s Blog" type="application/atom+xml">
+    
+    <title>以太坊智能合约审计CheckList · LoRexxar&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/./img/699-14040QPP9.jpg" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?736cd32ff67d23a009e16622fd600527";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+    <!-- 谷歌统计  -->
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-127222426-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LoRexxar&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">以太坊智能合约审计CheckList</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>LoRexxar's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            以太坊智能合约审计CheckList
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "contract">contract</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">6.6k</span>阅读时长: <span class="post-count reading-time">27 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/12/01</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>这篇文章前前后后完成周期超过2个月，很幸运前段时间还是公开了，不管怎么样都希望对读者有所帮助。</p>
+<p>在以太坊合约审计checkList中，我将以太坊合约审计中遇到的问题分为5大种，包括编码规范问题、设计缺陷问题、编码安全问题、编码设计问题、编码问题隐患。其中涵盖了超过29种会出现以太坊智能合约审计过程中遇到的问题。帮助智能合约的开发者和安全工作者快速入门智能合约安全。</p>
+<p>本CheckList在完成过程中参考并整理兼容了各大区块链安全研究团队的研究成果，CheckList中如有不完善/错误的地方也欢迎大家提issue.</p>
+<p>由于本文的目的主要是<strong>CheckList</strong>，所以文中不会包含太详细的漏洞/隐患信息，大部分漏洞分析在扫描报告中会有所提及。</p>
+<a id="more"></a>
+
+<h1 id="1、编码规范问题"><a href="#1、编码规范问题" class="headerlink" title="1、编码规范问题"></a>1、编码规范问题</h1><h2 id="1-编译器版本"><a href="#1-编译器版本" class="headerlink" title="(1) 编译器版本"></a>(1) 编译器版本</h2><p><strong>合约代码中，应指定编译器版本。建议使用最新的编译器版本</strong></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.25</span>;</span><br></pre></td></tr></table></figure>
+<p>老版本的编译器可能会导致各种已知的安全问题，例如<a href="https://paper.seebug.org/631/#44-dividenddistributor" target="_blank" rel="noopener">https://paper.seebug.org/631/#44-dividenddistributor</a></p>
+<p>v0.4.23更新了一个编译器漏洞，在这个版本中如果同时使用了两种构造函数，即</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">contract a <span class="comment">&#123;</span></span><br><span class="line"><span class="comment">    function a() public&#123;</span></span><br><span class="line"><span class="comment">        ...</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line">    <span class="function"><span class="keyword">constructor</span><span class="params">()</span> <span class="title">public</span><span class="comment">&#123;</span></span></span><br><span class="line"><span class="function"><span class="comment">        ...</span></span></span><br><span class="line"><span class="function"><span class="comment">    &#125;</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>会忽略其中的一个构造函数，该问题只影响v0.4.22</p>
+<p>v0.4.25修复了下面提到的未初始化存储指针问题。</p>
+<p><a href="https://etherscan.io/solcbuginfo" target="_blank" rel="noopener">https://etherscan.io/solcbuginfo</a></p>
+<h2 id="2-构造函数书写问题"><a href="#2-构造函数书写问题" class="headerlink" title="(2) 构造函数书写问题"></a>(2) 构造函数书写问题</h2><p><strong>对应不同编译器版本应使用正确的构造函数，否则可能导致合约所有者变更</strong></p>
+<p>在小于0.4.22版本的solidify编译器语法要求中，合约构造函数必须和合约名字相等， 名字受到大小写影响。如：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">contract <span class="keyword">Owned</span> &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="keyword">Owned</span>() <span class="built_in">public</span>&#123;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在0.4.22版本以后，引入了constructor关键字作为构造函数声明，但不需要function</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">contract Owned &#123;</span><br><span class="line">    <span class="keyword">constructor</span>(<span class="params"></span>) public &#123;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如果没有按照对应的写法，构造函数就会被编译成一个普通函数，可以被任意人调用，会导致owner权限被窃取等更严重的后果。</p>
+<h2 id="3-返回标准"><a href="#3-返回标准" class="headerlink" title="(3) 返回标准"></a>(3) 返回标准</h2><p><strong>遵循ERC20规范，要求transfer、approve函数应返回bool值，需要添加返回值代码</strong></p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span></span> <span class="built_in">transfer</span>(address _to, uint256 _value) <span class="keyword">public</span> returns (bool success)</span><br></pre></td></tr></table></figure>
+<p>而transferFrom返回结果应该和transfer返回结果一致。</p>
+<h2 id="4-事件标准"><a href="#4-事件标准" class="headerlink" title="(4) 事件标准"></a>(4) 事件标准</h2><p><strong>遵循ERC20规范，要求transfer、approve函数触发相应的事件</strong></p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> approve(address _spender, uint256 _value) public returns (<span class="built_in">bool</span> success)&#123;</span><br><span class="line">    allowance<span class="literal">[<span class="identifier">msg</span>.<span class="identifier">sender</span>]</span><span class="literal">[<span class="identifier">_spender</span>]</span> = _value;</span><br><span class="line">    emit <span class="constructor">Approval(<span class="params">msg</span>.<span class="params">sender</span>, <span class="params">_spender</span>, <span class="params">_value</span>)</span></span><br><span class="line">    return <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-假充值问题"><a href="#5-假充值问题" class="headerlink" title="(5) 假充值问题"></a>(5) 假充值问题</h2><p><strong>转账函数中，对余额以及转账金额的判断，需要使用require函数抛出错误，否则会错误的判断为交易成功</strong></p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> transfer(address _<span class="keyword">to</span>, uint256 _<span class="keyword">value</span>) returns (bool success) &#123;</span><br><span class="line">    <span class="keyword">if</span> (balances[msg.sender] &gt;= _<span class="keyword">value</span> &amp;&amp; _<span class="keyword">value</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        balances[msg.sender] -= _<span class="keyword">value</span>;</span><br><span class="line">        balances[_<span class="keyword">to</span>] += _<span class="keyword">value</span>;</span><br><span class="line">        Transfer(msg.sender, _<span class="keyword">to</span>, _<span class="keyword">value</span>);</span><br><span class="line">        <span class="keyword">return</span><span class="built_in"> true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="keyword">return</span><span class="built_in"> false</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码可能会导致假充值。</p>
+<p>正确代码如下：</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function transfer(address <span class="variable">_to</span>, uint256 <span class="variable">_amount</span>)  public returns (bool success) &#123;</span><br><span class="line">    require(<span class="variable">_to</span> != address(<span class="number">0</span>));</span><br><span class="line">    require(<span class="variable">_amount</span> &lt;= balances[msg.sender]);</span><br><span class="line"></span><br><span class="line">    balances[msg.sender] = balances[msg.sender].sub(<span class="variable">_amount</span>);</span><br><span class="line">    balances[<span class="variable">_to</span>] = balances[<span class="variable">_to</span>].add(<span class="variable">_amount</span>);</span><br><span class="line">    emit Transfer(msg.sender, <span class="variable">_to</span>, <span class="variable">_amount</span>);</span><br><span class="line">    return <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="2、设计缺陷问题"><a href="#2、设计缺陷问题" class="headerlink" title="2、设计缺陷问题"></a>2、设计缺陷问题</h1><h2 id="1-approve授权函数条件竞争"><a href="#1-approve授权函数条件竞争" class="headerlink" title="(1) approve授权函数条件竞争"></a>(1) approve授权函数条件竞争</h2><p><strong>approve函数中应避免条件竞争</strong>。在修改allowance前，应先修改为0，再修改为_value。</p>
+<p>这个漏洞的起因是由于底层矿工协议中为了鼓励矿工挖矿，矿工可以自己决定打包什么交易，为了收益更大，矿工一般会选择打包gas price更大的交易，而不会依赖交易顺序的前后。</p>
+<p>通过置0的方式，可以在一定程度上缓解条件竞争中产生的危害，合约管理人可以通过检查日志来判断是否有条件竞争情况的发生，这种修复方式更大的意义在于，提醒使用approve函数的用户，该函数的操作在一定程度上是不可逆的。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">approve</span><span class="params">(address _spender, uint256 _value)</span> <span class="title">public</span> <span class="title">returns</span> <span class="params">(bool success)</span></span>&#123;</span><br><span class="line">    allowance[msg.sender][_spender] = _value;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>上述代码就有可能导致条件竞争。</p>
+<p>应在approve中加入</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require((<span class="name">_value</span> == <span class="number">0</span>) || (<span class="name">allowance</span>[msg.sender][_spender] == <span class="number">0</span>))<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>将allowance先改为0再改为对应数字</p>
+<h2 id="2-循环Dos问题"><a href="#2-循环Dos问题" class="headerlink" title="(2) 循环Dos问题"></a>(2) 循环Dos问题</h2><h3 id="1-循环消耗问题"><a href="#1-循环消耗问题" class="headerlink" title="[1] 循环消耗问题"></a>[1] 循环消耗问题</h3><p><strong>在合约中，不推荐使用太大次的循环</strong></p>
+<p>在以太坊中，每一笔交易都会消耗一定量的gas，而实际消耗量是由交易的复杂度决定的，循环次数越大，交易的复杂度越高，当超过允许的最大gas消耗量时，会导致交易失败。</p>
+<h4 id="真实世界事件"><a href="#真实世界事件" class="headerlink" title="真实世界事件"></a>真实世界事件</h4><p>Simoleon (SIM)</p>
+<ul>
+<li><a href="https://paper.seebug.org/646/" target="_blank" rel="noopener">https://paper.seebug.org/646/</a></li>
+</ul>
+<p>Pandemica</p>
+<ul>
+<li><a href="https://bcsec.org/index/detail/id/260/tag/2" target="_blank" rel="noopener">https://bcsec.org/index/detail/id/260/tag/2</a></li>
+</ul>
+<h3 id="2-循环安全问题"><a href="#2-循环安全问题" class="headerlink" title="[2] 循环安全问题"></a>[2] 循环安全问题</h3><p><strong>合约中，应尽量避免循环次数受到用户控制，攻击者可能会使用过大的循环来完成Dos攻击</strong></p>
+<p>当用户需要同时向多个账户转账，我们需要对目标账户列表遍历转账，就有可能导致Dos攻击。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Distribute</span><span class="params">(address[] _addresses, uint256[] _values)</span> <span class="title">payable</span> <span class="title">returns</span><span class="params">(bool)</span>&#123;</span></span><br><span class="line">    <span class="keyword">for</span> (uint <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; _addresses.<span class="built_in">length</span>; <span class="built_in">i</span>++) &#123;</span><br><span class="line">        transfer(_addresses[<span class="built_in">i</span>], _values[<span class="built_in">i</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>遇到上述情况是，推荐使用withdrawFunds来让用户取回自己的代币，而不是发送给对应账户，可以在一定程序上减少危害。</p>
+<p>上述代码如果控制函数调用，那么就可以构造巨大循环消耗gas，造成Dos问题</p>
+<h1 id="3、编码安全问题"><a href="#3、编码安全问题" class="headerlink" title="3、编码安全问题"></a>3、编码安全问题</h1><h2 id="1-溢出问题"><a href="#1-溢出问题" class="headerlink" title="(1) 溢出问题"></a>(1) 溢出问题</h2><h3 id="1-算术溢出"><a href="#1-算术溢出" class="headerlink" title="[1] 算术溢出"></a>[1] 算术溢出</h3><p><strong>在调用加减乘除时，应使用safeMath库来替代，否则容易导致算数上下溢，造成不可避免的损失</strong></p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.18</span>;</span><br><span class="line"></span><br><span class="line">contract Token &#123;</span><br><span class="line"></span><br><span class="line">  mapping(address =&gt; <span class="keyword">uint</span>) balances;</span><br><span class="line">  <span class="keyword">uint</span> <span class="keyword">public</span> totalSupply;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Token</span><span class="params">(uint _initialSupply)</span> </span>&#123;</span><br><span class="line">    balances[msg.sender] = totalSupply = _initialSupply;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span><span class="params">(address _to, uint _value)</span> <span class="title">public</span> <span class="title">returns</span> <span class="params">(bool)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">require</span>(balances[msg.sender] - _value &gt;= <span class="number">0</span>); <span class="comment">//可以通过下溢来绕过判断</span></span><br><span class="line">    balances[msg.sender] -= _value;</span><br><span class="line">    balances[_to] += _value;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span><span class="params">(address _owner)</span> <span class="title">public</span> <span class="title">constant</span> <span class="title">returns</span> <span class="params">(uint balance)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> balances[_owner];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>balances[msg.sender] - _value &gt;= 0</code>可以通过下溢来绕过判断。</p>
+<p>通常的修复方式都是使用openzeppelin-safeMath，但也可以通过对不同变量的判断来限制，但很难对乘法和指数做什么限制。</p>
+<p>正确的写法如下：</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function transfer(address <span class="variable">_to</span>, uint256 <span class="variable">_amount</span>)  public returns (bool success) &#123;</span><br><span class="line">    require(<span class="variable">_to</span> != address(<span class="number">0</span>));</span><br><span class="line">    require(<span class="variable">_amount</span> &lt;= balances[msg.sender]);</span><br><span class="line"></span><br><span class="line">    balances[msg.sender] = balances[msg.sender].sub(<span class="variable">_amount</span>);</span><br><span class="line">    balances[<span class="variable">_to</span>] = balances[<span class="variable">_to</span>].add(<span class="variable">_amount</span>);</span><br><span class="line">    emit Transfer(msg.sender, <span class="variable">_to</span>, <span class="variable">_amount</span>);</span><br><span class="line">    return <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="真实世界事件-1"><a href="#真实世界事件-1" class="headerlink" title="真实世界事件"></a>真实世界事件</h4><p>Hexagon</p>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/145520" target="_blank" rel="noopener">代币变泡沫，以太坊Hexagon溢出漏洞比狗庄还过分</a></li>
+</ul>
+<p>SMT/BEC</p>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/106382" target="_blank" rel="noopener">Solidity合约中的整数安全问题——SMT/BEC合约整数溢出解析</a></li>
+</ul>
+<h3 id="2-铸币烧币溢出问题"><a href="#2-铸币烧币溢出问题" class="headerlink" title="[2] 铸币烧币溢出问题"></a>[2] 铸币烧币溢出问题</h3><p><strong>铸币函数中，应对totalSupply设置上限，避免因为算术溢出等漏洞导致恶意铸币增发</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">function</span> <span class="string">TokenERC20(</span></span><br><span class="line">    <span class="attr">uint256</span> <span class="string">initialSupply,</span></span><br><span class="line">    <span class="attr">string</span> <span class="string">tokenName,</span></span><br><span class="line">    <span class="attr">string</span> <span class="string">tokenSymbol</span></span><br><span class="line"><span class="meta">)</span> <span class="string">public &#123;</span></span><br><span class="line">    <span class="attr">totalSupply</span> = <span class="string">initialSupply * 10 ** uint256(decimals);  </span></span><br><span class="line">    <span class="meta">balanceOf[msg.sender]</span> = <span class="string">totalSupply;                </span></span><br><span class="line">    <span class="attr">name</span> = <span class="string">tokenName;                                   </span></span><br><span class="line">    <span class="attr">symbol</span> = <span class="string">tokenSymbol;                               </span></span><br><span class="line"><span class="attr">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>上述代码中就未对totalSupply做限制，可能导致指数算数上溢。</p>
+<p>正确写法如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">contract OPL &#123;</span><br><span class="line">    <span class="comment">// Public variables</span></span><br><span class="line">    <span class="built_in">string</span> <span class="keyword">public</span> name;</span><br><span class="line">    <span class="built_in">string</span> <span class="keyword">public</span> symbol;</span><br><span class="line">    uint8 <span class="keyword">public</span> decimals = <span class="number">18</span>; <span class="comment">// 18 decimals</span></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">public</span> adminVer = <span class="literal">false</span>;</span><br><span class="line">    address <span class="keyword">public</span> owner;</span><br><span class="line">    uint256 <span class="keyword">public</span> totalSupply;</span><br><span class="line">    <span class="function">function <span class="title">OPL</span><span class="params">()</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        totalSupply = <span class="number">210000000</span> * <span class="number">10</span> ** uint256(decimals);      </span><br><span class="line">        ...                                 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="真实世界事件-2"><a href="#真实世界事件-2" class="headerlink" title="真实世界事件"></a>真实世界事件</h4><ul>
+<li><a href="https://paper.seebug.org/626/" target="_blank" rel="noopener">ERC20 智能合约整数溢出系列漏洞披露</a></li>
+</ul>
+<h2 id="2-重入漏洞"><a href="#2-重入漏洞" class="headerlink" title="(2) 重入漏洞"></a>(2) 重入漏洞</h2><p><strong>智能合约中避免使用call来交易，避免重入漏洞</strong></p>
+<p>在智能合约中提供了call、send、transfer三种方式来交易以太坊，其中call最大的区别就是没有限制gas，而其他两种在gas不够的情况下都会报out of gas。</p>
+<p>重入漏洞有几大特征。<br>1、使用了call函数作为转账函数<br>2、没有限制call函数的gas<br>3、扣余额在转账之后<br>4、call时加入了()来执行fallback函数</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function withdraw(uint <span class="variable">_amount</span>) &#123;</span><br><span class="line">	require(balances[msg.sender] &gt;= <span class="variable">_amount</span>);</span><br><span class="line">	msg.sender.<span class="built_in">call</span>.value(<span class="variable">_amount</span>)();</span><br><span class="line">	balances[msg.sender] -= <span class="variable">_amount</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码就是一个简单的重入漏洞的demo。通过重入注入转账，将大量合约代币递归转账而出。</p>
+<p>对于可能存在的重入问题，尽可能的使用transfer函数完成转账，或者限制call执行的gas，都可以有效的减少该问题的危害。</p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">contract EtherStore &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// initialise the mutex</span></span><br><span class="line">    <span class="keyword">bool</span> reEntrancyMutex = <span class="keyword">false</span>;</span><br><span class="line">    uint256 <span class="keyword">public</span> withdrawalLimit = <span class="number">1</span> ether;</span><br><span class="line">    mapping(address =&gt; uint256) <span class="keyword">public</span> lastWithdrawTime;</span><br><span class="line">    mapping(address =&gt; uint256) <span class="keyword">public</span> balances;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">depositFunds</span><span class="params">()</span> <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        balances[msg.sender] += msg.value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdrawFunds</span> <span class="params">(uint256 _weiToWithdraw)</span> <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="keyword">require</span>(!reEntrancyMutex);</span><br><span class="line">        <span class="keyword">require</span>(balances[msg.sender] &gt;= _weiToWithdraw);</span><br><span class="line">        <span class="comment">// limit the withdrawal</span></span><br><span class="line">        <span class="keyword">require</span>(_weiToWithdraw &lt;= withdrawalLimit);</span><br><span class="line">        <span class="comment">// limit the time allowed to withdraw</span></span><br><span class="line">        <span class="keyword">require</span>(now &gt;= lastWithdrawTime[msg.sender] + <span class="number">1</span> weeks);</span><br><span class="line">        balances[msg.sender] -= _weiToWithdraw;</span><br><span class="line">        lastWithdrawTime[msg.sender] = now;</span><br><span class="line">        <span class="comment">// set the reEntrancy mutex before the external call</span></span><br><span class="line">        reEntrancyMutex = <span class="keyword">true</span>;</span><br><span class="line">        msg.sender.transfer(_weiToWithdraw);</span><br><span class="line">        <span class="comment">// release the mutex after the external call</span></span><br><span class="line">        reEntrancyMutex = <span class="keyword">false</span>; </span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码是一种用互斥锁来避免递归防护方式。</p>
+<h3 id="真实世界事件-3"><a href="#真实世界事件-3" class="headerlink" title="真实世界事件"></a>真实世界事件</h3><p>The Dao</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/The_DAO_(organization)" target="_blank" rel="noopener">The DAO</a></li>
+<li><a href="https://etherscan.io/address/0xbb9bc244d798123fde783fcc1c72d3bb8c189413#code" target="_blank" rel="noopener">The DAO address</a></li>
+</ul>
+<h2 id="3-call注入"><a href="#3-call注入" class="headerlink" title="(3) call注入"></a>(3) call注入</h2><p><strong>call函数调用时，应该做严格的权限控制，或直接写死call调用的函数</strong></p>
+<p>在EVM的设计中，如果call的参数data是0xdeadbeef(假设的一个函数名) + 0x0000000000…..01，这样的话就是调用函数</p>
+<p>call注入可能导致代币窃取，权限绕过，通过call注入可以调用私有函数，甚至部分高权限函数。</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">addr</span>.call(<span class="class"><span class="keyword">data</span>);             </span></span><br><span class="line"><span class="title">addr</span>.delegatecall(<span class="class"><span class="keyword">data</span>); </span></span><br><span class="line"><span class="title">addr</span>.callcode(<span class="class"><span class="keyword">data</span>);</span></span><br></pre></td></tr></table></figure>
+
+<p>如delegatecall，在合约内必须调用其它合约时，可以使用关键字library，这样可以确保合约是无状态而且不可自毁的。通过强制设置合约为无状态可以一定程度上缓解储存环境的复杂性，防止攻击者通过修改状态来攻击合约。</p>
+<h3 id="真实世界事件-4"><a href="#真实世界事件-4" class="headerlink" title="真实世界事件"></a>真实世界事件</h3><p>call注入</p>
+<ul>
+<li><a href="https://paper.seebug.org/624/" target="_blank" rel="noopener">以太坊智能合约call注入攻击</a></li>
+<li><a href="https://paper.seebug.org/633/" target="_blank" rel="noopener">以太坊 Solidity 合约 call 函数簇滥用导致的安全风险</a></li>
+</ul>
+<h2 id="4-权限控制"><a href="#4-权限控制" class="headerlink" title="(4) 权限控制"></a>(4) 权限控制</h2><p><strong>合约中不同函数应设置合理的权限</strong></p>
+<p>检查合约中各函数是否正确使用了public、private等关键词进行可见性修饰，检查合约是否正确定义并使用了modifier对关键函数进行访问限制，避免越权导致的问题。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initContract</span><span class="params">()</span> <span class="title">public</span> </span>&#123;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码作为初始函数不应该为public。</p>
+<h3 id="真实世界事件-5"><a href="#真实世界事件-5" class="headerlink" title="真实世界事件"></a>真实世界事件</h3><p>Parity Multi-sig bug 1</p>
+<ul>
+<li><a href="http://paritytech.io/the-multi-sig-hack-a-postmortem/" target="_blank" rel="noopener">Parity Multi-sig bug 1</a></li>
+</ul>
+<p>Parity Multi-sig bug 2</p>
+<ul>
+<li><a href="http://paritytech.io/a-postmortem-on-the-parity-multi-sig-library-self-destruct/" target="_blank" rel="noopener">Parity Multi-sig bug 2</a></li>
+</ul>
+<p>Rubixi</p>
+<ul>
+<li><a href="https://blog.ethereum.org/2016/06/19/thinking-smart-contract-security/" target="_blank" rel="noopener">Rubixi</a></li>
+</ul>
+<h2 id="5-重放攻击"><a href="#5-重放攻击" class="headerlink" title="(5) 重放攻击"></a>(5) 重放攻击</h2><p><strong>合约中如果涉及委托管理的需求，应注意验证的不可复用性，避免重放攻击</strong></p>
+<p>在资产管理体系中，常有委托管理的情况，委托人将资产给受托人管理，委托人支付一定的费用给受托人。这个业务场景在智能合约中也比较普遍。</p>
+<p>这里举例子为transferProxy函数，该函数用于当user1转token给user3，但没有eth来支付gasprice，所以委托user2代理支付，通过调用transferProxy来完成。</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">function transferProxy(address <span class="variable">_from</span>, address <span class="variable">_to</span>, uint256 <span class="variable">_value</span>, uint256 <span class="variable">_fee</span>,</span><br><span class="line">    uint8 <span class="variable">_v</span>, bytes32 <span class="variable">_r</span>, bytes32 <span class="variable">_s</span>) public returns (bool)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(balances[<span class="variable">_from</span>] &lt; <span class="variable">_fee</span> + <span class="variable">_value</span> </span><br><span class="line">        || <span class="variable">_fee</span> &gt; <span class="variable">_fee</span> + <span class="variable">_value</span>) revert();</span><br><span class="line"></span><br><span class="line">    uint256 nonce = nonces[<span class="variable">_from</span>];</span><br><span class="line">    bytes32 h = keccak256(<span class="variable">_from</span>,<span class="variable">_to</span>,<span class="variable">_value</span>,<span class="variable">_fee</span>,nonce,address(this));</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">_from</span> != ecrecover(h,<span class="variable">_v</span>,<span class="variable">_r</span>,<span class="variable">_s</span>)) revert();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(balances[<span class="variable">_to</span>] + <span class="variable">_value</span> &lt; balances[<span class="variable">_to</span>]</span><br><span class="line">        || balances[msg.sender] + <span class="variable">_fee</span> &lt; balances[msg.sender]) revert();</span><br><span class="line">    balances[<span class="variable">_to</span>] += <span class="variable">_value</span>;</span><br><span class="line">    emit Transfer(<span class="variable">_from</span>, <span class="variable">_to</span>, <span class="variable">_value</span>);</span><br><span class="line"></span><br><span class="line">    balances[msg.sender] += <span class="variable">_fee</span>;</span><br><span class="line">    emit Transfer(<span class="variable">_from</span>, msg.sender, <span class="variable">_fee</span>);</span><br><span class="line"></span><br><span class="line">    balances[<span class="variable">_from</span>] -= <span class="variable">_value</span> + <span class="variable">_fee</span>;</span><br><span class="line">    nonces[<span class="variable">_from</span>] = nonce + <span class="number">1</span>;</span><br><span class="line">    return <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个函数的问题在于nonce值是可以预判的，其他变量不变的情况下，可以进行重放攻击，多次转账。</p>
+<p>漏洞来自于Defcon2018演讲议题</p>
+<p><a href="https://github.com/nkbai/defcon26/blob/master/docs/Replay%20Attacks%20on%20Ethereum%20Smart%20Contracts.md" target="_blank" rel="noopener">Replay Attacks on Ethereum Smart Contracts</a><br><a href="https://media.defcon.org/DEF%20CON%2026/DEF%20CON%2026%20presentations/Bai%20Zheng%20and%20Chai%20Wang/DEFCON-26-Bai-Zheng-Chai-Wang-You-May-Have-Paid-more-than-You-Imagine.pdf" target="_blank" rel="noopener">Replay Attacks on Ethereum Smart Contracts pdf</a></p>
+<h1 id="4、编码设计问题"><a href="#4、编码设计问题" class="headerlink" title="4、编码设计问题"></a>4、编码设计问题</h1><h2 id="1-地址初始化问题"><a href="#1-地址初始化问题" class="headerlink" title="(1) 地址初始化问题"></a>(1) 地址初始化问题</h2><p><strong>涉及到地址的函数中，建议加入<code>require(_to!=address(0))</code>验证，有效避免用户误操作或未知错误导致的不必要的损失</strong></p>
+<p>由于EVM在编译合约代码时初始化的地址为0，如果开发者在代码中初始化了某个address变量，但未赋予初值，或用户在发起某种操作时，误操作未赋予address变量值，但在下面的代码中操作了这个变量，就可能导致不必要的安全风险。</p>
+<p>这样的检查可以以最简单的方式避免未知错误、短地址攻击等问题的发生。</p>
+<h2 id="2-判断函数问题"><a href="#2-判断函数问题" class="headerlink" title="(2) 判断函数问题"></a>(2) 判断函数问题</h2><p><strong>及到条件判断的地方，使用require函数而不是assert函数，因为assert会导致剩余的gas全部消耗掉，而他们在其他方面的表现都是一致的</strong></p>
+<p>值得注意的是，assert存在强制一致性，对于固定变量的检查来说，assert可以用于避免一些未知的问题，因为他会强制终止合约并使其无效化，在一些固定条件下，assert更适用。</p>
+<h2 id="3-余额判断问题"><a href="#3-余额判断问题" class="headerlink" title="(3) 余额判断问题"></a>(3) 余额判断问题</h2><p><strong>不要假设合约创建时余额为0，可以强制转账</strong></p>
+<p>谨慎编写用于检查账户余额的不变量，因为攻击者可以强制发送wei到任何账户，即使fallback函数throw也不行。</p>
+<p>攻击者可以用1wei来创建合约，然后调用<code>selfdestruct(victimAddress)</code>来销毁，这样余额就会强制转移给目标，而且目标合约没有代码执行，无法阻止。</p>
+<p>值得注意的是，在打包过程中，攻击者可以通过条件竞争在合约创建前转账，这样在合约创建时余额就不为0.</p>
+<h2 id="4-转账函数问题"><a href="#4-转账函数问题" class="headerlink" title="(4) 转账函数问题"></a>(4) 转账函数问题</h2><p><strong>在完成交易时，默认情况下推荐使用transfer而不是send完成交易</strong></p>
+<p>当transfer或者send函数的目标是合约时，会调用合约的fallback函数，但fallback函数执行失败时。</p>
+<p>transfer会抛出错误并自动回滚，而send会返回false，所以在使用send时需要判断返回类型，否则可能会导致转账失败但余额减少的情况。</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function withdraw(uint256 <span class="variable">_amount</span>) public &#123;</span><br><span class="line">	require(balances[msg.sender] &gt;= <span class="variable">_amount</span>);</span><br><span class="line">	balances[msg.sender] -= <span class="variable">_amount</span>;</span><br><span class="line">	etherLeft -= <span class="variable">_amount</span>;</span><br><span class="line">	msg.sender.send(<span class="variable">_amount</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面给出的代码中使用 send() 函数进行转账，因为这里没有验证 send() 返回值，如果msg.sender 为合约账户 fallback() 调用失败，则 send() 返回false，最终导致账户余额减少了，钱却没有拿到。</p>
+<h2 id="5-代码外部调用设计问题"><a href="#5-代码外部调用设计问题" class="headerlink" title="(5) 代码外部调用设计问题"></a>(5) 代码外部调用设计问题</h2><p><strong>对于外部合约优先使用pull而不是push</strong></p>
+<p>在进行外部调用时，总会有意无意的失败，为了避免发生未知的损失，应该经可能的把对外的操作改为用户自己来取。<br>错误样例:</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">contract</span> <span class="string">auction &#123;</span></span><br><span class="line">    <span class="attr">address</span> <span class="string">highestBidder;</span></span><br><span class="line">    <span class="attr">uint</span> <span class="string">highestBid;</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">function</span> <span class="string">bid() payable &#123;</span></span><br><span class="line">        <span class="attr">if</span> <span class="string">(msg.value &lt; highestBid) throw;</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">if</span> <span class="string">(highestBidder != 0) &#123;</span></span><br><span class="line">            <span class="attr">if</span> <span class="string">(!highestBidder.send(highestBid)) &#123; // 可能会发生错误</span></span><br><span class="line">                <span class="attr">throw;</span></span><br><span class="line">            <span class="attr">&#125;</span></span><br><span class="line">        <span class="attr">&#125;</span></span><br><span class="line"></span><br><span class="line">       <span class="attr">highestBidder</span> = <span class="string">msg.sender;</span></span><br><span class="line">       <span class="attr">highestBid</span> = <span class="string">msg.value;</span></span><br><span class="line">    <span class="attr">&#125;</span></span><br><span class="line"><span class="attr">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>当需要向某一方转账时，将转账改为定义withdraw函数，让用户自己来执行合约将余额取出，这样可以最大程度的避免未知的损失。</p>
+<p>范例代码：</p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">contract auction &#123;</span><br><span class="line">    address highestBidder;</span><br><span class="line">    <span class="keyword">uint</span> highestBid;</span><br><span class="line">    mapping(address =&gt; <span class="keyword">uint</span>) refunds;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">bid</span><span class="params">()</span> <span class="title">payable</span> <span class="title">external</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (msg.value &lt; highestBid) <span class="keyword">throw</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (highestBidder != <span class="number">0</span>) &#123;</span><br><span class="line">            refunds[highestBidder] += highestBid; <span class="comment">// 记录在refunds中</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        highestBidder = msg.sender;</span><br><span class="line">        highestBid = msg.value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdrawRefund</span><span class="params">()</span> <span class="title">external</span> </span>&#123;</span><br><span class="line">        <span class="keyword">uint</span> refund = refunds[msg.sender];</span><br><span class="line">        refunds[msg.sender] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (!msg.sender.send(refund)) &#123;</span><br><span class="line">            refunds[msg.sender] = refund; <span class="comment">// 如果转账错误还可以挽回</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-错误处理"><a href="#6-错误处理" class="headerlink" title="(6) 错误处理"></a>(6) 错误处理</h2><p><strong>合约中涉及到call等在address底层操作的方法时，做好合理的错误处理</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">address</span><span class="selector-class">.call</span>()</span><br><span class="line"><span class="selector-tag">address</span><span class="selector-class">.callcode</span>()</span><br><span class="line"><span class="selector-tag">address</span><span class="selector-class">.delegatecall</span>()</span><br><span class="line"><span class="selector-tag">address</span><span class="selector-class">.send</span>()</span><br></pre></td></tr></table></figure>
+<p>这类操作如果遇到错误并不会抛出异常，而是会返回false并继续执行。</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function withdraw(uint256 <span class="variable">_amount</span>) public &#123;</span><br><span class="line">	require(balances[msg.sender] &gt;= <span class="variable">_amount</span>);</span><br><span class="line">	balances[msg.sender] -= <span class="variable">_amount</span>;</span><br><span class="line">	etherLeft -= <span class="variable">_amount</span>;</span><br><span class="line">	msg.sender.send(<span class="variable">_amount</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码没有校验send的返回值，如果msg.sender是合约账户，fallback调用失败时，send返回false。</p>
+<p>所以当使用上述方法时，需要对返回值做检查并做错误处理。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">if</span><span class="params">(!someAddress.send(<span class="number">55</span>)</span></span>) &#123;</span><br><span class="line">    <span class="comment">// Some failure code</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://paper.seebug.org/607/#4-unchecked-return-values-for-low-level-calls" target="_blank" rel="noopener">https://paper.seebug.org/607/#4-unchecked-return-values-for-low-level-calls</a></p>
+<p>值得注意的一点是，作为<a href="https://solidity.readthedocs.io/en/develop/control-structures.html#error-handling-assert-require-revert-and-exceptions" target="_blank" rel="noopener">EVM设计</a>的一部分，下面这些函数如果调用的合约不存在，将会返回True</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">call</span>、delegatecall、callcode、staticcall</span><br></pre></td></tr></table></figure>
+<p>在调用这类函数之前，需要对地址的有效性做检查。</p>
+<h2 id="7-弱随机数问题"><a href="#7-弱随机数问题" class="headerlink" title="(7) 弱随机数问题"></a>(7) 弱随机数问题</h2><p><strong>智能合约上随机数生成方式需要更多考量</strong></p>
+<p>Fomo3D合约在空投奖励的随机数生成中就引入了block信息作为随机数种子生成的参数，导致随机数种子只受到合约地址影响，无法做到完全随机。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> airdrop()</span><br><span class="line">    private </span><br><span class="line">    <span class="keyword">view</span> </span><br><span class="line">    <span class="keyword">returns</span>(<span class="type">bool</span>)</span><br><span class="line">&#123;</span><br><span class="line">    uint256 seed = uint256(keccak256(abi.encodePacked(</span><br><span class="line">        </span><br><span class="line">        (block.timestamp).<span class="keyword">add</span></span><br><span class="line">        (block.difficulty).<span class="keyword">add</span></span><br><span class="line">        ((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (now)).<span class="keyword">add</span></span><br><span class="line">        (block.gaslimit).<span class="keyword">add</span></span><br><span class="line">        ((uint256(keccak256(abi.encodePacked(msg.sender)))) / (now)).<span class="keyword">add</span></span><br><span class="line">        (block.number)</span><br><span class="line">        </span><br><span class="line">    )));</span><br><span class="line">    <span class="keyword">if</span>((seed - ((seed / <span class="number">1000</span>) * <span class="number">1000</span>)) &lt; airDropTracker_)</span><br><span class="line">        <span class="keyword">return</span>(<span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span>(<span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述这段代码直接导致了Fomo3d薅羊毛事件的诞生。真实世界损失巨大，超过数千eth。</p>
+<p>所以在合约中关于这样的应用时，考虑更合适的生成方式和合理的利用顺序非常重要。</p>
+<p>这里提供一个比较合理的随机数生成方式<strong>hash-commit-reveal</strong>，即玩家提交行动计划，然后行动计划hash后提交给后端，后端生成相应的hash值，然后生成对应的随机数reveal，返回对应随机数commit。这样，服务端拿不到行动计划，客户端也拿不到随机数。</p>
+<p>有一个很棒的实现代码是<a href="https://etherscan.io/address/0xD1CEeeefA68a6aF0A5f6046132D986066c7f9426" target="_blank" rel="noopener">dice2win</a>的随机数生成代码。</p>
+<p>但<strong>hash-commit-reveal</strong>最大的问题在于服务端会在用户提交之后短暂的获得整个过程中的所有数据，如果恶意进行选择中止攻击，也在一定程度上破坏了公平性。详细分析见<a href="https://paper.seebug.org/717/" target="_blank" rel="noopener">智能合约游戏之殇——Dice2win安全分析</a></p>
+<p>当然<strong>hash-commit</strong>在一些简单场景下也是不错的实现方式。即玩家提交行动计划的hash，然后生成随机数，然后提交行动计划。</p>
+<h3 id="真实世界事件-6"><a href="#真实世界事件-6" class="headerlink" title="真实世界事件"></a>真实世界事件</h3><p>Fomo3d薅羊毛</p>
+<ul>
+<li><a href="https://www.reddit.com/r/ethereum/comments/916xni/how_to_pwn_fomo3d_a_beginners_guide/" target="_blank" rel="noopener">https://www.reddit.com/r/ethereum/comments/916xni/how_to_pwn_fomo3d_a_beginners_guide/</a></li>
+<li><a href="https://mp.weixin.qq.com/s/5nrgj8sIZ0SlXebG5sWVPw" target="_blank" rel="noopener">8万笔交易「封死」以太坊网络，只为抢夺Fomo3D大奖？</a></li>
+</ul>
+<p>Last Winner</p>
+<ul>
+<li><a href="https://paper.seebug.org/672/" target="_blank" rel="noopener">https://paper.seebug.org/672/</a></li>
+</ul>
+<h2 id="8-变量覆盖问题"><a href="#8-变量覆盖问题" class="headerlink" title="(8) 变量覆盖问题"></a>(8) 变量覆盖问题</h2><p><strong>在合约中避免array变量key可以被控制</strong></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map[<span class="built_in">uint</span>256(msg.sender)+x] = blockNum;</span><br></pre></td></tr></table></figure>
+<p>在EVM中数组和其他类型不同，因为数组时动态大小的，所以数组类型的数据计算方式为</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">address(<span class="name">map_data</span>) = sha3(<span class="name">key</span>)+offset</span><br></pre></td></tr></table></figure>
+<p>其中key就是map变量定义的位置，也就是1，offset就是数组中的偏移，比如map[2]，offset就是2.</p>
+<p>map[2]的地址就是<code>sha3(1)+2</code>，假设map[2]=2333，则<code>storage[sha3(1)+2]=2333</code>。</p>
+<p>这样一来就出现问题了，由于offset我们可控，我们就可以向storage的任意地址写值。</p>
+<p>这就可能覆盖storage的任意地址的值，影响代码本身的逻辑，导致进一步更严重的问题。</p>
+<p>详细的原理可以看</p>
+<ul>
+<li><a href="https://paper.seebug.org/640/#3" target="_blank" rel="noopener">以太坊智能合约 OPCODE 逆向之理论基础篇</a></li>
+<li><a href="https://paper.seebug.org/739/" target="_blank" rel="noopener">https://paper.seebug.org/739/</a></li>
+</ul>
+<h1 id="5、编码问题隐患"><a href="#5、编码问题隐患" class="headerlink" title="5、编码问题隐患"></a>5、编码问题隐患</h1><h2 id="1-语法特性问题"><a href="#1-语法特性问题" class="headerlink" title="(1) 语法特性问题"></a>(1) 语法特性问题</h2><p><strong>在智能合约中小心整数除法的向下取整问题</strong></p>
+<p>在智能合约中，所有的整数除法都会向下取整到最接近的整数，当我们需要更高的精度时，我们需要使用乘数来加大这个数字。</p>
+<p>该问题如果在代码中显式出现，编译器会提出问题警告，无法继续编译，但如果隐式出现，将会采取向下取整的处理方式。</p>
+<p>错误样例</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uint</span> x = <span class="number">5</span> / <span class="number">2</span>; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>正确代码</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uint</span> multiplier = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">uint</span> x = (<span class="number">5</span> * multiplier) / <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-数据私密问题"><a href="#2-数据私密问题" class="headerlink" title="(2) 数据私密问题"></a>(2) 数据私密问题</h2><p><strong>注意链上的所有数据都是公开的</strong></p>
+<p>在合约中，所有的数据包括私有变量都是公开的，不可以将任何有私密性的数据储存在链上。</p>
+<h2 id="3-数据可靠性"><a href="#3-数据可靠性" class="headerlink" title="(3) 数据可靠性"></a>(3) 数据可靠性</h2><p><strong>合约中不应该让时间戳参与到代码中，容易受到矿工的干扰，应使用block.height等不变的数据</strong></p>
+<p>uint someVariable = now + 1;</p>
+<p>if (now % 2 == 0) { // now可能被矿工控制</p>
+<p>}</p>
+<h2 id="4-gas消耗优化"><a href="#4-gas消耗优化" class="headerlink" title="(4) gas消耗优化"></a>(4) gas消耗优化</h2><p><strong>对于某些不涉及状态变化的函数和变量可以加constant来避免gas的消耗</strong></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">contract EUXLinkToken <span class="keyword">is</span> ERC20 &#123;</span><br><span class="line">    using SafeMath <span class="keyword">for</span> <span class="built_in">uint</span>256;</span><br><span class="line">    address owner = msg.sender;</span><br><span class="line"></span><br><span class="line">    mapping (address =&gt; <span class="built_in">uint</span>256) balances;</span><br><span class="line">    mapping (address =&gt; mapping (address =&gt; <span class="built_in">uint</span>256)) allowed;</span><br><span class="line">    mapping (address =&gt; <span class="built_in">bool</span>) <span class="keyword">public</span> blacklist;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">string</span> <span class="keyword">public</span> constant name = <span class="string">"xx"</span>;</span><br><span class="line">    <span class="built_in">string</span> <span class="keyword">public</span> constant symbol = <span class="string">"xxx"</span>;</span><br><span class="line">    <span class="built_in">uint</span> <span class="keyword">public</span> constant decimals = <span class="number">8</span>;</span><br><span class="line">    <span class="built_in">uint</span>256 <span class="keyword">public</span> totalSupply = <span class="number">1000000000e8</span>;</span><br><span class="line">    <span class="built_in">uint</span>256 <span class="keyword">public</span> totalDistributed = <span class="number">200000000e8</span>;</span><br><span class="line">	<span class="built_in">uint</span>256 <span class="keyword">public</span> totalPurchase = <span class="number">200000000e8</span>;</span><br><span class="line">    <span class="built_in">uint</span>256 <span class="keyword">public</span> totalRemaining = totalSupply.sub(totalDistributed).sub(totalPurchase);</span><br><span class="line">	</span><br><span class="line">    <span class="built_in">uint</span>256 <span class="keyword">public</span> value = <span class="number">5000e8</span>;</span><br><span class="line">	<span class="built_in">uint</span>256 <span class="keyword">public</span> purchaseCardinal = <span class="number">5000000e8</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">uint</span>256 <span class="keyword">public</span> minPurchase = <span class="number">0.001e18</span>;</span><br><span class="line">	<span class="built_in">uint</span>256 <span class="keyword">public</span> maxPurchase = <span class="number">10e18</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-合约用户"><a href="#5-合约用户" class="headerlink" title="(5) 合约用户"></a>(5) 合约用户</h2><p><strong>合约中，应尽量考虑交易目标为合约时的情况，避免因此产生的各种恶意利用</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">contract Auction&#123;</span><br><span class="line">   <span class="built_in"> address </span>public currentLeader;</span><br><span class="line">    uint256 public hidghestBid;</span><br><span class="line">    </span><br><span class="line">    function bid() public payable &#123;</span><br><span class="line">        require(msg.value &gt; highestBid);</span><br><span class="line">        require(currentLeader.send(highestBid));</span><br><span class="line">        currentLeader = msg.sender;</span><br><span class="line">        highestBid = currentLeader;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述合约就是一个典型的没有考虑合约为用户时的情况，这是一个简单的竞拍争夺王位的代码。当交易ether大于合约内的highestBid，当前用户就会成为合约当前的”王”，他的交易额也会成为新的highestBid。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">contract Attack &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span> &#123; <span class="title">revert</span><span class="params">()</span>; &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Attack</span><span class="params">(address _target)</span> <span class="title">payable</span> &#123;</span></span><br><span class="line">        _target.call.value(msg.value)(bytes4(keccak256(<span class="string">"bid()"</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但当新的用户试图成为新的“王”时，当代码执行到<code>require(currentLeader.send(highestBid));</code>时，合约中的fallback函数会触发，如果攻击者在fallback函数中加入<code>revert()</code>函数，那么交易就会返回false，即永远无法完成交易，那么当前合约就会一直成为合约当前的”王”。</p>
+<h2 id="6-日志记录"><a href="#6-日志记录" class="headerlink" title="(6) 日志记录"></a>(6) 日志记录</h2><p><strong>关键事件应有Event记录，为了便于运维监控，除了转账，授权等函数以外，其他操作也需要加入详细的事件记录，如转移管理员权限、其他特殊的主功能</strong></p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transferOwnership</span></span>(address <span class="keyword">new</span><span class="type">Owner</span>) onlyOwner <span class="keyword">public</span> &#123;</span><br><span class="line">    owner = <span class="keyword">new</span><span class="type">Owner</span>;</span><br><span class="line">    emit OwnershipTransferred(owner, <span class="keyword">new</span><span class="type">owner</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-回调函数"><a href="#7-回调函数" class="headerlink" title="(7) 回调函数"></a>(7) 回调函数</h2><p><strong>合约中定义Fallback函数，并使Fallback函数尽可能的简单</strong></p>
+<p>Fallback会在合约执行发生问题时调用（如没有匹配的函数时），而且当调用<code>send</code>或者<code>transfer</code>函数时，只有2300gas 用于失败后fallback函数执行,2300 gas只允许执行一组字节码指令，需要谨慎编写，以免gas不够用。</p>
+<p>部分样例：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span><span class="params">()</span> <span class="title">payable</span> &#123; <span class="title">LogDepositReceived</span><span class="params">(msg.sender)</span>; &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span><span class="params">()</span> <span class="title">public</span> <span class="title">payable</span>&#123; <span class="title">revert</span><span class="params">()</span>;&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="8-Owner权限问题"><a href="#8-Owner权限问题" class="headerlink" title="(8) Owner权限问题"></a>(8) Owner权限问题</h2><p><strong>避免owner权限过大</strong></p>
+<p>部分合约owner权限过大，owner可以随意操作合约内各种数据，包括修改规则，任意转账，任意铸币烧币，一旦发生安全问题，可能会导致严重的结果。</p>
+<p>关于owner权限问题，应该遵循几个要求：<br>1、合约创造后，任何人不能改变合约规则，包括规则参数大小等<br>2、只允许owner从合约中提取余额</p>
+<h2 id="9-用户鉴权问题"><a href="#9-用户鉴权问题" class="headerlink" title="(9) 用户鉴权问题"></a>(9) 用户鉴权问题</h2><p><strong>合约中不要使用tx.origin做鉴权</strong></p>
+<p>tx.origin代表最初始的地址，如果用户a通过合约b调用了合约c，对于合约c来说，tx.origin就是用户a，而msg.sender才是合约b，对于鉴权来说，这是十分危险的，这代表着可能导致的钓鱼攻击。</p>
+<p>下面是一个范例:</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;<span class="number">0.4.</span><span class="number">24</span>;</span><br><span class="line"></span><br><span class="line">// THIS CONTRACT <span class="keyword">CONTAINS</span> A BUG - <span class="keyword">DO</span> NOT <span class="keyword">USE</span></span><br><span class="line">contract TxUserWallet &#123;</span><br><span class="line">    address owner;</span><br><span class="line"></span><br><span class="line">    constructor() <span class="keyword">public</span> &#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span></span> transferTo(address dest, uint amount) <span class="keyword">public</span> &#123;</span><br><span class="line">        require(tx.origin == owner);</span><br><span class="line">        dest.<span class="built_in">transfer</span>(amount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以构造攻击合约</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;0.4.24;</span><br><span class="line"></span><br><span class="line">interface TxUserWallet &#123;</span><br><span class="line">    function transferTo(address dest, uint amount) external;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract TxAttackWallet &#123;</span><br><span class="line">   <span class="built_in"> address </span>owner;</span><br><span class="line"></span><br><span class="line">    constructor() public &#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function() external &#123;</span><br><span class="line">        TxUserWallet(msg.sender).transferTo(owner, msg.sender.balance);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当用户被欺骗调用攻击合约，则会直接绕过鉴权而转账成功，这里应使用msg.sender来做权限判断。</p>
+<p><a href="https://solidity.readthedocs.io/en/develop/security-considerations.html#tx-origin" target="_blank" rel="noopener">https://solidity.readthedocs.io/en/develop/security-considerations.html#tx-origin</a></p>
+<h2 id="10-条件竞争问题"><a href="#10-条件竞争问题" class="headerlink" title="(10) 条件竞争问题"></a>(10) 条件竞争问题</h2><p><strong>合约中尽量避免对交易顺序的依赖</strong></p>
+<p>在智能合约中，经常容易出现对交易顺序的依赖，如占山为王规则、或最后一个赢家规则。都是对交易顺序有比较强的依赖的设计规则，但以太坊本身的底层规则是基于矿工利益最大法则，在一定程度的极限情况下，只要攻击者付出足够的代价，他就可以一定程度控制交易的顺序。开发者应避免这个问题。</p>
+<h3 id="真实世界事件-7"><a href="#真实世界事件-7" class="headerlink" title="真实世界事件"></a>真实世界事件</h3><p>Fomo3d事件</p>
+<ul>
+<li><a href="https://paper.seebug.org/681/" target="_blank" rel="noopener">智能合约游戏之殇——类 Fomo3D 攻击分析</a></li>
+</ul>
+<h2 id="11-未初始化的储存指针"><a href="#11-未初始化的储存指针" class="headerlink" title="(11) 未初始化的储存指针"></a>(11) 未初始化的储存指针</h2><p><strong>避免在函数中初始化struct变量</strong></p>
+<p>在solidity中允许一个特殊的数据结构为struct结构体，而函数内的局部变量默认使用storage或memory储存。</p>
+<p>而存在storage(存储器)和memory(内存)是两个不同的概念，solidity允许指针指向一个未初始化的引用，而未初始化的局部stroage会导致变量指向其他储存变量，导致变量覆盖，甚至其他更严重的后果。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.0;</span><br><span class="line"></span><br><span class="line">contract Test &#123;</span><br><span class="line"></span><br><span class="line">       <span class="built_in"> address </span>public owner;</span><br><span class="line">       <span class="built_in"> address </span>public a;</span><br><span class="line"></span><br><span class="line">        struct Seed &#123;</span><br><span class="line">               <span class="built_in"> address </span>x;</span><br><span class="line">                uint256 y;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        function Test() &#123;</span><br><span class="line">                owner = msg.sender;</span><br><span class="line">                a = 0x1111111111111111111111111111111111111111;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        function fake_foo(uint256 n) public &#123;</span><br><span class="line">                Seed s;</span><br><span class="line">                s.x = msg.sender;</span><br><span class="line">                s.y = n;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码编译后，s.x和s.y会错误的指向ownner和a。</p>
+<p>攻击者在执行<code>fake_foo</code>之后，会将owner修改为自己。</p>
+<p>上述问题在最新版的0.4.25版本被修复。</p>
+<h1 id="以太坊合约审计checkList审计系列报告"><a href="#以太坊合约审计checkList审计系列报告" class="headerlink" title="以太坊合约审计checkList审计系列报告"></a>以太坊合约审计checkList审计系列报告</h1><ul>
+<li><a href="https://paper.seebug.org/732/" target="_blank" rel="noopener">《以太坊合约审计 CheckList 之“以太坊智能合约编码隐患”影响分析报告》</a></li>
+<li><a href="https://paper.seebug.org/663/" target="_blank" rel="noopener">《以太坊合约审计 CheckList 之“以太坊智能合约规范问题”影响分析报告》</a></li>
+<li><a href="https://paper.seebug.org/679/" target="_blank" rel="noopener">《以太坊合约审计 CheckList 之“以太坊智能合约设计缺陷问题”影响分析报告》</a></li>
+<li><a href="https://paper.seebug.org/696/" target="_blank" rel="noopener">《以太坊合约审计 CheckList 之“以太坊智能合约编码安全问题”影响分析报告》</a></li>
+<li><a href="https://paper.seebug.org/707/" target="_blank" rel="noopener">《以太坊合约审计 CheckList 之“以太坊智能合约编码设计问题”影响分析报告》</a></li>
+</ul>
+<h1 id="REF"><a href="#REF" class="headerlink" title="REF"></a>REF</h1><ul>
+<li><a href="https://github.com/ConsenSys/smart-contract-best-practices/blob/master/README-zh.md" target="_blank" rel="noopener">https://github.com/ConsenSys/smart-contract-best-practices/blob/master/README-zh.md</a></li>
+<li><a href="https://dasp.co" target="_blank" rel="noopener">https://dasp.co</a></li>
+<li><a href="https://etherscan.io/solcbuginfo" target="_blank" rel="noopener">https://etherscan.io/solcbuginfo</a></li>
+<li><a href="https://www.kingoftheether.com/contract-safety-checklist.html" target="_blank" rel="noopener">https://www.kingoftheether.com/contract-safety-checklist.html</a></li>
+<li><a href="https://mp.weixin.qq.com/s/UXK8-ZN7mSUI3mPq2SC6Og" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/UXK8-ZN7mSUI3mPq2SC6Og</a></li>
+<li><a href="https://mp.weixin.qq.com/s/kEGbx-I17kzm7bTgu-Nh2g" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/kEGbx-I17kzm7bTgu-Nh2g</a></li>
+<li><a href="https://media.defcon.org/DEF%20CON%2026/DEF%20CON%2026%20presentations/Bai%20Zheng%20and%20Chai%20Wang/DEFCON-26-Bai-Zheng-Chai-Wang-You-May-Have-Paid-more-than-You-Imagine.pdf" target="_blank" rel="noopener">https://media.defcon.org/DEF%20CON%2026/DEF%20CON%2026%20presentations/Bai%20Zheng%20and%20Chai%20Wang/DEFCON-26-Bai-Zheng-Chai-Wang-You-May-Have-Paid-more-than-You-Imagine.pdf</a></li>
+<li><a href="https://mp.weixin.qq.com/s/SfKh7_xh7OwV9b31T4t-PQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/SfKh7_xh7OwV9b31T4t-PQ</a></li>
+<li><a href="http://rickgray.me/2018/05/17/ethereum-smart-contracts-vulnerabilites-review/" target="_blank" rel="noopener">http://rickgray.me/2018/05/17/ethereum-smart-contracts-vulnerabilites-review/</a></li>
+<li><a href="http://rickgray.me/2018/05/26/ethereum-smart-contracts-vulnerabilities-review-part2/" target="_blank" rel="noopener">http://rickgray.me/2018/05/26/ethereum-smart-contracts-vulnerabilities-review-part2/</a></li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
+            <p>原文链接：<a href="https://lorexxar.cn/2018/12/01/contract-checklist/">https://lorexxar.cn/2018/12/01/contract-checklist/</a>
+            <p>发表日期：<a href="https://lorexxar.cn/2018/12/01/contract-checklist/">December 1st 2018, 11:32:56 am</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2018/12/01/contract-checklist/">December 7th 2018, 11:36:00 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/12/07/codingbreak-wp/" title= "Code Breaking挑战赛 Writeup">
+                    <div class="nextTitle">Code Breaking挑战赛 Writeup</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/11/20/lctf2018-ggbank/" title= "LCTF2018 ggbank 薅羊毛实战">
+                    <div class="prevTitle">LCTF2018 ggbank 薅羊毛实战</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:lorexxar@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/LoRexxar" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <a href="/%E5%BC%BA%E8%A1%8C%E8%A2%AB%E6%8D%A2%E5%8F%B7%E7%9A%84LoRexxar" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="https://www.zhihu.com/people/romor-rexxar" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、编码规范问题"><span class="toc-number">1.</span> <span class="toc-text">1、编码规范问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-编译器版本"><span class="toc-number">1.1.</span> <span class="toc-text">(1) 编译器版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-构造函数书写问题"><span class="toc-number">1.2.</span> <span class="toc-text">(2) 构造函数书写问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-返回标准"><span class="toc-number">1.3.</span> <span class="toc-text">(3) 返回标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-事件标准"><span class="toc-number">1.4.</span> <span class="toc-text">(4) 事件标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-假充值问题"><span class="toc-number">1.5.</span> <span class="toc-text">(5) 假充值问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、设计缺陷问题"><span class="toc-number">2.</span> <span class="toc-text">2、设计缺陷问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-approve授权函数条件竞争"><span class="toc-number">2.1.</span> <span class="toc-text">(1) approve授权函数条件竞争</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-循环Dos问题"><span class="toc-number">2.2.</span> <span class="toc-text">(2) 循环Dos问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-循环消耗问题"><span class="toc-number">2.2.1.</span> <span class="toc-text">[1] 循环消耗问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#真实世界事件"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">真实世界事件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-循环安全问题"><span class="toc-number">2.2.2.</span> <span class="toc-text">[2] 循环安全问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、编码安全问题"><span class="toc-number">3.</span> <span class="toc-text">3、编码安全问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-溢出问题"><span class="toc-number">3.1.</span> <span class="toc-text">(1) 溢出问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-算术溢出"><span class="toc-number">3.1.1.</span> <span class="toc-text">[1] 算术溢出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#真实世界事件-1"><span class="toc-number">3.1.1.1.</span> <span class="toc-text">真实世界事件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-铸币烧币溢出问题"><span class="toc-number">3.1.2.</span> <span class="toc-text">[2] 铸币烧币溢出问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#真实世界事件-2"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">真实世界事件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-重入漏洞"><span class="toc-number">3.2.</span> <span class="toc-text">(2) 重入漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#真实世界事件-3"><span class="toc-number">3.2.1.</span> <span class="toc-text">真实世界事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-call注入"><span class="toc-number">3.3.</span> <span class="toc-text">(3) call注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#真实世界事件-4"><span class="toc-number">3.3.1.</span> <span class="toc-text">真实世界事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-权限控制"><span class="toc-number">3.4.</span> <span class="toc-text">(4) 权限控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#真实世界事件-5"><span class="toc-number">3.4.1.</span> <span class="toc-text">真实世界事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-重放攻击"><span class="toc-number">3.5.</span> <span class="toc-text">(5) 重放攻击</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、编码设计问题"><span class="toc-number">4.</span> <span class="toc-text">4、编码设计问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-地址初始化问题"><span class="toc-number">4.1.</span> <span class="toc-text">(1) 地址初始化问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-判断函数问题"><span class="toc-number">4.2.</span> <span class="toc-text">(2) 判断函数问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-余额判断问题"><span class="toc-number">4.3.</span> <span class="toc-text">(3) 余额判断问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-转账函数问题"><span class="toc-number">4.4.</span> <span class="toc-text">(4) 转账函数问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-代码外部调用设计问题"><span class="toc-number">4.5.</span> <span class="toc-text">(5) 代码外部调用设计问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-错误处理"><span class="toc-number">4.6.</span> <span class="toc-text">(6) 错误处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-弱随机数问题"><span class="toc-number">4.7.</span> <span class="toc-text">(7) 弱随机数问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#真实世界事件-6"><span class="toc-number">4.7.1.</span> <span class="toc-text">真实世界事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-变量覆盖问题"><span class="toc-number">4.8.</span> <span class="toc-text">(8) 变量覆盖问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、编码问题隐患"><span class="toc-number">5.</span> <span class="toc-text">5、编码问题隐患</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-语法特性问题"><span class="toc-number">5.1.</span> <span class="toc-text">(1) 语法特性问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-数据私密问题"><span class="toc-number">5.2.</span> <span class="toc-text">(2) 数据私密问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-数据可靠性"><span class="toc-number">5.3.</span> <span class="toc-text">(3) 数据可靠性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-gas消耗优化"><span class="toc-number">5.4.</span> <span class="toc-text">(4) gas消耗优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-合约用户"><span class="toc-number">5.5.</span> <span class="toc-text">(5) 合约用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-日志记录"><span class="toc-number">5.6.</span> <span class="toc-text">(6) 日志记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-回调函数"><span class="toc-number">5.7.</span> <span class="toc-text">(7) 回调函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-Owner权限问题"><span class="toc-number">5.8.</span> <span class="toc-text">(8) Owner权限问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-用户鉴权问题"><span class="toc-number">5.9.</span> <span class="toc-text">(9) 用户鉴权问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-条件竞争问题"><span class="toc-number">5.10.</span> <span class="toc-text">(10) 条件竞争问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#真实世界事件-7"><span class="toc-number">5.10.1.</span> <span class="toc-text">真实世界事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-未初始化的储存指针"><span class="toc-number">5.11.</span> <span class="toc-text">(11) 未初始化的储存指针</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#以太坊合约审计checkList审计系列报告"><span class="toc-number">6.</span> <span class="toc-text">以太坊合约审计checkList审计系列报告</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REF"><span class="toc-number">7.</span> <span class="toc-text">REF</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 172
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2020/07/08/ecshop-unser-1/" >从反序列化到类型混淆漏洞 -- 记一次ecshop实例利用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/11</span><a class="archive-post-title" href= "/2020/05/11/dz-3-4-windows/" >空指针-Base on windows Writeup  -- 最新版DZ3.4实战渗透</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/03</span><a class="archive-post-title" href= "/2020/02/03/chrome-ext-3/" >从0开始入门Chrome Ext安全（番外篇） -- Zoomeye Tools</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/14</span><a class="archive-post-title" href= "/2020/01/14/css-mysql-chain/" >CSS-T | Mysql Client 任意文件读取攻击链拓展</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/30</span><a class="archive-post-title" href= "/2019/12/30/pwnhub-jade/" >pwnhub 被污染的Jade</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href= "/2019/12/05/chrome-ext-2/" >从0开始入门Chrome Ext安全（二） -- 安全的Chrome Ext</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/22</span><a class="archive-post-title" href= "/2019/11/22/chrome-ext-1/" >从0开始入门Chrome Ext安全（一） -- 了解一个Chrome Ext</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/php-fpm-rce/" >PHP-fpm 远程代码执行漏洞(CVE-2019-11043)分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/23</span><a class="archive-post-title" href= "/2019/09/23/javaweb-S2/" >从零开始学java web - struts2 RCE分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2019/07/23/gitea-cve-2019-11229/" >CVE-2019-11229详细分析 --git config可控-RCE</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/12</span><a class="archive-post-title" href= "/2019/06/12/mybb-1820-rce/" >Mybb 18.20 From Stored XSS to RCE 分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/mimic-ctf-2019/" >MIMIC Defense CTF 2019 final writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href= "/2019/04/19/drupal-1-click-rce/" >Drupal 1-click to RCE分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2018/12/07/dzx3-4-ssrf/" >Discuz x3.4前台SSRF分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2018/12/07/codingbreak-wp/" >Code Breaking挑战赛 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2018/12/01/contract-checklist/" >以太坊智能合约审计CheckList</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2018/11/20/lctf2018-ggbank/" >LCTF2018 ggbank 薅羊毛实战</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href= "/2018/11/16/dvp-contract-wp/" >从DVP GAME到变量覆盖问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/14</span><a class="archive-post-title" href= "/2018/11/14/hctf2018-web/" >HCTF2018部分Web题目Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2018/11/12/hctf2019_contract_wp/" >HCTF2018智能合约两则Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2018/11/08/haotian-s-5/" >“以太坊智能合约编码隐患”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2018/10/18/dice2win-safe/" >智能合约游戏之殇——Dice2win安全分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2018/09/25/haotian-s-4/" >“以太坊智能合约编码设计问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/14</span><a class="archive-post-title" href= "/2018/09/14/blockwell/" >blockwell.ai 虚假转账 事件分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/06</span><a class="archive-post-title" href= "/2018/09/06/haotian-s-3/" >“以太坊智能合约编码安全问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2018/08/24/eth-gamedead/" >智能合约游戏之殇-类Fomo3D攻击分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/22</span><a class="archive-post-title" href= "/2018/08/22/haotian-s-2/" >“以太坊智能合约设计缺陷问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/14</span><a class="archive-post-title" href= "/2018/08/14/haotian-s-1/" >“以太坊智能合约规范问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2018/05/31/0ctf2018-final/" >0CTF/TCTF2018 Final Web Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2018/04/20/SW-xss/" >基于Service Worker 的XSS攻击面拓展</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2018/04/17/0ctf2018-space/" >TCTF/0CTF2018 h4x0rs.space Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2018/04/10/0ctf2018-club2/" >TCTF/0CTF2018 h4xors.club2 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/05</span><a class="archive-post-title" href= "/2018/04/05/0ctf2018-other/" >TCTF/0CTF2018 部分Web Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/05</span><a class="archive-post-title" href= "/2018/04/05/0ctf2018-blog/" >TCTF/0CTF2018 XSS bl0g Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/hctf2017/" >吐槽HCTF2017</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2018/02/07/joomla3-8-4/" >从补丁到漏洞分析 --记一次joomla漏洞应急</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2018/01/19/dedecms-vul1/" >DeDeCMS v5.7 密码修改漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/02</span><a class="archive-post-title" href= "/2018/01/02/34c3-writeup/" >34c3 Web部分Writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2017/11/15/hctf2017-babycrack/" >HCTF2017 babycrack Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2017/11/15/hctf2017-deserted-world/" >HCTF2017-Deserted place-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2017/11/15/hctf2017-restore-world/" >HCTF2017-A World Restored-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span><a class="archive-post-title" href= "/2017/11/10/hitcon2017-writeup/" >HITCON2017-writeup整理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2017/10/25/csp-paper/" >前端防御从入门到弃坑--CSP变迁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/30</span><a class="archive-post-title" href= "/2017/09/30/dz-delete/" >Discuz!X 3.4 任意文件删除漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/31</span><a class="archive-post-title" href= "/2017/08/31/dz-authkey/" >Discuz_X authkey安全性漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/pwnhub%20%E6%94%B9%E8%A1%8C%E5%81%9A%E5%89%8D%E7%AB%AF/" >pwnhub 改行做前端</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/26</span><a class="archive-post-title" href= "/2017/07/26/finecms%E5%88%86%E6%9E%90/" >finecms分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/2017/07/20/FineCMS%20multi%20vulnerablity%20before%20v5.0.9/" >FineCMS multi vulnerablity before v5.0.9</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2017/07/11/Some%20Vulnerability%20for%20FineCMS%20through%202017.7.11/" >Some Vulnerability for FineCMS through 2017.7.11</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2017/07/11/guosai2017/" >第十届信息安全国赛 Web MISC writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/WordPress%20WP%20Statistics%20authenticated%20xss%20Vulnerability(WP%20Statistics%20-=12.0.9)/" >WordPress WP Statistics authenticated xss Vulnerability(WP Statistics <=12.0.9)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/2017/06/16/0ctf2017-final/" >0ctf2017 final</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/16</span><a class="archive-post-title" href= "/2017/05/16/nonce-bypass-script/" >通过浏览器缓存来bypass CSP script nonce</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2017/05/12/pppctf2017/" >PlaidCTF 2017 web writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href= "/2017/05/09/CSP%20Is%20Dead,%20Long%20Live%20CSP!%20On%20the%20Insecurity%20of%20Whitelists%20and%20the%20Future%20of%20Content%20Security%20Policy/" >CSP Is Dead, Long Live CSP! 翻译</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href= "/2017/04/24/pwnhub-jue/" >pwnhub 绝对防御 出题思路和反思</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/Shadow-Brokers/" >Shadow Brokers大新闻整理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/360chunqiu2017/" >360春秋杯2017 writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2017/04/18/bctf2017-web/" >bctf2017 web部分wp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/2017/03/27/pwnhub-xiaom/" >pwnhub 之小m的复仇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/0ctf2017-web/" >0ctf201 web部分writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2017/03/13/njctf2017-wp/" >NJCTF Web部分writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href= "/2017/03/05/pwnhub-another-php/" >pwnhub_another php web部分</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2017/02/20/pwnhub-open/" >pwnhub 打开电脑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/16</span><a class="archive-post-title" href= "/2017/02/16/cdn-bypass-csp/" >有趣的cdn bypass CSP</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/26</span><a class="archive-post-title" href= "/2017/01/26/hctf2016-something/" >聊聊hctf2016</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2017/01/17/pwnhub-shen/" >pwnhub 深入敌后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2017/01/03/33c3-wp/" >33c32016 writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href= "/2016/12/28/cve-2016-10030/" >phpmailer RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/26</span><a class="archive-post-title" href= "/2016/12/26/pwnhub_mi/" >pwnhub_迷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2016/12/18/pwnhub-pai/" >pwnhub_找朋友</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2016/12/18/pwnhub-pai2/" >pwnhub_拍卖行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href= "/2016/12/10/pwnhub-WTF-writeup/" >pwnhub_WTF_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2016/12/07/polyglot-JPEGs-bypass-csp/" >using polyglot JPEGs bypass CSP 分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2016/12/01/hctf2016-other/" >hctf2016 简单部分WEB && misc writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/30</span><a class="archive-post-title" href= "/2016/11/30/hctf2016-xss/" >hctf2016 guestbook&secret area writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href= "/2016/11/29/hctf2016-ATField/" >HCTF2016 ATField writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/31</span><a class="archive-post-title" href= "/2016/10/31/csp-then2/" >CSP进阶-302 Bypass CSP</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2016/10/28/csp-then/" >CSP进阶-link Bypass unsafe line</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2016/10/26/ctf-start/" >什么是ctf呢？</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2016/10/11/hitcon2016-misc/" >hitcon2016 misc writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2016/10/10/hitcon2016/" >hitcon2016 web writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/03</span><a class="archive-post-title" href= "/2016/10/03/Lctf2016/" >L-ctf2016 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/14</span><a class="archive-post-title" href= "/2016/09/14/php-wei/" >php 伪协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/11</span><a class="archive-post-title" href= "/2016/09/11/huashanbei2016/" >华山杯2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/29</span><a class="archive-post-title" href= "/2016/08/29/crypto-start/" >crypto 简单的RSA</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/08</span><a class="archive-post-title" href= "/2016/08/08/ccsp/" >CSP Level 3浅析&简单的bypass</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/21</span><a class="archive-post-title" href= "/2016/07/21/python-tqdm/" >python tqdm模块分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href= "/2016/07/18/cmd-shell/" >shell上一些有趣的命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span><a class="archive-post-title" href= "/2016/07/12/guosai-ctf-wp/" >信息安全国赛技能赛 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href= "/2016/06/26/cloudeye/" >一个有趣的东西-cloudeye</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/06</span><a class="archive-post-title" href= "/2016/06/06/alictf2016/" >alictf2016_web_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href= "/2016/05/27/opcache-jcfx/" >在php opcache检测隐藏的后门程序</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2016/05/12/php-shell/" >php webshell 各种函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/10</span><a class="archive-post-title" href= "/2016/05/10/asis-bcloud/" >Asis2016_Binary Cloud</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/05</span><a class="archive-post-title" href= "/2016/05/05/dockerfile/" >dockerfile  (・ω・)ノ</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/2016/05/04/docker-jc/" >docker 基础操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/2016/05/02/ggctf2016/" >google_ctf2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/25</span><a class="archive-post-title" href= "/2016/04/25/cctf2016/" >CCTF2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2016/04/20/gif-ccsp/" >gif bypass CSP?</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2016/04/11/j123jt-wp/" >j123jt的聊天板大型wp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/08</span><a class="archive-post-title" href= "/2016/04/08/input-bypasscsrf/" >input属性bypass csp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2016/04/06/hctfgame-llfx/" >hctfgame_ll的流量分析题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/04</span><a class="archive-post-title" href= "/2016/04/04/phpblack/" >is_numeric和trim导致的判断绕过</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2016/03/22/bctf2016/" >bctf2016</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2016/03/14/hctfgame_week4+5_writeup/" >hctf_game_week4+5_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2016/03/14/0ctf2016/" >0ctf2016 && sunshinectf2016 writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href= "/2016/03/07/bkp2016-writeup/" >bkp2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href= "/2016/03/05/hexo-coding/" >hexo转移到coding配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/29</span><a class="archive-post-title" href= "/2016/02/29/hctfgame_week3_writeup/" >hctf_game_week3_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2016/02/28/ldpai/" >ldpa简单注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/easy_git/" >简单的git教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/hctfgame_week2_writeup/" >hctf_game_week2_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/hctfgame_week1_writeup/" >hctf_game_week1_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/hctfgame_week0_writeup/" >hctf_game_week0_writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2015 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2015/12/21/dmsj-book/" >《代码审计》一点儿笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span><a class="archive-post-title" href= "/2015/12/19/hctf2015/" >hctf2015的一点儿记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/17</span><a class="archive-post-title" href= "/2015/11/17/isg2015/" >ISG2015_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href= "/2015/11/02/hsb/" >SPWC & 华山杯？ writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2015/10/04/XDCTF2015-writeup/" >XDCTF2015-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2015/09/28/nsctf-writeup/" >Nsctf2015_Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/11</span><a class="archive-post-title" href= "/2015/06/11/ctf0611/" >ctf近期总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/2015/05/22/Hexo-blogs/" >Windows Hexo博客安装配置优化（小白篇）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href= "/2015/05/21/fucksql/" >Hduisa_ctf_wee4_fucksql</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2015/02/26/hduisa-ctf-writeup1/" >Hduisa_ctf_writeup01</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2015/02/26/hduisa-ctf-writeup2/" >Hduisa_ctf_writeup02</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2014 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/31</span><a class="archive-post-title" href= "/2014/12/31/hackx/" >凤凰挽歌，黑客独白（作者：我是老鹰&炫凤舞）</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/07/08/hello-world/" >Hello World</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2020/06/10/roundcube-mail-xss/" >Roundcube mail 3 Xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2020/05/29/roundcube-mail-1-4-4/" >Roundcube mail代码审计笔记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/10</span><a class="archive-post-title" href= "/2019/07/10/redis-5-x-rce/" >Redis 基于主从复制的RCE利用方式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2019/03/14/wp5-1-1xss/" >聊聊WordPress 5.1.1 CSRF to RCE漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2019/02/22/wordpress-core-rce/" >Wordpress 5.0 RCE详细分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/13</span><a class="archive-post-title" href= "/2018/07/13/wctf2018-mimic/" >wctf2018 cyber mimic defence Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/23</span><a class="archive-post-title" href= "/2018/05/23/rctf2018/" >RCTF2018 Web Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2018/03/26/qwb2018/" >强网杯2018 Web writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span><a class="archive-post-title" href= "/2017/12/19/wordpress-pl2/" >WordPress Updraftplus 插件漏洞2则以及一些有趣的故事</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2017/10/26/typecho-getshell/" >typecho前台getshell漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2017/10/25/wordpress/" >WordPress安全架构分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/31</span><a class="archive-post-title" href= "/2017/08/31/xss-ali/" >阿里先知xss挑战赛 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/23</span><a class="archive-post-title" href= "/2017/08/23/xss-tuo/" >从瑞士军刀到变形金刚--XSS攻击面拓展</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2017/07/23/xssgame-wp/" >xssgame writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/23</span><a class="archive-post-title" href= "/2017/05/23/rctf2017/" >RCTF2017 web writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2017/05/12/xss-bot2/" >xss bot从入门到弃坑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2017/02/27/zctf2017-writeup/" >zctf2017 writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/24</span><a class="archive-post-title" href= "/2016/12/24/xss-protect/" >浅谈xss的后台守护问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/03</span><a class="archive-post-title" href= "/2016/12/03/redis-getshell/" >通过redis getshell的一些小问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2016/11/19/web2-giligili/" >hctf2016 giligili writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2016/08/18/sqlmap-source4/" >sqlmap 源码分析（四）开始注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2016/08/16/sqlmap-source3/" >sqlmap 源码分析（三）在注入之前</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2016/08/11/sqlmap-source2/" >sqlmap 源码分析（二）初始化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/09</span><a class="archive-post-title" href= "/2016/08/09/sqlmap-source1/" >sqlmap 源码分析（一）开始、参数解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/2016/08/07/python-virtualenv/" >python virtualenv沙盒命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/01</span><a class="archive-post-title" href= "/2016/08/01/xnuca-ctf-wp/" >XNUCA2016 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href= "/2016/07/17/sangebaimao_huobi/" >sangebaimao之火币网</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/17</span><a class="archive-post-title" href= "/2016/06/17/sangebaimao-zhao/" >sangebaimao之招聘又开始了，你怕了吗？</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href= "/2016/06/04/sangebaimao1/" >sangebaimao 寻找来自星星的你一</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href= "/2016/05/09/sctf2016/" >sctf2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2016/04/11/sctf-Obfusion/" >sctfq1_Obfusion_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span><a class="archive-post-title" href= "/2016/03/30/web-for-pentest-II/" >web_for_pentest_II writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2016/03/01/ssctf2015-writeup/" >ssctf2015_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2016/02/28/titan-souls-ez/" >titan souls 普通模式通关攻略</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2015 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2015/11/19/xss-link/" >xss link&svg黑魔法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2015/11/19/sql-error/" >SQL 显错注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/17</span><a class="archive-post-title" href= "/2015/11/17/rctf2015/" >RCTF2015_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span><a class="archive-post-title" href= "/2015/10/24/sqli_h/" >关于sqli注入的特殊函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2015/07/02/xss-p/" >xss无声挑战赛_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/10</span><a class="archive-post-title" href= "/2015/05/10/webforpentester/" >Web for pentester_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2015/02/26/shinian/" >（转）十年学会程序设计</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2015/01/22/webfirst/" >0基础如何学好WEB（转）</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2014 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2014/12/29/bookshelf1/" >（转）学长们给我们的书目（结尾附上PDF地址）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2014/12/29/xiaobaistart/" >菜鸟小白的开始...</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="Blogs"><span class="iconfont-archer">&#xe606;</span>Blogs</span>
+    
+        <span class="sidebar-tag-name" data-tags="sqli"><span class="iconfont-archer">&#xe606;</span>sqli</span>
+    
+        <span class="sidebar-tag-name" data-tags="CSP"><span class="iconfont-archer">&#xe606;</span>CSP</span>
+    
+        <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="csp"><span class="iconfont-archer">&#xe606;</span>csp</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssrf"><span class="iconfont-archer">&#xe606;</span>ssrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="redis"><span class="iconfont-archer">&#xe606;</span>redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="opcache"><span class="iconfont-archer">&#xe606;</span>opcache</span>
+    
+        <span class="sidebar-tag-name" data-tags="nodejs"><span class="iconfont-archer">&#xe606;</span>nodejs</span>
+    
+        <span class="sidebar-tag-name" data-tags="race"><span class="iconfont-archer">&#xe606;</span>race</span>
+    
+        <span class="sidebar-tag-name" data-tags="postMessage"><span class="iconfont-archer">&#xe606;</span>postMessage</span>
+    
+        <span class="sidebar-tag-name" data-tags="pdflatex"><span class="iconfont-archer">&#xe606;</span>pdflatex</span>
+    
+        <span class="sidebar-tag-name" data-tags="csrf"><span class="iconfont-archer">&#xe606;</span>csrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="cve"><span class="iconfont-archer">&#xe606;</span>cve</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shadow Brokers"><span class="iconfont-archer">&#xe606;</span>Shadow Brokers</span>
+    
+        <span class="sidebar-tag-name" data-tags="0day"><span class="iconfont-archer">&#xe606;</span>0day</span>
+    
+        <span class="sidebar-tag-name" data-tags="windows"><span class="iconfont-archer">&#xe606;</span>windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="c"><span class="iconfont-archer">&#xe606;</span>c</span>
+    
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reprint"><span class="iconfont-archer">&#xe606;</span>Reprint</span>
+    
+        <span class="sidebar-tag-name" data-tags="bookshelf"><span class="iconfont-archer">&#xe606;</span>bookshelf</span>
+    
+        <span class="sidebar-tag-name" data-tags="chrome_ext"><span class="iconfont-archer">&#xe606;</span>chrome_ext</span>
+    
+        <span class="sidebar-tag-name" data-tags="chrome"><span class="iconfont-archer">&#xe606;</span>chrome</span>
+    
+        <span class="sidebar-tag-name" data-tags="dns"><span class="iconfont-archer">&#xe606;</span>dns</span>
+    
+        <span class="sidebar-tag-name" data-tags="cloudeye"><span class="iconfont-archer">&#xe606;</span>cloudeye</span>
+    
+        <span class="sidebar-tag-name" data-tags="cmd"><span class="iconfont-archer">&#xe606;</span>cmd</span>
+    
+        <span class="sidebar-tag-name" data-tags="shell"><span class="iconfont-archer">&#xe606;</span>shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="node"><span class="iconfont-archer">&#xe606;</span>node</span>
+    
+        <span class="sidebar-tag-name" data-tags="contract"><span class="iconfont-archer">&#xe606;</span>contract</span>
+    
+        <span class="sidebar-tag-name" data-tags="crypto"><span class="iconfont-archer">&#xe606;</span>crypto</span>
+    
+        <span class="sidebar-tag-name" data-tags="RSA"><span class="iconfont-archer">&#xe606;</span>RSA</span>
+    
+        <span class="sidebar-tag-name" data-tags="rabins"><span class="iconfont-archer">&#xe606;</span>rabins</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="phpmailer"><span class="iconfont-archer">&#xe606;</span>phpmailer</span>
+    
+        <span class="sidebar-tag-name" data-tags="dedecms"><span class="iconfont-archer">&#xe606;</span>dedecms</span>
+    
+        <span class="sidebar-tag-name" data-tags="逻辑漏洞"><span class="iconfont-archer">&#xe606;</span>逻辑漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="book_notes"><span class="iconfont-archer">&#xe606;</span>book_notes</span>
+    
+        <span class="sidebar-tag-name" data-tags="智能合约"><span class="iconfont-archer">&#xe606;</span>智能合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar"><span class="iconfont-archer">&#xe606;</span>phar</span>
+    
+        <span class="sidebar-tag-name" data-tags="rce"><span class="iconfont-archer">&#xe606;</span>rce</span>
+    
+        <span class="sidebar-tag-name" data-tags="dvp"><span class="iconfont-archer">&#xe606;</span>dvp</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf web"><span class="iconfont-archer">&#xe606;</span>ctf web</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞分析"><span class="iconfont-archer">&#xe606;</span>漏洞分析</span>
+    
+        <span class="sidebar-tag-name" data-tags="dz"><span class="iconfont-archer">&#xe606;</span>dz</span>
+    
+        <span class="sidebar-tag-name" data-tags="反序列化漏洞"><span class="iconfont-archer">&#xe606;</span>反序列化漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="类型混淆漏洞"><span class="iconfont-archer">&#xe606;</span>类型混淆漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="ecshop"><span class="iconfont-archer">&#xe606;</span>ecshop</span>
+    
+        <span class="sidebar-tag-name" data-tags="git"><span class="iconfont-archer">&#xe606;</span>git</span>
+    
+        <span class="sidebar-tag-name" data-tags="access"><span class="iconfont-archer">&#xe606;</span>access</span>
+    
+        <span class="sidebar-tag-name" data-tags="伪协议"><span class="iconfont-archer">&#xe606;</span>伪协议</span>
+    
+        <span class="sidebar-tag-name" data-tags="eth"><span class="iconfont-archer">&#xe606;</span>eth</span>
+    
+        <span class="sidebar-tag-name" data-tags="Fomo3D"><span class="iconfont-archer">&#xe606;</span>Fomo3D</span>
+    
+        <span class="sidebar-tag-name" data-tags="Essay"><span class="iconfont-archer">&#xe606;</span>Essay</span>
+    
+        <span class="sidebar-tag-name" data-tags="checklist"><span class="iconfont-archer">&#xe606;</span>checklist</span>
+    
+        <span class="sidebar-tag-name" data-tags="hctf"><span class="iconfont-archer">&#xe606;</span>hctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="misc"><span class="iconfont-archer">&#xe606;</span>misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="php opcache"><span class="iconfont-archer">&#xe606;</span>php opcache</span>
+    
+        <span class="sidebar-tag-name" data-tags="eassy"><span class="iconfont-archer">&#xe606;</span>eassy</span>
+    
+        <span class="sidebar-tag-name" data-tags="jsre"><span class="iconfont-archer">&#xe606;</span>jsre</span>
+    
+        <span class="sidebar-tag-name" data-tags="clrf"><span class="iconfont-archer">&#xe606;</span>clrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="struts2"><span class="iconfont-archer">&#xe606;</span>struts2</span>
+    
+        <span class="sidebar-tag-name" data-tags="injection"><span class="iconfont-archer">&#xe606;</span>injection</span>
+    
+        <span class="sidebar-tag-name" data-tags="mimic"><span class="iconfont-archer">&#xe606;</span>mimic</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwnhub"><span class="iconfont-archer">&#xe606;</span>pwnhub</span>
+    
+        <span class="sidebar-tag-name" data-tags="flask"><span class="iconfont-archer">&#xe606;</span>flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="格式化字符串"><span class="iconfont-archer">&#xe606;</span>格式化字符串</span>
+    
+        <span class="sidebar-tag-name" data-tags="模板注入"><span class="iconfont-archer">&#xe606;</span>模板注入</span>
+    
+        <span class="sidebar-tag-name" data-tags="wget"><span class="iconfont-archer">&#xe606;</span>wget</span>
+    
+        <span class="sidebar-tag-name" data-tags="js"><span class="iconfont-archer">&#xe606;</span>js</span>
+    
+        <span class="sidebar-tag-name" data-tags="weblogic"><span class="iconfont-archer">&#xe606;</span>weblogic</span>
+    
+        <span class="sidebar-tag-name" data-tags="lfi"><span class="iconfont-archer">&#xe606;</span>lfi</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="LFI"><span class="iconfont-archer">&#xe606;</span>LFI</span>
+    
+        <span class="sidebar-tag-name" data-tags="win server信息收集"><span class="iconfont-archer">&#xe606;</span>win server信息收集</span>
+    
+        <span class="sidebar-tag-name" data-tags="msf"><span class="iconfont-archer">&#xe606;</span>msf</span>
+    
+        <span class="sidebar-tag-name" data-tags="lcx端口转发"><span class="iconfont-archer">&#xe606;</span>lcx端口转发</span>
+    
+        <span class="sidebar-tag-name" data-tags="IPC通道入侵"><span class="iconfont-archer">&#xe606;</span>IPC通道入侵</span>
+    
+        <span class="sidebar-tag-name" data-tags="fastcgi"><span class="iconfont-archer">&#xe606;</span>fastcgi</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssh_sock5"><span class="iconfont-archer">&#xe606;</span>ssh_sock5</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="tqdm"><span class="iconfont-archer">&#xe606;</span>tqdm</span>
+    
+        <span class="sidebar-tag-name" data-tags="virtualenv"><span class="iconfont-archer">&#xe606;</span>virtualenv</span>
+    
+        <span class="sidebar-tag-name" data-tags="open_basedir"><span class="iconfont-archer">&#xe606;</span>open_basedir</span>
+    
+        <span class="sidebar-tag-name" data-tags="crontab"><span class="iconfont-archer">&#xe606;</span>crontab</span>
+    
+        <span class="sidebar-tag-name" data-tags="roundcube"><span class="iconfont-archer">&#xe606;</span>roundcube</span>
+    
+        <span class="sidebar-tag-name" data-tags="sangebaimao"><span class="iconfont-archer">&#xe606;</span>sangebaimao</span>
+    
+        <span class="sidebar-tag-name" data-tags="参数污染"><span class="iconfont-archer">&#xe606;</span>参数污染</span>
+    
+        <span class="sidebar-tag-name" data-tags="CBC"><span class="iconfont-archer">&#xe606;</span>CBC</span>
+    
+        <span class="sidebar-tag-name" data-tags="LD_PRELOAD"><span class="iconfont-archer">&#xe606;</span>LD_PRELOAD</span>
+    
+        <span class="sidebar-tag-name" data-tags="gopher"><span class="iconfont-archer">&#xe606;</span>gopher</span>
+    
+        <span class="sidebar-tag-name" data-tags="fcgi"><span class="iconfont-archer">&#xe606;</span>fcgi</span>
+    
+        <span class="sidebar-tag-name" data-tags="Essry"><span class="iconfont-archer">&#xe606;</span>Essry</span>
+    
+        <span class="sidebar-tag-name" data-tags="php伪协议"><span class="iconfont-archer">&#xe606;</span>php伪协议</span>
+    
+        <span class="sidebar-tag-name" data-tags="file_put_contents"><span class="iconfont-archer">&#xe606;</span>file_put_contents</span>
+    
+        <span class="sidebar-tag-name" data-tags="sqlmap"><span class="iconfont-archer">&#xe606;</span>sqlmap</span>
+    
+        <span class="sidebar-tag-name" data-tags="game"><span class="iconfont-archer">&#xe606;</span>game</span>
+    
+        <span class="sidebar-tag-name" data-tags="titan_souls"><span class="iconfont-archer">&#xe606;</span>titan_souls</span>
+    
+        <span class="sidebar-tag-name" data-tags="wordpress"><span class="iconfont-archer">&#xe606;</span>wordpress</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="条件竞争"><span class="iconfont-archer">&#xe606;</span>条件竞争</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Blogs"><span class="iconfont-archer">&#xe60a;</span>Blogs</span>
+    
+        <span class="sidebar-category-name" data-categories="Reprint"><span class="iconfont-archer">&#xe60a;</span>Reprint</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "LoRexxar"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

