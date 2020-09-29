@@ -26,15 +26,15 @@
 <meta property="og:url" content="https://lorexxar.cn/2018/04/05/0ctf2018-other/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="ezdoor题目上来就是代码审计，先看看代码 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475&lt;?phperror_reporting(0);$dir &#x3D; &#39;s">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/wfir4flmnno2knv9b5h21ibg/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/wfir4flmnno2knv9b5h21ibg/image.png">
 <meta property="article:published_time" content="2018-04-04T17:10:50.000Z">
-<meta property="article:modified_time" content="2018-04-04T17:11:52.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.895Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="opcache">
 <meta property="article:tag" content="nodejs">
 <meta property="article:tag" content="race">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/wfir4flmnno2knv9b5h21ibg/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/wfir4flmnno2knv9b5h21ibg/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -481,7 +481,7 @@ height:50vh;
 <p>用这个验证码可以验证ip，你就可以把自己用户的ip修改为指定的，当你可以修改为8.8.8.8时，你就可以得到flag。</p>
 <p>登陆成功后只有一个修改手机号的功能。</p>
 <p>假设我们试图修改自己的验证ip时</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/wfir4flmnno2knv9b5h21ibg/image.png" alt="image.png-31.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/wfir4flmnno2knv9b5h21ibg/image.png" alt="image.png-31.9kB"></p>
 <p>我们可以发送这次post请求延时非常大，与我们平时代码书写习惯不同，这里应该是涉及到了对数据库的操作。</p>
 <p>这时候假设我们用另一个浏览器登录的话，可以发现index.php页面没有收到任何改变，但如果我们在前一个浏览器的verify.php继续执行的话，仍然可以修改，那么我们可以猜测后台数据库的结构大致为</p>
 <figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">userid</span><br><span class="line"><span class="keyword">new</span><span class="number">_</span>ip</span><br><span class="line"><span class="keyword">is</span><span class="number">_</span>verify</span><br></pre></td></tr></table></figure>
@@ -509,7 +509,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2018/04/05/0ctf2018-other/">https://lorexxar.cn/2018/04/05/0ctf2018-other/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2018/04/05/0ctf2018-other/">April 5th 2018, 1:10:50 am</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2018/04/05/0ctf2018-other/">April 5th 2018, 1:11:52 am</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2018/04/05/0ctf2018-other/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

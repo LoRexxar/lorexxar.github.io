@@ -26,25 +26,25 @@
 <meta property="og:url" content="https://lorexxar.cn/2017/12/19/wordpress-pl2/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="几个月前代码审计的时候，翻了翻wordpress的几个插件，因为wordpress的主要功能基本都是后台的，很少有前台能触发的漏洞，也就没看了，后来顺手就把挖到的2个后台漏洞申请了cve，没想到引来两个人讨论… 你觉得，什么样的漏洞才算是漏洞呢？">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/ypg8xnr3sond8644y8swl8jc/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/68a8puqj0k96ifgmryzi2ogw/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/ewecs9lrot08ijg2vlvituh9/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/u7y5hg3m1y2nj2c8kxbbhuk6/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/8o61e5tla9dglj0m5g2z7349/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/r1pfhrohhin6kj295zoqckjh/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/nvvhoe3gxmepnug6yf6aaojr/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/pksfa3e4gtjg6ztgnuubedkb/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/smc72erghubs8a1xvtzo5sjp/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/qa12ejx4ad0pf4c245fe3nqg/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/gm5rvjq13ajcw3o19cyprllv/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ypg8xnr3sond8644y8swl8jc/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/68a8puqj0k96ifgmryzi2ogw/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ewecs9lrot08ijg2vlvituh9/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/u7y5hg3m1y2nj2c8kxbbhuk6/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/8o61e5tla9dglj0m5g2z7349/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/r1pfhrohhin6kj295zoqckjh/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/nvvhoe3gxmepnug6yf6aaojr/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/pksfa3e4gtjg6ztgnuubedkb/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/smc72erghubs8a1xvtzo5sjp/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/qa12ejx4ad0pf4c245fe3nqg/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/gm5rvjq13ajcw3o19cyprllv/image.png">
 <meta property="article:published_time" content="2017-12-19T08:48:13.000Z">
-<meta property="article:modified_time" content="2017-12-19T08:51:04.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.970Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="ssrf">
 <meta property="article:tag" content="wordpress">
 <meta property="article:tag" content="条件竞争">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/ypg8xnr3sond8644y8swl8jc/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ypg8xnr3sond8644y8swl8jc/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -462,8 +462,8 @@ height:50vh;
 <h1 id="authentiicated-upload-file-and-php-code-execution"><a href="#authentiicated-upload-file-and-php-code-execution" class="headerlink" title="authentiicated upload file and php code execution"></a>authentiicated upload file and php code execution</h1><p>file <code>/wp-content/plugins/updraftplus/admin.php</code> line 1843 function <code>plupload_action</code></p>
 <p>via the name parameter to set filename, and move file content into this file.</p>
 <p>The server will do a basic verification of the file name, you can get a valid backup file name,just like <code>backup_2017-11-29-1844_test_d6c634e49869-plugins.zip.</code></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/ypg8xnr3sond8644y8swl8jc/image.png" alt="image.png-72.3kB"></p>
-<p>after the 39 lines, this file be delete<br><img src="http://static.zybuluo.com/LoRexxar/68a8puqj0k96ifgmryzi2ogw/image.png" alt="image.png-296.3kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ypg8xnr3sond8644y8swl8jc/image.png" alt="image.png-72.3kB"></p>
+<p>after the 39 lines, this file be delete<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/68a8puqj0k96ifgmryzi2ogw/image.png" alt="image.png-296.3kB"></p>
 <p>there are Race condition, when we view this pages before delete after write in. we can make php code execution.</p>
 <h2 id="PoC"><a href="#PoC" class="headerlink" title="PoC"></a>PoC</h2><p>file name just like:</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">backup_2017<span class="number">-11</span><span class="number">-29</span><span class="number">-1844</span>_test_d6c634e49869-plugins</span><br></pre></td></tr></table></figure>
@@ -473,21 +473,21 @@ height:50vh;
 <figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$f = <span class="keyword">fopen</span>(<span class="string">'../a.php'</span>,<span class="string">'wb'</span>);</span><br><span class="line"><span class="keyword">fwrite</span>($f, <span class="string">'&lt;?php phpinfo();?&gt;'</span>);</span><br><span class="line"><span class="keyword">fclose</span>($f);</span><br></pre></td></tr></table></figure>
 
 <p>via upload this file, and view this pages before delete, we can write a a.php into <code>/wp-content/a.php</code></p>
-<p>（2017.11.29 Supplement Vulnerability Details）<br><img src="http://static.zybuluo.com/LoRexxar/ewecs9lrot08ijg2vlvituh9/image.png" alt="image.png-197.1kB"></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/u7y5hg3m1y2nj2c8kxbbhuk6/image.png" alt="image.png-105.2kB"></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/8o61e5tla9dglj0m5g2z7349/image.png" alt="image.png-89.2kB"></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/r1pfhrohhin6kj295zoqckjh/image.png" alt="image.png-172.5kB"></p>
+<p>（2017.11.29 Supplement Vulnerability Details）<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ewecs9lrot08ijg2vlvituh9/image.png" alt="image.png-197.1kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/u7y5hg3m1y2nj2c8kxbbhuk6/image.png" alt="image.png-105.2kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/8o61e5tla9dglj0m5g2z7349/image.png" alt="image.png-89.2kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/r1pfhrohhin6kj295zoqckjh/image.png" alt="image.png-172.5kB"></p>
 <h1 id="authentiicated-ssrf"><a href="#authentiicated-ssrf" class="headerlink" title="authentiicated ssrf"></a>authentiicated ssrf</h1><p>file <code>/wp-content/plugins/updraftplus/admin.php</code> line 1233 function updraft_ajax_handler </p>
 <p>when <code>subaction=&#39;httpget&#39;</code>the curl parameter follow into function http_get,</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/nvvhoe3gxmepnug6yf6aaojr/image.png" alt="image.png-26.1kB"></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/pksfa3e4gtjg6ztgnuubedkb/image.png" alt="image.png-163.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/nvvhoe3gxmepnug6yf6aaojr/image.png" alt="image.png-26.1kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/pksfa3e4gtjg6ztgnuubedkb/image.png" alt="image.png-163.4kB"></p>
 <p>they will use curl to request url, it can be exploited to conduct server-side request forgery (SSRF) attacks.</p>
 <h2 id="PoC-1"><a href="#PoC-1" class="headerlink" title="PoC"></a>PoC</h2><p>login and view website</p>
 <figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/wordpress4.8/wp-admin/<span class="meta">options</span>-general.php?<span class="meta">page</span>=updraftplus<span class="variable">&amp;tab</span>=expert</span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/smc72erghubs8a1xvtzo5sjp/image.png" alt="image.png-8.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/smc72erghubs8a1xvtzo5sjp/image.png" alt="image.png-8.9kB"></p>
 <p>use fetch(curl)</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/qa12ejx4ad0pf4c245fe3nqg/image.png" alt="image.png-20.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/qa12ejx4ad0pf4c245fe3nqg/image.png" alt="image.png-20.9kB"></p>
 <h1 id="聊聊漏洞"><a href="#聊聊漏洞" class="headerlink" title="聊聊漏洞"></a>聊聊漏洞</h1><p>由于申请cve的关系，漏洞详情用英文写了，大都是通俗易懂的句子，就不花时间翻译了。</p>
 <p>有趣的是，当我在github上公开漏洞详情的时候，引来了两个人的关注（聊天时候的感觉更像是插件的开发者）。</p>
 <p><a href="https://github.com/LoRexxar/CVE_Request/tree/master/wordpress%20plugin%20updraftplus%20vulnerablity" target="_blank" rel="noopener">源地址</a></p>
@@ -511,7 +511,7 @@ height:50vh;
 <p>就像那句话说的，如果事情真的不是那样的，那又何必有鬼呢？</p>
 <p>后面的对话就是在扯一些别的问题了，出现了一个新的人，他提出插件上传文件使用了<code>wp_handle_upload()</code>，这个函数压根不可以上传php文件。</p>
 <p>可笑的是，在浪费了2个小时重新温习漏洞之后，我再次复现了漏洞，而且是最新版本：&gt;</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/gm5rvjq13ajcw3o19cyprllv/image.png" alt="image.png-121.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/gm5rvjq13ajcw3o19cyprllv/image.png" alt="image.png-121.5kB"></p>
 <p>漏洞的触发逻辑是，文件在上传之后，经过了一次改名，然后才经过了判断…事实上，上传文件名完全可以是合法的。</p>
 <p>再后来的讨论已经失去意义了，所以我关闭了pr，但是，你觉得什么样的漏洞才算是漏洞呢？</p>
 <p>下面是他最后的回复</p>
@@ -531,7 +531,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2017/12/19/wordpress-pl2/">https://lorexxar.cn/2017/12/19/wordpress-pl2/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2017/12/19/wordpress-pl2/">December 19th 2017, 4:48:13 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2017/12/19/wordpress-pl2/">December 19th 2017, 4:51:04 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2017/12/19/wordpress-pl2/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

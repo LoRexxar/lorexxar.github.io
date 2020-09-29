@@ -26,20 +26,20 @@
 <meta property="og:url" content="https://lorexxar.cn/2018/08/14/haotian-s-1/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="最近工作的重点在智能合约上，不仅是整理checklist，还有一个智能合约的自动化审计平台，阅读了比较多的合约代码，我发现，一些开发者在开发过程中的问题，可以算是很典型的一类问题，其实很多不能算是有很大的危害，但确实不得忽视的一个大问题。">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/l7co6wfvbf1w3rnuu5ertukd/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/yaabnbccin5hpi2sf3enmor8/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/l6hdzoyhnta75mi8ogi48y0n/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/bd5r1ksfuigyq6evpkvhwbte/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/mhf4q18kv0c5d7uzqu1n36v0/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/zqar0nfpu38j9eakx5iclyeh/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/a8s5awhte8a2ah5cfx6s7kk4/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/l7co6wfvbf1w3rnuu5ertukd/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/yaabnbccin5hpi2sf3enmor8/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/l6hdzoyhnta75mi8ogi48y0n/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/bd5r1ksfuigyq6evpkvhwbte/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/mhf4q18kv0c5d7uzqu1n36v0/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/zqar0nfpu38j9eakx5iclyeh/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/a8s5awhte8a2ah5cfx6s7kk4/image.png">
 <meta property="article:published_time" content="2018-08-14T08:24:18.000Z">
-<meta property="article:modified_time" content="2018-08-14T08:27:38.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.924Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="contract">
 <meta property="article:tag" content="eth">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/l7co6wfvbf1w3rnuu5ertukd/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/l7co6wfvbf1w3rnuu5ertukd/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -479,19 +479,19 @@ height:50vh;
 <p>2018年7月14日，链安科技在公众号公布了关于constructor函数书写错误的问题详情[3]。</p>
 <p>2018年7月15日，知道创宇404区块链安全研究团队跟进应急，并输出了《以太坊智能合约构造函数书写错误导致非法合约所有权转移报告》</p>
 <h1 id="三、漏洞影响范围"><a href="#三、漏洞影响范围" class="headerlink" title="三、漏洞影响范围"></a>三、漏洞影响范围</h1><p>使用Haotian平台智能合约审计功能可以准确扫描到该类型问题。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/l7co6wfvbf1w3rnuu5ertukd/image.png" alt="image.png-27.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/l7co6wfvbf1w3rnuu5ertukd/image.png" alt="image.png-27.5kB"></p>
 <p>基于Haotian平台智能合约审计功能规则，我们对全网的公开的共39548 个合约代码进行了扫描，其中共14978个合约涉及到这类问题。</p>
-<h2 id="1、-未触发Transfer事件"><a href="#1、-未触发Transfer事件" class="headerlink" title="1、 未触发Transfer事件"></a>1、 未触发Transfer事件</h2><p>截止2018年8月10日为止，我们发现了4604个存在未遵循ERC20标准未触发Transfer事件的合约代码，其中交易量最高的10个合约情况如下：<br><img src="http://static.zybuluo.com/LoRexxar/yaabnbccin5hpi2sf3enmor8/image.png" alt="image.png-274.8kB"></p>
+<h2 id="1、-未触发Transfer事件"><a href="#1、-未触发Transfer事件" class="headerlink" title="1、 未触发Transfer事件"></a>1、 未触发Transfer事件</h2><p>截止2018年8月10日为止，我们发现了4604个存在未遵循ERC20标准未触发Transfer事件的合约代码，其中交易量最高的10个合约情况如下：<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/yaabnbccin5hpi2sf3enmor8/image.png" alt="image.png-274.8kB"></p>
 <h2 id="2、-未触发Approval事件"><a href="#2、-未触发Approval事件" class="headerlink" title="2、 未触发Approval事件"></a>2、 未触发Approval事件</h2><p>截止2018年8月10日为止，我们发现了5231个存在未遵循ERC20标准未出发Approval事件的合约代码，其中交易量最高的10个合约情况如下：</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/l6hdzoyhnta75mi8ogi48y0n/image.png" alt="image.png-295.3kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/l6hdzoyhnta75mi8ogi48y0n/image.png" alt="image.png-295.3kB"></p>
 <h2 id="3、假充值漏洞-1"><a href="#3、假充值漏洞-1" class="headerlink" title="3、假充值漏洞"></a>3、假充值漏洞</h2><p>2018年7月9日，知道创宇404区块链安全研究团队在跟进应急假充值漏洞时，曾对全网公开合约代码进行过一次扫描，当时发现约3141余个存在假充值问题的合约代码，其中交易量最高的10个合约情况如下：</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/bd5r1ksfuigyq6evpkvhwbte/image.png" alt="image.png-284.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/bd5r1ksfuigyq6evpkvhwbte/image.png" alt="image.png-284.5kB"></p>
 <p>截止2018年8月10日为止，我们发现了5027个存在假充值问题的合约代码，其中交易量最高的10个合约情况如下：</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/mhf4q18kv0c5d7uzqu1n36v0/image.png" alt="image.png-260.3kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/mhf4q18kv0c5d7uzqu1n36v0/image.png" alt="image.png-260.3kB"></p>
 <h2 id="4、构造函数书写问题"><a href="#4、构造函数书写问题" class="headerlink" title="4、构造函数书写问题"></a>4、构造函数书写问题</h2><h3 id="构造函数大小写错误漏洞-1"><a href="#构造函数大小写错误漏洞-1" class="headerlink" title="构造函数大小写错误漏洞"></a>构造函数大小写错误漏洞</h3><p>2018年6月22日，知道创宇404区块链安全研究团队在跟进应急假充值漏洞时，全网中存在该问题的合约约为16个。</p>
-<p>截止2018年8月10日为止，我们发现了90个存构造函数大小写错误漏洞的合约代码，其中交易量最高的10个合约情况如下：<br><img src="http://static.zybuluo.com/LoRexxar/zqar0nfpu38j9eakx5iclyeh/image.png" alt="image.png-294.7kB"></p>
+<p>截止2018年8月10日为止，我们发现了90个存构造函数大小写错误漏洞的合约代码，其中交易量最高的10个合约情况如下：<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/zqar0nfpu38j9eakx5iclyeh/image.png" alt="image.png-294.7kB"></p>
 <h3 id="构造函数编码问题"><a href="#构造函数编码问题" class="headerlink" title="构造函数编码问题"></a>构造函数编码问题</h3><p>截止2018年8月10日为止，我们发现了24个存在构造函数书写问题的合约代码，比2018年7月14日对该漏洞应急时只多了一个合约，其中交易量最高的10个合约情况如下：</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/a8s5awhte8a2ah5cfx6s7kk4/image.png" alt="image.png-309.6kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/a8s5awhte8a2ah5cfx6s7kk4/image.png" alt="image.png-309.6kB"></p>
 <h1 id="四、修复方式"><a href="#四、修复方式" class="headerlink" title="四、修复方式"></a>四、修复方式</h1><h2 id="1）transfer函数中应触发Tranfser事件"><a href="#1）transfer函数中应触发Tranfser事件" class="headerlink" title="1）transfer函数中应触发Tranfser事件"></a>1）transfer函数中应触发Tranfser事件</h2><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> transfer(address _<span class="keyword">to</span>, uint256 _<span class="keyword">value</span>) public returns (bool) &#123;</span><br><span class="line">  require(_<span class="keyword">value</span> &lt;= balances[msg.sender]);</span><br><span class="line">  require(_<span class="keyword">to</span> != address(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">  balances[msg.sender] = balances[msg.sender].sub(_<span class="keyword">value</span>);</span><br><span class="line">  balances[_<span class="keyword">to</span>] = balances[_<span class="keyword">to</span>].add(_<span class="keyword">value</span>);</span><br><span class="line">  emit Transfer(msg.sender, _<span class="keyword">to</span>, _<span class="keyword">value</span>);</span><br><span class="line">  <span class="keyword">return</span><span class="built_in"> true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="2）approve函数中应触发Approval事件"><a href="#2）approve函数中应触发Approval事件" class="headerlink" title="2）approve函数中应触发Approval事件"></a>2）approve函数中应触发Approval事件</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function approve(address <span class="emphasis">_spender, uint256 _</span>value) public returns (bool) &#123;</span><br><span class="line">  allowed[<span class="string">msg.sender</span>][<span class="symbol">_spender</span>] = _value;</span><br><span class="line">  emit Approval(msg.sender, <span class="emphasis">_spender, _</span>value);</span><br><span class="line">  return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -522,7 +522,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2018/08/14/haotian-s-1/">https://lorexxar.cn/2018/08/14/haotian-s-1/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2018/08/14/haotian-s-1/">August 14th 2018, 4:24:18 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2018/08/14/haotian-s-1/">August 14th 2018, 4:27:38 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2018/08/14/haotian-s-1/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

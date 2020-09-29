@@ -26,33 +26,33 @@
 <meta property="og:url" content="https://lorexxar.cn/2019/02/22/wordpress-core-rce/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="2月20号，RIPS团队在官网公开了一篇WordPress 5.0.0 Remote Code Execution，CVE编号CVE-2019-6977，文章中主要提到在author权限账号下，可以通过修改Post Meta变量覆盖、目录穿越写文件、模板包含3个漏洞构成一个RCE漏洞。 但在原文中，作者只大致描述了漏洞原理，其中大量的漏洞细节被省略，甚至部分的利用和后端服务器也有相当的关系，所以在">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/cgozqid346cirpalfry3ps7u/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/1ca2bjtbmdqt7tl0nz29mvw7/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/ijdgvyjrcqro2xztcgh3vzx8/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/hv1kgjeri5635k7xvvs9lxyz/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/bd22pbm6mqco49wpxebzffkz/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/4vinea9b84p46a7x9b0dfrbh/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/n122ebgtgw29ok5c1xexcf96/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/awrqpa9v86f67jpwzfioboca/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/qshmsr5bhwgv6oh8232y78mz/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/8q9zr6dncxgx2m1qveoj314y/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/2qo07680pzpjefwsazm4skz3/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/oo5no9pcj30vbls8bjlrvjuo/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/uh1kcrii5y44x7h7sznlg364/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/ijdgvyjrcqro2xztcgh3vzx8/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/q6jvrurv2py511a9wrh7yfcy/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/y9gg131ytcofxp5fwuenh6a4/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/z9nj4y67noznrwfif1blzemy/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/b9ts2st95rjlsha8rbafo732/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/b1rilg2yyu8mc7saqrnt63ps/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/cltz55rpzevjwlp8i185zwgv/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/6k5itquevd8mlbkxbk1gyqb1/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/cgozqid346cirpalfry3ps7u/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/1ca2bjtbmdqt7tl0nz29mvw7/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ijdgvyjrcqro2xztcgh3vzx8/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/hv1kgjeri5635k7xvvs9lxyz/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/bd22pbm6mqco49wpxebzffkz/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/4vinea9b84p46a7x9b0dfrbh/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/n122ebgtgw29ok5c1xexcf96/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/awrqpa9v86f67jpwzfioboca/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/qshmsr5bhwgv6oh8232y78mz/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/8q9zr6dncxgx2m1qveoj314y/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2qo07680pzpjefwsazm4skz3/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/oo5no9pcj30vbls8bjlrvjuo/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/uh1kcrii5y44x7h7sznlg364/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ijdgvyjrcqro2xztcgh3vzx8/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/q6jvrurv2py511a9wrh7yfcy/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/y9gg131ytcofxp5fwuenh6a4/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/z9nj4y67noznrwfif1blzemy/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/b9ts2st95rjlsha8rbafo732/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/b1rilg2yyu8mc7saqrnt63ps/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/cltz55rpzevjwlp8i185zwgv/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/6k5itquevd8mlbkxbk1gyqb1/image.png">
 <meta property="article:published_time" content="2019-02-22T07:44:58.000Z">
-<meta property="article:modified_time" content="2019-02-22T09:07:08.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.970Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="rce">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/cgozqid346cirpalfry3ps7u/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/cgozqid346cirpalfry3ps7u/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -472,24 +472,24 @@ height:50vh;
 <p>其中，原文提到只影响release 5.0.0版，但现在官网上可以下载的5.0.0已经修复该漏洞。实际在WordPress 5.1-alpha-44280更新后未更新的4.9.9~5.0.0的WordPress都受到该漏洞影响。</p>
 <h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>下面的复现流程包含部分独家利用以及部分与原文不符的利用方式，后面的详情会解释原因。</p>
 <p>传图片</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/cgozqid346cirpalfry3ps7u/image.png" alt="image.png-112.5kB"></p>
-<p>改信息<br><img src="http://static.zybuluo.com/LoRexxar/1ca2bjtbmdqt7tl0nz29mvw7/image.png" alt="image.png-1728.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/cgozqid346cirpalfry3ps7u/image.png" alt="image.png-112.5kB"></p>
+<p>改信息<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/1ca2bjtbmdqt7tl0nz29mvw7/image.png" alt="image.png-1728.4kB"></p>
 <p>保留该数据包，并添加POST</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;meta_input[_wp_attached_file]=<span class="number">2019</span>/<span class="number">02</span>/<span class="number">2</span><span class="number">-4.</span>jpg#/../../../../themes/twentynineteen/<span class="number">32.</span>jpg</span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/ijdgvyjrcqro2xztcgh3vzx8/image.png" alt="image.png-273.4kB"></p>
-<p>裁剪<br><img src="http://static.zybuluo.com/LoRexxar/hv1kgjeri5635k7xvvs9lxyz/image.png" alt="image.png-762.6kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ijdgvyjrcqro2xztcgh3vzx8/image.png" alt="image.png-273.4kB"></p>
+<p>裁剪<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/hv1kgjeri5635k7xvvs9lxyz/image.png" alt="image.png-762.6kB"></p>
 <p>同理保留改数据包，并将POST改为下面的操作，其中nonce以及id不变</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action=crop-image&amp;_ajax_nonce=<span class="number">8</span>c2f0c9e6b&amp;id=<span class="number">74</span>&amp;cropDetails[x1]=<span class="number">10</span>&amp;cropDetails[y1]=<span class="number">10</span>&amp;cropDetails[width]=<span class="number">10</span>&amp;cropDetails[height]=<span class="number">10</span>&amp;cropDetails[dst_width]=<span class="number">100</span>&amp;cropDetails[dst_height]=<span class="number">100</span></span><br></pre></td></tr></table></figure>
 
-<p>触发需要的裁剪<br><img src="http://static.zybuluo.com/LoRexxar/bd22pbm6mqco49wpxebzffkz/image.png" alt="image.png-240.4kB"></p>
-<p>图片已经过去了<br><img src="http://static.zybuluo.com/LoRexxar/4vinea9b84p46a7x9b0dfrbh/image.png" alt="image.png-112.6kB"></p>
+<p>触发需要的裁剪<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/bd22pbm6mqco49wpxebzffkz/image.png" alt="image.png-240.4kB"></p>
+<p>图片已经过去了<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/4vinea9b84p46a7x9b0dfrbh/image.png" alt="image.png-112.6kB"></p>
 <p>包含，我们选择上传一个test.txt，然后再次修改信息，如前面</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&amp;meta_input[_wp_page_template]=cropped-32.jpg</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/n122ebgtgw29ok5c1xexcf96/image.png" alt="image.png-271kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/n122ebgtgw29ok5c1xexcf96/image.png" alt="image.png-271kB"></p>
 <p>点击查看附件页面，如果图片被裁剪之后仍保留敏感代码，则命令执行成功。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/awrqpa9v86f67jpwzfioboca/image.png" alt="image.png-52.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/awrqpa9v86f67jpwzfioboca/image.png" alt="image.png-52.9kB"></p>
 <h1 id="详细分析"><a href="#详细分析" class="headerlink" title="详细分析"></a>详细分析</h1><p>下面我们详细分析一下整个利用过程，以及在各个部分踩的坑。我们可以简单的把漏洞利用链分为4个大部分。</p>
 <p>1、通过Post Meta变量覆盖，修改媒体库中图片的<code>_wp_attached_file</code>变量。</p>
 <p>这个漏洞是整个利用链的核心点，而wordpress的修复方式也主要是先修复了这个漏洞。wordpress很良心的在所有的release版本中都修复了这个问题（官网下载的5.0.0已经修复了），由于原文中曾提到整个利用链受到4.9.9和5.0.1的另一个安全补丁影响，所以只有5.0.0受影响。在分析还原Wordpress的更新commit中，我们寻找到了这个漏洞的修复commit，并获得了受该漏洞影响的最新版本为<a href="https://github.com/WordPress/WordPress/commit/43bdb0e193955145a5ab1137890bb798bce5f0d2" target="_blank" rel="noopener">WordPress commit &lt;= 43bdb0e193955145a5ab1137890bb798bce5f0d2 （WordPress 5.1-alpha-44280）</a></p>
@@ -518,7 +518,7 @@ height:50vh;
 <p>最后通过链接上述4个流程，我们就可以完整的利用这个漏洞了，接下来我们详细分析一下。</p>
 <h2 id="Post-Meta变量覆盖"><a href="#Post-Meta变量覆盖" class="headerlink" title="Post Meta变量覆盖"></a>Post Meta变量覆盖</h2><p>当你对你上传的图片，编辑修改其信息时，你将会触发<code>action=edit_post</code></p>
 <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wp-admin/includes/<span class="built_in">post</span>.php <span class="built_in">line</span> <span class="number">208</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://static.zybuluo.com/LoRexxar/qshmsr5bhwgv6oh8232y78mz/image.png" alt="image.png-12.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/qshmsr5bhwgv6oh8232y78mz/image.png" alt="image.png-12.5kB"></p>
 <p>post data来自于POST</p>
 <p>如果是修复过的，在line 275行有修复patch</p>
 <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$tra</span>nslated = _wp_get_allowed_postdata( <span class="symbol">$post</span>_data );</span><br></pre></td></tr></table></figure>
@@ -528,12 +528,12 @@ height:50vh;
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_wp_get_allowed_postdata</span><span class="params">( $post_data = null )</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ( <span class="keyword">empty</span>( $post_data ) ) &#123;</span><br><span class="line">		$post_data = $_POST;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Pass through errors</span></span><br><span class="line">	<span class="keyword">if</span> ( is_wp_error( $post_data ) ) &#123;</span><br><span class="line">		<span class="keyword">return</span> $post_data;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> array_diff_key( $post_data, array_flip( <span class="keyword">array</span>( <span class="string">'meta_input'</span>, <span class="string">'file'</span>, <span class="string">'guid'</span> ) ) );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>一路跟下去这个函数可以一直跟到<code>wp-includes/post.php line 3770</code></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/8q9zr6dncxgx2m1qveoj314y/image.png" alt="image.png-13.7kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/8q9zr6dncxgx2m1qveoj314y/image.png" alt="image.png-13.7kB"></p>
 <p><code>update_post_meta</code>会把所有字段遍历更新</p>
-<p>就会更新数据库中的相应字段<br><img src="http://static.zybuluo.com/LoRexxar/2qo07680pzpjefwsazm4skz3/image.png" alt="image.png-58.5kB"></p>
+<p>就会更新数据库中的相应字段<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2qo07680pzpjefwsazm4skz3/image.png" alt="image.png-58.5kB"></p>
 <h2 id="配合变量覆盖来目录穿越写文件"><a href="#配合变量覆盖来目录穿越写文件" class="headerlink" title="配合变量覆盖来目录穿越写文件"></a>配合变量覆盖来目录穿越写文件</h2><p>根据原文的描述，我们首先需要找到相应的裁剪函数</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/wp-admin/includes/<span class="built_in">image</span>.php <span class="built_in">line</span> <span class="number">25</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://static.zybuluo.com/LoRexxar/oo5no9pcj30vbls8bjlrvjuo/image.png" alt="image.png-92.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/oo5no9pcj30vbls8bjlrvjuo/image.png" alt="image.png-92.5kB"></p>
 <p>这里传入的变量src就是从修改过的<code>_wp_attached_file</code>而来。</p>
 <p>在代码中，我们可以很轻易的验证一个问题。<strong>在WordPress的设定中，图片路径可能会受到某个插件的影响而不存在，如果目标图片不在想要的路径下时，WordPress就会把文件路径拼接为形似<a href="http://127.0.0.1/wp-content/uploads/2019/02/2.jpg" target="_blank" rel="noopener">http://127.0.0.1/wp-content/uploads/2019/02/2.jpg</a> 的url链接，然后从url访问下载原图</strong></p>
 <p>这里的<code>_load_image_to_edit_path</code>就是用来完成这个操作的。</p>
@@ -544,7 +544,7 @@ height:50vh;
 <p>后面的save函数会调用你当前图片库的裁剪功能，生成图片结果。（默认为imagick）</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">wp</span>-includes/class-<span class="keyword">wp</span>-image-editor.php <span class="built_in">line</span> <span class="number">394</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/uh1kcrii5y44x7h7sznlg364/image.png" alt="image.png-67.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/uh1kcrii5y44x7h7sznlg364/image.png" alt="image.png-67.9kB"></p>
 <p>但这里看上去没有任何限制，实际上不是的。在写入的目标目录下，存在一个假目录，为<code>1.jpg?</code></p>
 <ul>
 <li><strong>而linux、mac支持这种假目录，可以使用?号</strong></li>
@@ -558,11 +558,11 @@ height:50vh;
 <h2 id="控制模板参数来导致任意文件包含"><a href="#控制模板参数来导致任意文件包含" class="headerlink" title="控制模板参数来导致任意文件包含"></a>控制模板参数来导致任意文件包含</h2><p>进度进展到这就有点儿陷入僵局，因为原文中关于这部分只用了一句话带过，在实际利用的过程中遇到了很多问题，甚至不同版本的wordpress会有不同的表现，其中诞生了多种利用方式，这里我主要讲1种稳定利用的方式。</p>
 <h3 id="设置-wp-page-template"><a href="#设置-wp-page-template" class="headerlink" title="设置_wp_page_template"></a>设置<code>_wp_page_template</code></h3><p>首先我们先正向分析，看看在什么情况下我们可以设置<code>_wp_page_template</code></p>
 <p>首先可以肯定的是，这个变量和<code>_wp_attached_file</code>一样都属于Post Meta的一部分，可以通过前面的操作来对这个变量赋值</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/ijdgvyjrcqro2xztcgh3vzx8/image.png" alt="image.png-273.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ijdgvyjrcqro2xztcgh3vzx8/image.png" alt="image.png-273.4kB"></p>
 <p>但实际测试过程中，我们发现，我们并不能在任何方式下修改并设置这个值。</p>
 <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/wp-includes/<span class="built_in">post</span>.php <span class="built_in">line</span> <span class="number">3828</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/q6jvrurv2py511a9wrh7yfcy/image.png" alt="image.png-48kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/q6jvrurv2py511a9wrh7yfcy/image.png" alt="image.png-48kB"></p>
 <ul>
 <li>如果你设置了这个值，但这个文件不存在，则会被定义为<code>default</code>。</li>
 <li>如果该值被设置，则没办法通过这种方式修改。</li>
@@ -572,25 +572,25 @@ height:50vh;
 <p>最终加载模板的地方在</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wp-includes/<span class="keyword">template</span>.php <span class="built_in">line</span> <span class="number">634</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/y9gg131ytcofxp5fwuenh6a4/image.png" alt="image.png-58.7kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/y9gg131ytcofxp5fwuenh6a4/image.png" alt="image.png-58.7kB"></p>
 <p>只要是在<code>$template_names</code>中需要被加载的文件名，会在当前主题的目录下遍历加载。</p>
 <p>回溯跟入</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wp-includes/<span class="keyword">template</span>.php <span class="built_in">line</span> <span class="number">23</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://static.zybuluo.com/LoRexxar/z9nj4y67noznrwfif1blzemy/image.png" alt="image.png-60.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/z9nj4y67noznrwfif1blzemy/image.png" alt="image.png-60.9kB"></p>
 <p>继续回溯我们就能发现一些端倪，当你访问页面的时候，页面会通过你访问的页面属性，调用不同的模板加载函数。</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wp-includes/<span class="keyword">template</span>-loader.php <span class="built_in">line</span> <span class="number">48</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://static.zybuluo.com/LoRexxar/b9ts2st95rjlsha8rbafo732/image.png" alt="image.png-81.7kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/b9ts2st95rjlsha8rbafo732/image.png" alt="image.png-81.7kB"></p>
 <p>在这么多的模板调用函数中只有两个函数<code>get_page_template</code>和<code>get_single_template</code>这两个在函数中调用了<code>get_page_template_slug</code>函数。</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wp-includes/<span class="keyword">template</span>.php <span class="built_in">line</span> <span class="number">486</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/b1rilg2yyu8mc7saqrnt63ps/image.png" alt="image.png-54.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/b1rilg2yyu8mc7saqrnt63ps/image.png" alt="image.png-54.5kB"></p>
 <p>而<code>get_page_template_slug</code>函数从数据库中获取了<code>_wp_page_template</code>值</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/wp-includes/post-<span class="keyword">template</span>.php <span class="built_in">line</span> <span class="number">1755</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/cltz55rpzevjwlp8i185zwgv/image.png" alt="image.png-30.1kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/cltz55rpzevjwlp8i185zwgv/image.png" alt="image.png-30.1kB"></p>
 <p>只要我们能让模板加载时进入<code>get_page_template</code>或<code>get_single_template</code>，我们的模板就可以成功被包含。</p>
 <p>由于代码和前端的差异，我们也没有完全找到触发的条件是什么，这里选了一个最简单的，即上传一个txt文件在资源库，然后编辑信息并预览。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/6k5itquevd8mlbkxbk1gyqb1/image.png" alt="image.png-118.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/6k5itquevd8mlbkxbk1gyqb1/image.png" alt="image.png-118.4kB"></p>
 <h2 id="生成图片马"><a href="#生成图片马" class="headerlink" title="生成图片马"></a>生成图片马</h2><p>这部分就涉及到了后端图片库的问题，WordPress用到的后端图片处理库有两个，gd和imagick，其中默认优先使用imagick做处理。</p>
 <ul>
 <li><p>imagick<br>利用稍微比较简单，imagick不会处理图片中的exif部分。将敏感代码加入到exif部分就可以不会改动。</p>
@@ -613,7 +613,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2019/02/22/wordpress-core-rce/">https://lorexxar.cn/2019/02/22/wordpress-core-rce/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2019/02/22/wordpress-core-rce/">February 22nd 2019, 3:44:58 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2019/02/22/wordpress-core-rce/">February 22nd 2019, 5:07:08 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2019/02/22/wordpress-core-rce/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

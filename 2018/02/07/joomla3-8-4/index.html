@@ -26,35 +26,35 @@
 <meta property="og:url" content="https://lorexxar.cn/2018/02/07/joomla3-8-4/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="2018年1月30日，joomla更新了3.8.4版本，这次更新修复了4个安全漏洞，以及上百个bug修复。 https:&#x2F;&#x2F;www.joomla.org&#x2F;announcements&#x2F;release-news&#x2F;5723-joomla-3-8-4-release.html 为了漏洞应急这几个漏洞，我花费了大量的时间分析漏洞成因、寻找漏洞触发位置、回溯逻辑，下面的文章比起漏洞分析来说，更接近我思考的思路">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/eo8ih0686tme2c9i1vnn7so9/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/q7f7zy4z7nunlxzvev35oqvs/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/7nmou7dh3uivdg645hattsgi/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/40o6vrf2b4v1me2sch4b2m90/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/8yq9o0c5v997525ysu1mblb8/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/2vaampsksds8za4utzxoxkw3/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/b05913bekg7574m69o3y9jdt/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/vclviz1fgwz2p6cchmfo9rih/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/dkvxqxctwwb0stwo1n2790h5/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/dmi9fce5zw3solpqth24t3u1/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/43nr2wr5rxi2q1iq4yfug9lx/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/fufwrgbek6l4ptax45axxd6s/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/ujdc5omxwakv59xvkkjuvyqm/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/j8aq2nlhdkzhc744kud40jur/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/zx2amhrhlkmoh5lj82prkj6l/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/7x3h6n5xr060jry19sk22i20/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/h7skxub2nvrmtinmpvmrx9aa/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/gcq2hg7mbqlvibo39afvu2o5/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/mnmsg7fhb6hwjm56r65ed5jq/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/zw2ohjczh3fec8sru3c745a9/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/vzrrwbjibfek4hccomqoyq8n/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/eo8ih0686tme2c9i1vnn7so9/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/q7f7zy4z7nunlxzvev35oqvs/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/7nmou7dh3uivdg645hattsgi/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/40o6vrf2b4v1me2sch4b2m90/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/8yq9o0c5v997525ysu1mblb8/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2vaampsksds8za4utzxoxkw3/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/b05913bekg7574m69o3y9jdt/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/vclviz1fgwz2p6cchmfo9rih/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/dkvxqxctwwb0stwo1n2790h5/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/dmi9fce5zw3solpqth24t3u1/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/43nr2wr5rxi2q1iq4yfug9lx/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/fufwrgbek6l4ptax45axxd6s/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ujdc5omxwakv59xvkkjuvyqm/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/j8aq2nlhdkzhc744kud40jur/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/zx2amhrhlkmoh5lj82prkj6l/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/7x3h6n5xr060jry19sk22i20/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/h7skxub2nvrmtinmpvmrx9aa/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/gcq2hg7mbqlvibo39afvu2o5/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/mnmsg7fhb6hwjm56r65ed5jq/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/zw2ohjczh3fec8sru3c745a9/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/vzrrwbjibfek4hccomqoyq8n/image.png">
 <meta property="article:published_time" content="2018-02-07T03:12:04.000Z">
-<meta property="article:modified_time" content="2018-02-07T03:13:18.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.940Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="sqli">
 <meta property="article:tag" content="xss">
 <meta property="article:tag" content="漏洞分析">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/eo8ih0686tme2c9i1vnn7so9/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/eo8ih0686tme2c9i1vnn7so9/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -478,15 +478,15 @@ height:50vh;
 
 <h2 id="补丁分析"><a href="#补丁分析" class="headerlink" title="补丁分析"></a>补丁分析</h2><p>第一个漏洞说的比较明白，是说在Hathor的postinstall信息处，由于错误的类型转换导致了注入漏洞。</p>
 <p>我们来看看相应的补丁</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/eo8ih0686tme2c9i1vnn7so9/image.png" alt="image.png-107.3kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/eo8ih0686tme2c9i1vnn7so9/image.png" alt="image.png-107.3kB"></p>
 <p>符合漏洞描述的点就是这里，原来的取第一位改为了对取出信息做强制类型转换，然后拼接入sql语句。</p>
 <p>这里假设我们可以控制<code>$adminstyle</code>，如果我们通过传入数组的方式设置该变量为数组格式，并且第1个字符串可控，那么这里就是一个可以成立的漏洞点。</p>
 <p>现在我们需要找到这个功能的位置，并且回溯变量判断是否可控。</p>
 <h2 id="找到漏洞位置"><a href="#找到漏洞位置" class="headerlink" title="找到漏洞位置"></a>找到漏洞位置</h2><p>hathor是joomla自带的两个后台模板之一，由于hathor更新迭代没有isis快，部分功能会缺失，所以在安装完成之后，joomla的模板为isis，我们需要手动设置该部分。</p>
 <figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T<span class="function"><span class="title">emplates</span>-&gt;</span><span class="function"><span class="title">styles</span>-&gt;</span><span class="function"><span class="title">adminnistrator</span>-&gt;</span>hathor</span><br></pre></td></tr></table></figure>
-<p><img src="http://static.zybuluo.com/LoRexxar/q7f7zy4z7nunlxzvev35oqvs/image.png" alt="image.png-51.3kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/q7f7zy4z7nunlxzvev35oqvs/image.png" alt="image.png-51.3kB"></p>
 <p>修改完成后回到首页，右边就是postinstallation message</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/7nmou7dh3uivdg645hattsgi/image.png" alt="image.png-81.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/7nmou7dh3uivdg645hattsgi/image.png" alt="image.png-81.9kB"></p>
 <h2 id="回溯漏洞"><a href="#回溯漏洞" class="headerlink" title="回溯漏洞"></a>回溯漏洞</h2><p>回到代码中，我们需要找到<code>$adminstyle</code>这个变量进入的地方。</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$adminstyle</span> = <span class="variable">$user</span>-&gt;getParam(<span class="string">'admin_style'</span>, <span class="string">''</span>);</span><br></pre></td></tr></table></figure>
 
@@ -498,54 +498,54 @@ height:50vh;
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">libraries/vendor/joomla/registry/src/Registry.php line <span class="number">201</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span><span class="params">($path, $default = null)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">// Return default value if path is empty</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">empty</span>($path))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> $default;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (!strpos($path, <span class="keyword">$this</span>-&gt;separator))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> (<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;data-&gt;$path) &amp;&amp; <span class="keyword">$this</span>-&gt;data-&gt;$path !== <span class="keyword">null</span> &amp;&amp; <span class="keyword">$this</span>-&gt;data-&gt;$path !== <span class="string">''</span>) ? <span class="keyword">$this</span>-&gt;data-&gt;$path : $default;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Explode the registry path into an array</span></span><br><span class="line">		$nodes = explode(<span class="keyword">$this</span>-&gt;separator, trim($path));</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Initialize the current node to be the registry root.</span></span><br><span class="line">		$node = <span class="keyword">$this</span>-&gt;data;</span><br><span class="line">		$found = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Traverse the registry to find the correct node for the result.</span></span><br><span class="line">		<span class="keyword">foreach</span> ($nodes <span class="keyword">as</span> $n)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (is_array($node) &amp;&amp; <span class="keyword">isset</span>($node[$n]))</span><br><span class="line">			&#123;</span><br><span class="line">				$node = $node[$n];</span><br><span class="line">				$found = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (!<span class="keyword">isset</span>($node-&gt;$n))</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> $default;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			$node = $node-&gt;$n;</span><br><span class="line">			$found = <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (!$found || $node === <span class="keyword">null</span> || $node === <span class="string">''</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> $default;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> $node;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
 <p>根据这里的调用方式来看，这里会通过这里的的判断获取是否存在adminstyle，如果没有则会返回default(这里为空)</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/40o6vrf2b4v1me2sch4b2m90/image.png" alt="image.png-127kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/40o6vrf2b4v1me2sch4b2m90/image.png" alt="image.png-127kB"></p>
 <p>接着回溯<code>$this-&gt;data</code>,data来自<code>$this-&gt;data = new \stdClass;</code></p>
 <p>回溯到这里可以发现<code>$admin_style</code>的地方是从全局变量中中读取的。</p>
 <p>默认设置为空<code>/administrator/components/com_users/models/forms/user.xml</code></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/8yq9o0c5v997525ysu1mblb8/image.png" alt="image.png-86.2kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/8yq9o0c5v997525ysu1mblb8/image.png" alt="image.png-86.2kB"></p>
 <p>但我们是可以设置这个的</p>
 <p>后台<code>users-&gt;users-&gt;super user</code>设置，右边我们可以设置当前账户使用的后台模板，将右边修改为使用hathor型模板。</p>
 <p>通过抓包我们可以发现，这里显式的设置了当前账户的<code>admin_type</code>，这样如果我们通过传入数组，就可以设置<code>admin_type</code>为任意值</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/2vaampsksds8za4utzxoxkw3/image.png" alt="image.png-121.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2vaampsksds8za4utzxoxkw3/image.png" alt="image.png-121.5kB"></p>
 <p>然后进入代码中的数据库操作<br><code>/administrator/templates/hathor/postinstall/hathormessage.php function hathormessage_postinstall_condition</code></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/b05913bekg7574m69o3y9jdt/image.png" alt="image.png-131.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/b05913bekg7574m69o3y9jdt/image.png" alt="image.png-131.4kB"></p>
 <p>访问post_install页面触发</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/vclviz1fgwz2p6cchmfo9rih/image.png" alt="image.png-20kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/vclviz1fgwz2p6cchmfo9rih/image.png" alt="image.png-20kB"></p>
 <h1 id="XSS-vulnerability-in-com-fields"><a href="#XSS-vulnerability-in-com-fields" class="headerlink" title="XSS vulnerability in com_fields"></a>XSS vulnerability in com_fields</h1><p><a href="https://developer.joomla.org/security-centre/720-20180102-core-xss-vulnerability.html" target="_blank" rel="noopener">https://developer.joomla.org/security-centre/720-20180102-core-xss-vulnerability.html</a></p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Description</span></span><br><span class="line"><span class="selector-tag">Inadequate</span> <span class="selector-tag">input</span> <span class="selector-tag">filtering</span> <span class="selector-tag">in</span> <span class="selector-tag">com_fields</span> <span class="selector-tag">leads</span> <span class="selector-tag">to</span> <span class="selector-tag">a</span> <span class="selector-tag">XSS</span> <span class="selector-tag">vulnerability</span> <span class="selector-tag">in</span> <span class="selector-tag">multiple</span> <span class="selector-tag">field</span> <span class="selector-tag">types</span>, <span class="selector-tag">i</span><span class="selector-class">.e</span>. <span class="selector-tag">list</span>, <span class="selector-tag">radio</span> <span class="selector-tag">and</span> <span class="selector-tag">checkbox</span>.</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">Affected</span> <span class="selector-tag">Installs</span></span><br><span class="line"><span class="selector-tag">Joomla</span>! <span class="selector-tag">CMS</span> <span class="selector-tag">versions</span> 3<span class="selector-class">.7</span><span class="selector-class">.0</span> <span class="selector-tag">through</span> 3<span class="selector-class">.8</span><span class="selector-class">.3</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="补丁分析-1"><a href="#补丁分析-1" class="headerlink" title="补丁分析"></a>补丁分析</h2><p><img src="http://static.zybuluo.com/LoRexxar/dkvxqxctwwb0stwo1n2790h5/image.png" alt="image.png-40.5kB"></p>
+<h2 id="补丁分析-1"><a href="#补丁分析-1" class="headerlink" title="补丁分析"></a>补丁分析</h2><p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/dkvxqxctwwb0stwo1n2790h5/image.png" alt="image.png-40.5kB"></p>
 <p>漏洞详情写了很多，反而是补丁比较模糊，我们可以大胆猜测下，当插入的字段类型为list、radio、checkbox多出的部分变量没有经过转义</p>
 <p>首先我们需要先找到触发点</p>
 <p>后台<code>content-&gt;fields-&gt;new</code>，然后设置type为<code>radio</code>，在键名处加入相应的payload</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/dmi9fce5zw3solpqth24t3u1/image.png" alt="image.png-40.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/dmi9fce5zw3solpqth24t3u1/image.png" alt="image.png-40.4kB"></p>
 <p>然后保存新建文章</p>
-<p>![EH@9IYLOQ8LNR_XN{P`A8DP.png-73.3kB]<a href="http://static.zybuluo.com/LoRexxar/l5ucf3zr5hyjx0c1ezfthzec/EH@9IYLOQ8LNR_XN%7BP%60A8DP.png" target="_blank" rel="noopener">11</a></p>
+<p>![EH@9IYLOQ8LNR_XN{P`A8DP.png-73.3kB]<a href="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/l5ucf3zr5hyjx0c1ezfthzec/EH@9IYLOQ8LNR_XN%7BP%60A8DP.png" target="_blank" rel="noopener">11</a></p>
 <p>成功触发</p>
 <h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>由于补丁修复的方式比较特殊，可以猜测是在某些部分调用时使用了textContent而不是nodeValue，在分析变量时以此为重点。</p>
 <p>漏洞的出发点<code>/administrator/components/com_fields/libraries/fieldslistplugin.php line 31</code></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/43nr2wr5rxi2q1iq4yfug9lx/image.png" alt="image.png-220.2kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/43nr2wr5rxi2q1iq4yfug9lx/image.png" alt="image.png-220.2kB"></p>
 <p>由于找不到该方法的调用点，所以我们从触发漏洞的点分析流程。</p>
 <p>编辑文章的上边栏是通过<code>administrator/components/com_content/views/article/tmp/edit.php line 99</code>载入的</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/fufwrgbek6l4ptax45axxd6s/image.png" alt="image.png-127.2kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/fufwrgbek6l4ptax45axxd6s/image.png" alt="image.png-127.2kB"></p>
 <p>这里<code>JLayoutHelper:render</code>会进入<code>/layouts/joomla/edit/params.php</code></p>
 <p>然后在129行进入<code>JLayoutHelper::render(&#39;joomla.edit.fieldset&#39;, $displayData);</code></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/ujdc5omxwakv59xvkkjuvyqm/image.png" alt="image.png-111.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ujdc5omxwakv59xvkkjuvyqm/image.png" alt="image.png-111.5kB"></p>
 <p>跟入<code>/layouts/joomla/edit/fieldset.php line 16</code>，代码在这里通过执行<code>form</code>的<code>getFieldset</code>获取了提交的自定义字段信息。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/j8aq2nlhdkzhc744kud40jur/image.png" alt="image.png-60.2kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/j8aq2nlhdkzhc744kud40jur/image.png" alt="image.png-60.2kB"></p>
 <p>跟入<code>/libraries/src/Form/Form.php line 329 function getFieldset</code></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/zx2amhrhlkmoh5lj82prkj6l/image.png" alt="image.png-118.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/zx2amhrhlkmoh5lj82prkj6l/image.png" alt="image.png-118.8kB"></p>
 <p>跟如1683行 <code>findFieldsByFieldset</code>函数。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/7x3h6n5xr060jry19sk22i20/image.png" alt="image.png-242.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/7x3h6n5xr060jry19sk22i20/image.png" alt="image.png-242.5kB"></p>
 <p>这里调用xml来获取数据，从全局的xml变量中匹配。</p>
 <p>这里的全局变量中的xml中的option字段就来自于设置时的<code>$option-&gt;textContent</code>，而只有<code>list, radio and checkbox.</code>这三种是通过这里的函数做处理，其中list比较特殊，在后面的处理过程中，list类型的自定义字段会在<code>/libraries/cms/html/select.php line 742 function  options</code>被二次处理，但radio不会，所以漏洞存在。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/h7skxub2nvrmtinmpvmrx9aa/image.png" alt="image.png-82.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/h7skxub2nvrmtinmpvmrx9aa/image.png" alt="image.png-82.4kB"></p>
 <p>整个xss漏洞从插入到触发限制都比较大，实战价值较低。</p>
 <h1 id="XSS-vulnerability-in-Uri-class"><a href="#XSS-vulnerability-in-Uri-class" class="headerlink" title="XSS vulnerability in Uri class"></a>XSS vulnerability in Uri class</h1><p><a href="https://developer.joomla.org/security-centre/721-20180103-core-xss-vulnerability.html" target="_blank" rel="noopener">https://developer.joomla.org/security-centre/721-20180103-core-xss-vulnerability.html</a></p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Description</span></span><br><span class="line"><span class="selector-tag">Inadequate</span> <span class="selector-tag">input</span> <span class="selector-tag">filtering</span> <span class="selector-tag">in</span> <span class="selector-tag">the</span> <span class="selector-tag">Uri</span> <span class="selector-tag">class</span> (<span class="selector-tag">formerly</span> <span class="selector-tag">JUri</span>) <span class="selector-tag">leads</span> <span class="selector-tag">to</span> <span class="selector-tag">a</span> <span class="selector-tag">XSS</span> <span class="selector-tag">vulnerability</span>.</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">Affected</span> <span class="selector-tag">Installs</span></span><br><span class="line"><span class="selector-tag">Joomla</span>! <span class="selector-tag">CMS</span> <span class="selector-tag">versions</span> 1<span class="selector-class">.5</span><span class="selector-class">.0</span> <span class="selector-tag">through</span> 3<span class="selector-class">.8</span><span class="selector-class">.3</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="补丁分析-2"><a href="#补丁分析-2" class="headerlink" title="补丁分析"></a>补丁分析</h2><p>比起其他几个来说，这里的漏洞就属于特别清晰的，就是在获取系统变量时，没做相应的过滤。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/gcq2hg7mbqlvibo39afvu2o5/image.png" alt="image.png-33.1kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/gcq2hg7mbqlvibo39afvu2o5/image.png" alt="image.png-33.1kB"></p>
 <p>前台触发方式特别简单，因为这里的<code>script_name</code>是获取基础url路径的，会拼接进所有页面的和链接有关系的地方，包括js或者css的引入。</p>
 <h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>让我们来看看完整的代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (strpos(php_sapi_name(), <span class="string">'cgi'</span>) !== <span class="keyword">false</span> &amp;&amp; !ini_get(<span class="string">'cgi.fix_pathinfo'</span>) &amp;&amp; !<span class="keyword">empty</span>($_SERVER[<span class="string">'REQUEST_URI'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// PHP-CGI on Apache with "cgi.fix_pathinfo = 0"</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case</span></span><br><span class="line">	<span class="comment">// because PHP will not work with PATH_INFO at all.</span></span><br><span class="line">	$script_name = $_SERVER[<span class="string">'PHP_SELF'</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// Others</span></span><br><span class="line">	$script_name = $_SERVER[<span class="string">'SCRIPT_NAME'</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span>::$base[<span class="string">'path'</span>] = rtrim(dirname($script_name), <span class="string">'/\\'</span>);</span><br></pre></td></tr></table></figure>
@@ -555,16 +555,16 @@ height:50vh;
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">http:</span><span class="comment">//127.0.0.1/index.php/&#123;evil_code&#125;/321321</span></span><br><span class="line"></span><br><span class="line">---&gt;</span><br><span class="line"></span><br><span class="line"><span class="symbol">http:</span><span class="comment">//127.0.0.1/index.php</span></span><br></pre></td></tr></table></figure>
 
 <p>当该路径能被正常解析时，<code>http://127.0.0.1/index.php/{evil_code}</code>就会被错误的设置为基础URL拼接入页面中。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/mnmsg7fhb6hwjm56r65ed5jq/image.png" alt="image.png-56kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/mnmsg7fhb6hwjm56r65ed5jq/image.png" alt="image.png-56kB"></p>
 <p>一个无限制的xss就成立了</p>
 <h1 id="XSS-vulnerability-in-module-chromes"><a href="#XSS-vulnerability-in-module-chromes" class="headerlink" title="XSS vulnerability in module chromes"></a>XSS vulnerability in module chromes</h1><p><a href="https://developer.joomla.org/security-centre/718-20180101-core-xss-vulnerability.html" target="_blank" rel="noopener">https://developer.joomla.org/security-centre/718-20180101-core-xss-vulnerability.html</a></p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Description</span><br><span class="line">Lack of escaping <span class="keyword">in</span> the module chromes leads to XSS vulnerabilities <span class="keyword">in</span> the module system.</span><br><span class="line"></span><br><span class="line">Affected Installs</span><br><span class="line">Joomla! CMS versions <span class="number">3.0</span><span class="number">.0</span> through <span class="number">3.8</span><span class="number">.3</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="补丁分析-3"><a href="#补丁分析-3" class="headerlink" title="补丁分析"></a>补丁分析</h2><p><img src="http://static.zybuluo.com/LoRexxar/zw2ohjczh3fec8sru3c745a9/image.png" alt="image.png-57kB"></p>
+<h2 id="补丁分析-3"><a href="#补丁分析-3" class="headerlink" title="补丁分析"></a>补丁分析</h2><p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/zw2ohjczh3fec8sru3c745a9/image.png" alt="image.png-57kB"></p>
 <p>漏洞存在的点比较清楚，修复中将<code>$moduleTag</code>进行了一次转义，同样的地方有三处，但都是同一个变量导致的。</p>
 <p>这个触发也比较简单，当我们把前台模板设置为protostar（默认）时，访问前台就会触发这里的<code>modChrome_well</code>函数。</p>
 <h2 id="漏洞利用-1"><a href="#漏洞利用-1" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>让我们看看完整的代码</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/vzrrwbjibfek4hccomqoyq8n/image.png" alt="image.png-280.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/vzrrwbjibfek4hccomqoyq8n/image.png" alt="image.png-280.4kB"></p>
 <p>很明显后面<code>module_tag</code>没有经过更多处理，就输出了，假设我们可控<code>module_tag</code>，那么漏洞就成立。</p>
 <p>问题在于怎么控制，这里的函数找不到调用的地方，能触发的地方都返回了传入的第二个值，猜测和上面的<code>get_param</code>一样，如果没有设置该变量，则返回<code>default</code>值。</p>
 <p>经过一番研究，并没有找到可控的设置的点，这里只能暂时放弃。</p>
@@ -580,7 +580,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2018/02/07/joomla3-8-4/">https://lorexxar.cn/2018/02/07/joomla3-8-4/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2018/02/07/joomla3-8-4/">February 7th 2018, 11:12:04 am</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2018/02/07/joomla3-8-4/">February 7th 2018, 11:13:18 am</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2018/02/07/joomla3-8-4/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

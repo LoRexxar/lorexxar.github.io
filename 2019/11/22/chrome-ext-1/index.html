@@ -26,21 +26,21 @@
 <meta property="og:url" content="https://lorexxar.cn/2019/11/22/chrome-ext-1/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="在2019年初，微软正式选择了Chromium作为默认浏览器，并放弃edge的发展。并在19年4月8日，Edge正式放出了基于Chromium开发的Edge Dev浏览器，并提供了兼容Chrome Ext的配套插件管理。再加上国内的大小国产浏览器大多都是基于Chromium开发的，Chrome的插件体系越来越影响着广大的人群。 在这种背景下，Chrome Ext的安全问题也应该受到应有的关注，《从">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/nzgv5gqcu7wozh8h1wndaide/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/8gmfcwvyqq68j52zfmxc93dm/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/gkpt8kk0onv1lpr8t69imu1e/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/9pcya60x0xu6nrma9bwtv4kr/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/qf5x6o32xudpq0sgtsbvx114/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/p7xcymx8f4xopfqpj3zgxo9r/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/5mq3khlyrki9rism7fv1waqt/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/94ze7yo02rtpld6l1phqhb9p/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/lktbfrb2jbxevwqlzs1ofor6/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/nzgv5gqcu7wozh8h1wndaide/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/8gmfcwvyqq68j52zfmxc93dm/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/gkpt8kk0onv1lpr8t69imu1e/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/9pcya60x0xu6nrma9bwtv4kr/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/qf5x6o32xudpq0sgtsbvx114/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/p7xcymx8f4xopfqpj3zgxo9r/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/5mq3khlyrki9rism7fv1waqt/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/94ze7yo02rtpld6l1phqhb9p/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/lktbfrb2jbxevwqlzs1ofor6/image.png">
 <meta property="article:published_time" content="2019-11-22T02:48:59.000Z">
-<meta property="article:modified_time" content="2019-11-22T02:54:04.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.902Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="chrome">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/nzgv5gqcu7wozh8h1wndaide/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/nzgv5gqcu7wozh8h1wndaide/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -454,10 +454,10 @@ height:50vh;
 <h1 id="获取一个插件的代码"><a href="#获取一个插件的代码" class="headerlink" title="获取一个插件的代码"></a>获取一个插件的代码</h1><p>Chrome Ext的存在模式类似于在浏览器层新加了一层解释器，在我们访问网页的时候，插件会加载相应的html、js、css，并解释执行。</p>
 <p>所以Chrome Ext的代码也就是html、js、css这类，那我们如何获取插件的代码呢？</p>
 <p>当我们访问扩展程序的页面可以获得相应的插件id</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/nzgv5gqcu7wozh8h1wndaide/image.png" alt="image.png-87.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/nzgv5gqcu7wozh8h1wndaide/image.png" alt="image.png-87.9kB"></p>
 <p>然后我们可以在<a href="https://chrome-extension-downloader.com/" target="_blank" rel="noopener">https://chrome-extension-downloader.com/</a>中下载相应的crx包。</p>
 <p>把crx改名成zip之后解压缩就可以了</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/8gmfcwvyqq68j52zfmxc93dm/image.png" alt="image.png-44.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/8gmfcwvyqq68j52zfmxc93dm/image.png" alt="image.png-44.5kB"></p>
 <h1 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h1><p>在插件的代码中，有一个重要的文件是manifest.json，在manifest.json中包含了整个插件的各种配置，在配置文件中，我们可以找到一个插件最重要的部分。</p>
 <p>首先是比较重要的几个字段</p>
 <ul>
@@ -489,13 +489,13 @@ height:50vh;
 </li>
 </ul>
 <p>在开始Chrome插件的研究之前，除了manifest.json的配置以外，我们还需要了解一下围绕chrome建立的插件结构。</p>
-<h1 id="Chrome-Ext的主要展现方式"><a href="#Chrome-Ext的主要展现方式" class="headerlink" title="Chrome Ext的主要展现方式"></a>Chrome Ext的主要展现方式</h1><h2 id="browserAction-浏览器右上角"><a href="#browserAction-浏览器右上角" class="headerlink" title="browserAction - 浏览器右上角"></a>browserAction - 浏览器右上角</h2><p><img src="http://static.zybuluo.com/LoRexxar/gkpt8kk0onv1lpr8t69imu1e/image.png" alt="image.png-4.3kB"></p>
+<h1 id="Chrome-Ext的主要展现方式"><a href="#Chrome-Ext的主要展现方式" class="headerlink" title="Chrome Ext的主要展现方式"></a>Chrome Ext的主要展现方式</h1><h2 id="browserAction-浏览器右上角"><a href="#browserAction-浏览器右上角" class="headerlink" title="browserAction - 浏览器右上角"></a>browserAction - 浏览器右上角</h2><p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/gkpt8kk0onv1lpr8t69imu1e/image.png" alt="image.png-4.3kB"></p>
 <p>浏览器的右上角点击触发的就是mainfest.json中的<code>browser_action</code></p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"browser_action"</span>: &#123;</span><br><span class="line">     <span class="string">"default_icon"</span>: <span class="string">"img/header.jpg"</span>,</span><br><span class="line">     <span class="string">"default_title"</span>: <span class="string">"LoRexxar Tools"</span>,</span><br><span class="line">     <span class="string">"default_popup"</span>: <span class="string">"popup.html"</span></span><br><span class="line">   &#125;,</span><br></pre></td></tr></table></figure>
 
 <p>其中页面内容来自popup.html</p>
 <h2 id="pageAction"><a href="#pageAction" class="headerlink" title="pageAction"></a>pageAction</h2><p>pageAction和browserAction类似，只不过其中的区别是，pageAction是在满足一定的条件下才会触发的插件，在不触发的情况下会始终保持灰色。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/9pcya60x0xu6nrma9bwtv4kr/image.png" alt="image.png-38.3kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/9pcya60x0xu6nrma9bwtv4kr/image.png" alt="image.png-38.3kB"></p>
 <h2 id="contextMenus-右键菜单"><a href="#contextMenus-右键菜单" class="headerlink" title="contextMenus 右键菜单"></a>contextMenus 右键菜单</h2><p>通过在chrome中调用chrome.contextMenus这个API，我们可以定义在浏览器中的右键菜单。</p>
 <p>当然，要控制这个api首先你必须申请控制contextMenus的权限。</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"permissions"</span>: [<span class="string">"contextMenus"</span>]&#125;</span><br></pre></td></tr></table></figure>
@@ -509,17 +509,17 @@ height:50vh;
 
 <p>比如Toby for Chrome就是一个覆盖新标签页的插件</p>
 <h2 id="devtools-开发者工具"><a href="#devtools-开发者工具" class="headerlink" title="devtools - 开发者工具"></a>devtools - 开发者工具</h2><p>chrome允许插件重构开发者工具，并且相应的操作。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/qf5x6o32xudpq0sgtsbvx114/image.png" alt="image.png-50.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/qf5x6o32xudpq0sgtsbvx114/image.png" alt="image.png-50.8kB"></p>
 <p>插件中关于devtools的生命周期和F12打开的窗口时一致的，当F12关闭时，插件也会自动结束。</p>
 <p>而在devtools页面中，插件有权访问一组特殊的API，这组API只有devtools页面中可以访问。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">chrome</span><span class="selector-class">.devtools</span><span class="selector-class">.panels</span>：面板相关；</span><br><span class="line"><span class="selector-tag">chrome</span><span class="selector-class">.devtools</span><span class="selector-class">.inspectedWindow</span>：获取被审查窗口的有关信息；</span><br><span class="line"><span class="selector-tag">chrome</span><span class="selector-class">.devtools</span><span class="selector-class">.network</span>：获取有关网络请求的信息；</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 只能指向一个HTML文件，不能是JS文件</span></span><br><span class="line">    <span class="attr">"devtools_page"</span>: <span class="string">"devtools.html"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/p7xcymx8f4xopfqpj3zgxo9r/image.png" alt="image.png-11.6kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/p7xcymx8f4xopfqpj3zgxo9r/image.png" alt="image.png-11.6kB"></p>
 <p><a href="https://developer.chrome.com/extensions/devtools" target="_blank" rel="noopener">https://developer.chrome.com/extensions/devtools</a></p>
 <h2 id="option-选项"><a href="#option-选项" class="headerlink" title="option - 选项"></a>option - 选项</h2><p>option代表着插件的设置页面，当选中图标之后右键选项可以进入这个页面。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/5mq3khlyrki9rism7fv1waqt/image.png" alt="image.png-35.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/5mq3khlyrki9rism7fv1waqt/image.png" alt="image.png-35.8kB"></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"options_ui"</span>:</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"page"</span>: <span class="string">"options.html"</span>,</span><br><span class="line">        <span class="attr">"chrome_style"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="omnibox-搜索建议"><a href="#omnibox-搜索建议" class="headerlink" title="omnibox - 搜索建议"></a>omnibox - 搜索建议</h2><p>在chrome中，如果你在地址栏输入非url时，会将内容自动传到google搜索上。</p>
@@ -530,7 +530,7 @@ height:50vh;
 <h2 id="notifications-提醒"><a href="#notifications-提醒" class="headerlink" title="notifications - 提醒"></a>notifications - 提醒</h2><p>notifications代表右下角弹出的提示框</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">chrome</span><span class="selector-class">.notifications</span><span class="selector-class">.create</span>(<span class="selector-tag">null</span>, &#123;</span><br><span class="line">    <span class="attribute">type</span>: <span class="string">'basic'</span>,</span><br><span class="line">    iconUrl: <span class="string">'img/header.jpg'</span>,</span><br><span class="line">    title: <span class="string">'test'</span>,</span><br><span class="line">    message: <span class="string">'i found you!'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<p><img src="http://static.zybuluo.com/LoRexxar/94ze7yo02rtpld6l1phqhb9p/image.png" alt="image.png-110.7kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/94ze7yo02rtpld6l1phqhb9p/image.png" alt="image.png-110.7kB"></p>
 <h1 id="权限体系和api"><a href="#权限体系和api" class="headerlink" title="权限体系和api"></a>权限体系和api</h1><p>在了解了各类型的插件的形式之后，还有一个比较重要的就是Chrome插件相关的权限体系和api。</p>
 <p>Chrome发展到这个时代，其相关的权限体系划分已经算是非常细致了，具体的细节可以翻阅文档。</p>
 <p><a href="https://developer.chrome.com/extensions/declare_permissions" target="_blank" rel="noopener">https://developer.chrome.com/extensions/declare_permissions</a></p>
@@ -586,7 +586,7 @@ height:50vh;
 <ul>
 <li><p>injected script： 直接F12就可以调试</p>
 </li>
-<li><p>content-script：在F12中console选择相应的域<br><img src="http://static.zybuluo.com/LoRexxar/lktbfrb2jbxevwqlzs1ofor6/image.png" alt="image.png-21.1kB"></p>
+<li><p>content-script：在F12中console选择相应的域<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/lktbfrb2jbxevwqlzs1ofor6/image.png" alt="image.png-21.1kB"></p>
 </li>
 <li><p>popup js: 在插件右键的列表中有审查弹出内容</p>
 </li>
@@ -685,7 +685,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2019/11/22/chrome-ext-1/">https://lorexxar.cn/2019/11/22/chrome-ext-1/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2019/11/22/chrome-ext-1/">November 22nd 2019, 10:48:59 am</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2019/11/22/chrome-ext-1/">November 22nd 2019, 10:54:04 am</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2019/11/22/chrome-ext-1/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

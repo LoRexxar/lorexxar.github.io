@@ -26,18 +26,18 @@
 <meta property="og:url" content="https://lorexxar.cn/2018/09/06/haotian-s-3/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="这篇扫描报告其实算是一片比较特殊的文章，因为这是checklist唯一被我直接标记为安全问题的一类，其中很多问题虽然特征明显，但修复逻辑却千变万化，所以统计数据一直波动很大，犹豫了很久才发出来，图片的很多涉及到的合约并不一定真的存在问题，但仍然值得注意。 智能合约checklist系列文章: “以太坊智能合约规范问题”影响分析报告“以太坊智能合约设计缺陷问题”影响分析报告">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/tub5ug8lyrsdyex667gqi1kb/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/sdmjneivtg8sfnmbdgmvyllb/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/mw0nliru74uoj89glmx607b5/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/x89qplere2imehe4pwgqbjmt/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/v2b81fxsfk3z2r2kslrq2ulb/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/tub5ug8lyrsdyex667gqi1kb/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/sdmjneivtg8sfnmbdgmvyllb/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/mw0nliru74uoj89glmx607b5/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/x89qplere2imehe4pwgqbjmt/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/v2b81fxsfk3z2r2kslrq2ulb/image.png">
 <meta property="article:published_time" content="2018-09-06T06:28:06.000Z">
-<meta property="article:modified_time" content="2018-09-25T07:36:04.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.924Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="智能合约">
 <meta property="article:tag" content="checklist">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/tub5ug8lyrsdyex667gqi1kb/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/tub5ug8lyrsdyex667gqi1kb/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -485,15 +485,15 @@ height:50vh;
 <p>上述代码nonce值可以被预测，而其他变量不变的情况下，可以通过重放攻击来多次转账。</p>
 <p>#三、漏洞影响范围</p>
 <p>使用Haotian平台智能合约审计功能可以准确扫描到该类型问题。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/tub5ug8lyrsdyex667gqi1kb/image.png" alt="image.png-11.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/tub5ug8lyrsdyex667gqi1kb/image.png" alt="image.png-11.8kB"></p>
 <p>基于Haotian平台智能合约审计功能规则，我们对全网的公开的共42538个合约代码进行了扫描，其中共1852个合约涉及到这类问题。</p>
-<h2 id="1、溢出问题-1"><a href="#1、溢出问题-1" class="headerlink" title="1、溢出问题"></a>1、溢出问题</h2><p>截止2018年9月5日，我们发现了391个存在算数溢出问题的合约代码，其中332个仍处于交易状态，其中交易量最高的10个合约情况如下：<br><img src="http://static.zybuluo.com/LoRexxar/sdmjneivtg8sfnmbdgmvyllb/image.png" alt="image.png-396kB"></p>
+<h2 id="1、溢出问题-1"><a href="#1、溢出问题-1" class="headerlink" title="1、溢出问题"></a>1、溢出问题</h2><p>截止2018年9月5日，我们发现了391个存在算数溢出问题的合约代码，其中332个仍处于交易状态，其中交易量最高的10个合约情况如下：<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/sdmjneivtg8sfnmbdgmvyllb/image.png" alt="image.png-396kB"></p>
 <p>截止2018年9月5日，我们发现了1636个存在超额铸币销币问题的合约代码，其中1364个仍处于交易状态，其中交易量最高的10个合约情况如下：</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/mw0nliru74uoj89glmx607b5/image.png" alt="image.png-458.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/mw0nliru74uoj89glmx607b5/image.png" alt="image.png-458.4kB"></p>
 <h2 id="2、call注入-1"><a href="#2、call注入-1" class="headerlink" title="2、call注入"></a>2、call注入</h2><p>截止2018年9月5日，我们发现了204个存在call注入问题的合约代码，其中140个仍处于交易状态，其中交易量最高的10个合约情况如下：</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/x89qplere2imehe4pwgqbjmt/image.png" alt="image.png-359.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/x89qplere2imehe4pwgqbjmt/image.png" alt="image.png-359.4kB"></p>
 <h1 id="3、重放攻击"><a href="#3、重放攻击" class="headerlink" title="3、重放攻击"></a>3、重放攻击</h1><p>截止2018年9月5日，我们发现了18个存在重放攻击隐患问题的合约代码，其中16个仍处于交易状态，其中交易量最高的10个合约情况如下：</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/v2b81fxsfk3z2r2kslrq2ulb/image.png" alt="image.png-411.7kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/v2b81fxsfk3z2r2kslrq2ulb/image.png" alt="image.png-411.7kB"></p>
 <h1 id="四、修复方式"><a href="#四、修复方式" class="headerlink" title="四、修复方式"></a>四、修复方式</h1><h2 id="1、溢出问题-2"><a href="#1、溢出问题-2" class="headerlink" title="1、溢出问题"></a>1、溢出问题</h2><h3 id="1-算术溢出问题"><a href="#1-算术溢出问题" class="headerlink" title="1) 算术溢出问题"></a>1) 算术溢出问题</h3><p>在调用加减乘除时，通常的修复方式都是使用openzeppelin-safeMath，但也可以通过对不同变量的判断来限制，但很难对乘法和指数做什么限制。</p>
 <figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function transfer(address <span class="variable">_to</span>, uint256 <span class="variable">_amount</span>)  public returns (bool success) &#123;</span><br><span class="line">    require(<span class="variable">_to</span> != address(<span class="number">0</span>));</span><br><span class="line">    require(<span class="variable">_amount</span> &lt;= balances[msg.sender]);</span><br><span class="line">    balances[msg.sender] = balances[msg.sender].sub(<span class="variable">_amount</span>);</span><br><span class="line">    balances[<span class="variable">_to</span>] = balances[<span class="variable">_to</span>].add(<span class="variable">_amount</span>);</span><br><span class="line">    emit Transfer(msg.sender, <span class="variable">_to</span>, <span class="variable">_amount</span>);</span><br><span class="line">    return <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -523,7 +523,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2018/09/06/haotian-s-3/">https://lorexxar.cn/2018/09/06/haotian-s-3/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2018/09/06/haotian-s-3/">September 6th 2018, 2:28:06 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2018/09/06/haotian-s-3/">September 25th 2018, 3:36:04 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2018/09/06/haotian-s-3/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

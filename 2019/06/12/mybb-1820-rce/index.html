@@ -26,28 +26,28 @@
 <meta property="og:url" content="https://lorexxar.cn/2019/06/12/mybb-1820-rce/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="2019年6月11日，RIPS团队在团队博客中分享了一篇MyBB &lt;&#x3D; 1.8.20: From Stored XSS to RCE,文章中主要提到了一个Mybb18.20中存在的存储型xss以及一个后台的文件上传绕过。 其实漏洞本身来说，毕竟是需要通过XSS来触发的，哪怕是储存型XSS可以通过私信等方式隐藏，但漏洞的影响再怎么严重也有限，但漏洞点却意外的精巧，下面就让我们一起来详细聊聊看…">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/2sqg4mfyp2gxvzkgso6ukbpf/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/2djx25qc7zk91sre0cb57qpa/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/1vzl0syw0azoyze1eyjswdj6/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/x21og8j9jusptv8jydinfwsi/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/dmab7neitnrhhc9tz6vsg5kp/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/6hb80yi92z4d8qw6jr84ddr8/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/9ymykvc2nkw2iyrrcglu6mbj/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/534dh1kbms7bj74nd9kj1gsv/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/kbvn6wytobvzdkdxsf7kt1g3/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/hg8teug35kvvqidni2yp3wwl/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/92kjt8109dfzko2q6w7dwxh9/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/b20kmnra0fwqj0jmd5evy1d1/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/534dh1kbms7bj74nd9kj1gsv/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/6ulzp7tspenjxkw6736kp67y/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/02hprp4c9vbokdj0p3lczilz/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2sqg4mfyp2gxvzkgso6ukbpf/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2djx25qc7zk91sre0cb57qpa/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/1vzl0syw0azoyze1eyjswdj6/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/x21og8j9jusptv8jydinfwsi/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/dmab7neitnrhhc9tz6vsg5kp/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/6hb80yi92z4d8qw6jr84ddr8/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/9ymykvc2nkw2iyrrcglu6mbj/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/534dh1kbms7bj74nd9kj1gsv/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/kbvn6wytobvzdkdxsf7kt1g3/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/hg8teug35kvvqidni2yp3wwl/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/92kjt8109dfzko2q6w7dwxh9/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/b20kmnra0fwqj0jmd5evy1d1/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/534dh1kbms7bj74nd9kj1gsv/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/6ulzp7tspenjxkw6736kp67y/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/02hprp4c9vbokdj0p3lczilz/image.png">
 <meta property="article:published_time" content="2019-06-12T09:48:04.000Z">
-<meta property="article:modified_time" content="2019-06-12T09:48:50.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.943Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="xss">
 <meta property="article:tag" content="rce">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/2sqg4mfyp2gxvzkgso6ukbpf/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2sqg4mfyp2gxvzkgso6ukbpf/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -496,12 +496,12 @@ height:50vh;
 <figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">[video=youtube]</span>http://test/test#<span class="comment">[url]</span>onload=alert();//<span class="comment">[/url]</span>&amp;amp;1=1<span class="comment">[/video]</span></span><br></pre></td></tr></table></figure>
 
 <p>首先跟入到函数<code>/inc/class_parse.php line 1385行 mycode_parse_video</code>中</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/2sqg4mfyp2gxvzkgso6ukbpf/image.png" alt="image.png-197.3kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2sqg4mfyp2gxvzkgso6ukbpf/image.png" alt="image.png-197.3kB"></p>
 <p>链接经过<code>parse_url</code>处理被分解为</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array (<span class="attribute">size</span>=4)</span><br><span class="line">  <span class="string">'scheme'</span> =&gt; string <span class="string">'http'</span> (<span class="attribute">length</span>=4)</span><br><span class="line">  <span class="string">'host'</span> =&gt; string <span class="string">'test'</span> (<span class="attribute">length</span>=4)</span><br><span class="line">  <span class="string">'path'</span> =&gt; string <span class="string">'/test'</span> (<span class="attribute">length</span>=5)</span><br><span class="line">  <span class="string">'fragment'</span> =&gt; string <span class="string">'[url]onmousemove=alert();//[/url]&amp;amp;1=1'</span> (<span class="attribute">length</span>=41)</span><br></pre></td></tr></table></figure>
 
 <p>然后在1420行，各个参数会被做相应的处理，由于我们必须保留<code>=</code>号以及<code>/</code><br>号，所以这里我们选择把内容放在fragment中。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/2djx25qc7zk91sre0cb57qpa/image.png" alt="image.png-116.1kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2djx25qc7zk91sre0cb57qpa/image.png" alt="image.png-116.1kB"></p>
 <p>在1501行case youtube中，被拼接到id上</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"youtube"</span><span class="symbol">:</span></span><br><span class="line">	<span class="keyword">if</span>($fragments[<span class="number">0</span>])</span><br><span class="line">	&#123;</span><br><span class="line">		$id = str_replace(<span class="string">'!v='</span>, <span class="string">''</span>, $fragments[<span class="number">0</span>]); <span class="regexp">//</span> <span class="symbol">http:</span>/<span class="regexp">/www.youtube.com/watch</span><span class="comment">#!v=fds123</span></span><br><span class="line">	&#125;</span><br><span class="line">	elseif($input[<span class="string">'v'</span>])</span><br><span class="line">	&#123;</span><br><span class="line">		$id = $input[<span class="string">'v'</span>]; <span class="regexp">//</span> <span class="symbol">http:</span>/<span class="regexp">/www.youtube.com/watch</span>?v=fds123</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		$id = $path[<span class="number">1</span>]; <span class="regexp">//</span> <span class="symbol">http:</span>/<span class="regexp">/www.youtu.be/fds</span>123</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
 
@@ -521,49 +521,49 @@ height:50vh;
 
 <p>由于我们插入在<code>iframe</code>标签中的href被转变成了<code>&lt;a href=&quot;http://onload=alert();//&quot;&gt;</code>, 由于双引号没有转义，所以iframe的href在a标签的href中被闭合，而原本的a标签中的href内容被直接暴露在了标签中，onload就变成了有效的属性！</p>
 <p>最后浏览器会做简单的解析分割处理，最后生成了相应的标签，当url中的链接加载完毕，标签的动作属性就可以被触发了。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/1vzl0syw0azoyze1eyjswdj6/image.png" alt="image.png-118kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/1vzl0syw0azoyze1eyjswdj6/image.png" alt="image.png-118kB"></p>
 <h2 id="管理员后台文件创建漏洞"><a href="#管理员后台文件创建漏洞" class="headerlink" title="管理员后台文件创建漏洞"></a>管理员后台文件创建漏洞</h2><p>在Mybb的管理员后台中，管理员可以自定义论坛的模板和主题，除了普通的导入主题以外，他们允许管理员直接创建新的css文件，当然，服务端限制了管理员的这种行为，它要求管理员只能创建文件结尾为<code>.css</code>的文件。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/admin/inc/functions_themes.php line <span class="number">264</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">import_theme_xml</span><span class="params">($xml, $options=array<span class="params">()</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">	<span class="keyword">foreach</span>($theme[<span class="string">'stylesheets'</span>][<span class="string">'stylesheet'</span>] <span class="keyword">as</span> $stylesheet)</span><br><span class="line">    &#123;</span><br><span class="line">    	<span class="keyword">if</span>(substr($stylesheet[<span class="string">'attributes'</span>][<span class="string">'name'</span>], <span class="number">-4</span>) != <span class="string">".css"</span>)</span><br><span class="line">    	&#123;</span><br><span class="line">    		<span class="keyword">continue</span>;</span><br><span class="line">    	&#125;</span><br><span class="line">    	...</span><br></pre></td></tr></table></figure>
 
 <p>看上去好像并没有什么办法绕过，但值得注意的是，代码中先将文件名先写入了数据库中。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/x21og8j9jusptv8jydinfwsi/image.png" alt="image.png-209.7kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/x21og8j9jusptv8jydinfwsi/image.png" alt="image.png-209.7kB"></p>
 <p>紧接着我们看看数据库结构</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/dmab7neitnrhhc9tz6vsg5kp/image.png" alt="image.png-127.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/dmab7neitnrhhc9tz6vsg5kp/image.png" alt="image.png-127.8kB"></p>
 <p>我们可以很明显的看到name的类型为varchar且长度只有30位。</p>
 <p>如果我们在上传的xml文件中构造name为<code>tttttttttttttttttttttttttt.php.css</code>时，name在存入数据库时会被截断，并只保留前30位，也就是<code>tttttttttttttttttttttttttt.php</code>.</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">theme</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">stylesheets</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stylesheet</span> <span class="attr">name</span>=<span class="string">"tttttttttttttttttttttttttt.php.css"</span>&gt;</span></span><br><span class="line">        	test</span><br><span class="line">    	<span class="tag">&lt;/<span class="name">stylesheet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">stylesheets</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">theme</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>紧接着我们需要寻找一个获取name并创建文件的地方。</p>
 <p>在/admin/modules/style/themes.php 的1252行，这个变量被从数据库中提取出来。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/6hb80yi92z4d8qw6jr84ddr8/image.png" alt="image.png-150kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/6hb80yi92z4d8qw6jr84ddr8/image.png" alt="image.png-150kB"></p>
 <p>theme_stylesheet 的name作为字典的键被写入相关的数据。</p>
 <p>当<code>$mybb-&gt;input[&#39;do&#39;] == &quot;save_orders&quot;</code>时，当前主题会被修改。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/9ymykvc2nkw2iyrrcglu6mbj/image.png" alt="image.png-460.7kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/9ymykvc2nkw2iyrrcglu6mbj/image.png" alt="image.png-460.7kB"></p>
 <p>在保存了当前主题之后，后台会检查每个文件是否存在，如果不存在，则会获取name并写入相应的内容。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/534dh1kbms7bj74nd9kj1gsv/image.png" alt="image.png-50.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/534dh1kbms7bj74nd9kj1gsv/image.png" alt="image.png-50.8kB"></p>
 <p>可以看到我们成功的写入了php文件</p>
 <h1 id="完成的漏洞复现过程"><a href="#完成的漏洞复现过程" class="headerlink" title="完成的漏洞复现过程"></a>完成的漏洞复现过程</h1><h2 id="储存型xss-2"><a href="#储存型xss-2" class="headerlink" title="储存型xss"></a>储存型xss</h2><p>找到任意一个发送信息的地方，如发表文章、发送私信等….</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/kbvn6wytobvzdkdxsf7kt1g3/image.png" alt="image.png-49.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/kbvn6wytobvzdkdxsf7kt1g3/image.png" alt="image.png-49.9kB"></p>
 <p>发送下面这些信息</p>
 <figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">[video=youtube]</span>http://test/test#<span class="comment">[url]</span>onload=alert();//<span class="comment">[/url]</span>&amp;amp;amp;1=1<span class="comment">[/video]</span></span><br></pre></td></tr></table></figure>
 <p>然后阅读就可以触发</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/hg8teug35kvvqidni2yp3wwl/image.png" alt="image.png-53.1kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/hg8teug35kvvqidni2yp3wwl/image.png" alt="image.png-53.1kB"></p>
 <h2 id="后台文件创建漏洞-1"><a href="#后台文件创建漏洞-1" class="headerlink" title="后台文件创建漏洞"></a>后台文件创建漏洞</h2><p>找到后台加载theme的地方</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/92kjt8109dfzko2q6w7dwxh9/image.png" alt="image.png-64.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/92kjt8109dfzko2q6w7dwxh9/image.png" alt="image.png-64.8kB"></p>
 <p>构造上传文件test.xml</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">theme</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">stylesheets</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stylesheet</span> <span class="attr">name</span>=<span class="string">"tttttttttttttttttttttttttt.php.css"</span>&gt;</span></span><br><span class="line">        	test</span><br><span class="line">    	<span class="tag">&lt;/<span class="name">stylesheet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">stylesheets</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">theme</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>需要注意要勾选 Ignore Version Compatibility。</p>
 <p>然后查看Theme列表，找到新添加的theme</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/b20kmnra0fwqj0jmd5evy1d1/image.png" alt="image.png-104kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/b20kmnra0fwqj0jmd5evy1d1/image.png" alt="image.png-104kB"></p>
 <p>然后保存并访问相应tid地址的文件即可</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/534dh1kbms7bj74nd9kj1gsv/image.png" alt="image.png-50.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/534dh1kbms7bj74nd9kj1gsv/image.png" alt="image.png-50.8kB"></p>
 <h1 id="补丁"><a href="#补丁" class="headerlink" title="补丁"></a>补丁</h1><ul>
 <li><a href="https://github.com/mybb/mybb/commit/44fc01f723b122be1bc8daaca324e29b690901d6" target="_blank" rel="noopener">https://github.com/mybb/mybb/commit/44fc01f723b122be1bc8daaca324e29b690901d6</a></li>
 </ul>
-<h2 id="储存型xss-3"><a href="#储存型xss-3" class="headerlink" title="储存型xss"></a>储存型xss</h2><p><img src="http://static.zybuluo.com/LoRexxar/6ulzp7tspenjxkw6736kp67y/image.png" alt="image.png-28.6kB"></p>
+<h2 id="储存型xss-3"><a href="#储存型xss-3" class="headerlink" title="储存型xss"></a>储存型xss</h2><p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/6ulzp7tspenjxkw6736kp67y/image.png" alt="image.png-28.6kB"></p>
 <p>这里的iframe标签的链接被encode_url重新处理，一旦被转义，那么<code>[url]</code>就不会被继续解析，则不会存在问题。</p>
-<h2 id="后台任意文件创建"><a href="#后台任意文件创建" class="headerlink" title="后台任意文件创建"></a>后台任意文件创建</h2><p><img src="http://static.zybuluo.com/LoRexxar/02hprp4c9vbokdj0p3lczilz/image.png" alt="image.png-64kB"></p>
+<h2 id="后台任意文件创建"><a href="#后台任意文件创建" class="headerlink" title="后台任意文件创建"></a>后台任意文件创建</h2><p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/02hprp4c9vbokdj0p3lczilz/image.png" alt="image.png-64kB"></p>
 <p>在判断文件名后缀之前，加入了字符数的截断，这样一来就无法通过数据库字符截断来构造特殊的name了。</p>
 <h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><p>整个漏洞其实说到实际利用来说，其实不算太苛刻，基本上来说只要能注册这个论坛的账号就可以构造xss，由于是储存型xss，所以无论是发送私信还是广而告之都有很大的概率被管理员点击，当管理员触发之后，之后的js构造exp就只是代码复杂度的问题了。</p>
 <p>抛开实际的利用不谈，这个漏洞的普适性才更加的特殊，bbcode是现在主流的论坛复杂环境的解决方案，事实上，可能会有不少cms会忽略和mybb一样的问题，毕竟人才是最大的安全问题，当人自以为是理解了机器的一切想法时，就会理所当然得忽略那些还没被发掘的问题，安全问题，也就在这种情况下悄然诞生了…</p>
@@ -575,7 +575,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2019/06/12/mybb-1820-rce/">https://lorexxar.cn/2019/06/12/mybb-1820-rce/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2019/06/12/mybb-1820-rce/">June 12th 2019, 5:48:04 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2019/06/12/mybb-1820-rce/">June 12th 2019, 5:48:50 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2019/06/12/mybb-1820-rce/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

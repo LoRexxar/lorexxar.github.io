@@ -26,27 +26,27 @@
 <meta property="og:url" content="https://lorexxar.cn/2020/09/21/whiteboxaudit/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="自从人类发明了工具开始，人类就在不断为探索如何更方便快捷的做任何事情，在科技发展的过程中，人类不断地试错，不断地思考，于是才有了现代伟大的科技时代。在安全领域里，每个安全研究人员在研究的过程中，也同样的不断地探索着如何能够自动化的解决各个领域的安全问题。其中自动化代码审计就是安全自动化绕不过去的坎。 这一次我们就一起聊聊自动化代码审计的发展史，也顺便聊聊如何完成一个自动化静态代码审计的关键。">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/38q97f2z47ojfq5g1eyrrp6h/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/h9ynqnq6h648slrjb2rtw3a2/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/zkbjd0mt3rme150nk558laai/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/gxlprb3kug04kyhoca1kqqyk/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/myl2o2sy6f2cbkkqutnvdqw6/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/s3zv846dojonbqqeinxmj2i6/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/mtw0qxwezl6aint6apcu8qmp/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/jriu86cbyww44k7ioktat8kn/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/f7yjojkps705lo3wf1nkmeel/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/lb1o8e97y2cdtbvqx4zuwtke/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/5lwpn1hfu67ocl3jz7h6p3f4/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/bp13bfx6hcyfyjr3frkwwunm/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/rtxvdakikkclp186bu72npt8/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/jmpmecemnwmsvcbb4xi2eyuv/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/38q97f2z47ojfq5g1eyrrp6h/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/h9ynqnq6h648slrjb2rtw3a2/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/zkbjd0mt3rme150nk558laai/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/gxlprb3kug04kyhoca1kqqyk/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/myl2o2sy6f2cbkkqutnvdqw6/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/s3zv846dojonbqqeinxmj2i6/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/mtw0qxwezl6aint6apcu8qmp/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/jriu86cbyww44k7ioktat8kn/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/f7yjojkps705lo3wf1nkmeel/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/lb1o8e97y2cdtbvqx4zuwtke/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/5lwpn1hfu67ocl3jz7h6p3f4/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/bp13bfx6hcyfyjr3frkwwunm/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/rtxvdakikkclp186bu72npt8/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/jmpmecemnwmsvcbb4xi2eyuv/image.png">
 <meta property="article:published_time" content="2020-09-21T08:26:31.000Z">
-<meta property="article:modified_time" content="2020-09-22T02:12:53.767Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.968Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="SAST">
 <meta property="article:tag" content="tools">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/38q97f2z47ojfq5g1eyrrp6h/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/38q97f2z47ojfq5g1eyrrp6h/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -468,7 +468,7 @@ height:50vh;
 <p>我们可以简单的把自动化代码审计（这里我们讨论的是白盒）分为两类，一类是动态代码审计工具，另一类是静态代码审计工具。</p>
 <h1 id="动态代码审计的特点与局限"><a href="#动态代码审计的特点与局限" class="headerlink" title="动态代码审计的特点与局限"></a>动态代码审计的特点与局限</h1><p>动态代码审计工具的原理主要是基于在<strong>代码运行的过程中</strong>进行处理并挖掘漏洞。我们一般称之为IAST（Interactive Application Security Testing）。</p>
 <p>其中最常见的方式就是通过某种方式Hook恶意函数或是底层api并通过前端爬虫判别是否触发恶意函数来确认漏洞。</p>
-<p>我们可以通过一个简单的流程图来理解这个过程。<br><img src="http://static.zybuluo.com/LoRexxar/38q97f2z47ojfq5g1eyrrp6h/image.png" alt="image.png-42.8kB"></p>
+<p>我们可以通过一个简单的流程图来理解这个过程。<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/38q97f2z47ojfq5g1eyrrp6h/image.png" alt="image.png-42.8kB"></p>
 <p>在前端Fuzz的过程中，如果Hook函数被触发，并满足某种条件，那么我们认为该漏洞存在。</p>
 <p>这类扫描工具的优势在于，通过这类工具发现的漏洞<strong>误报率比较低</strong>，且不依赖代码，一般来说，只要策略足够完善，能够触发到相应恶意函数的操作都会相应的满足某种恶意操作。而且可以跟踪动态调用也是这种方法最主要的优势之一。</p>
 <p>但随之而来的问题也逐渐暴露出来：<br>(1) 前端Fuzz爬虫可以保证对正常功能的覆盖率，却很难保证对代码功能的覆盖率。</p>
@@ -487,9 +487,9 @@ height:50vh;
 <p>与动态不同，静态代码审计工具经历了长期的发展与演变过程，下面我们就一起回顾一下（下面的每个时期主要代表的相对的发展期，并不是比较绝对的诞生前后）：</p>
 <h2 id="上古时期-关键字匹配"><a href="#上古时期-关键字匹配" class="headerlink" title="上古时期 - 关键字匹配"></a>上古时期 - 关键字匹配</h2><p>如果我问你“如果让你设计一个自动化代码审计工具，你会怎么设计？”，我相信，你一定会回答我，可以尝试通过匹配关键字。紧接着你也会迅速意识到通过关键字匹配的问题。</p>
 <p>这里我们拿PHP做个简单的例子。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/h9ynqnq6h648slrjb2rtw3a2/image.png" alt="image.png-71.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/h9ynqnq6h648slrjb2rtw3a2/image.png" alt="image.png-71.4kB"></p>
 <p>虽然我们匹配到了这个简单的漏洞，但是很快发现，事情并没有那么简单。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/zkbjd0mt3rme150nk558laai/image.png" alt="image.png-85.6kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/zkbjd0mt3rme150nk558laai/image.png" alt="image.png-85.6kB"></p>
 <p>也许你说你可以通过简单的关键字重新匹配到这个问题。</p>
 <figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">\b</span>eval<span class="symbol">\(</span><span class="symbol">\$</span></span><br></pre></td></tr></table></figure>
 
@@ -509,9 +509,9 @@ height:50vh;
 <p>但问题显而易见，<strong>高覆盖性和高可用性是这种实现方法永远无法解决的硬伤，不但维护成本巨大，而且误报率和漏报率也是居高不下</strong>。所以被时代所淘汰也是历史的必然。</p>
 <h2 id="近代时期-基于AST的代码分析"><a href="#近代时期-基于AST的代码分析" class="headerlink" title="近代时期 - 基于AST的代码分析"></a>近代时期 - 基于AST的代码分析</h2><p>有人忽略问题，也有人解决问题。关键字匹配最大的问题是在于你永远没办法保证开发人员的习惯，你也就没办法通过任何制式的匹配来确认漏洞，那么基于AST的代码审计方式就诞生了，开发人员是不同的，但编译器是相同的。</p>
 <p>在分享这种原理之前，我们首先可以复现一下编译原理。拿PHP代码举例子：</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/gxlprb3kug04kyhoca1kqqyk/image.png" alt="image.png-66.1kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/gxlprb3kug04kyhoca1kqqyk/image.png" alt="image.png-66.1kB"></p>
 <p>随着PHP7的诞生，AST也作为PHP解释执行的中间层出现在了编译过程的一环。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/myl2o2sy6f2cbkkqutnvdqw6/image.png" alt="image.png-54.2kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/myl2o2sy6f2cbkkqutnvdqw6/image.png" alt="image.png-54.2kB"></p>
 <p>通过词法分析和语法分析，我们可以将任意一份代码转化为AST语法树。常见的语义分析库可以参考：</p>
 <ul>
 <li><a href="https://github.com/nikic/PHP-Parser" target="_blank" rel="noopener">https://github.com/nikic/PHP-Parser</a></li>
@@ -526,27 +526,27 @@ height:50vh;
 <p>而infomation flow，则是指数据在source到sink之间流动的过程。</p>
 <p>把这个概念放在PHP代码审计过程中，Source就是指用户可控的输入，比如<code>$_GET、$_POST</code>等，而Sink就是指我们要找到的敏感函数，比如<code>echo、eval</code>，如果某一个Source到Sink存在一个完整的流，那么我们就可以认为存在一个可控的漏洞，这也就是基于infomation flow的代码审计原理。</p>
 <p>在明白了基础原理的基础上，我举几个简单的例子：</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/s3zv846dojonbqqeinxmj2i6/image.png" alt="image.png-129.6kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/s3zv846dojonbqqeinxmj2i6/image.png" alt="image.png-129.6kB"></p>
 <p>在上面的分析过程中，Sink就是eval函数，source就是<code>$_GET</code>，通过逆向分析Sink的来源，我们成功找到了一条流向Sink的infomation flow，也就成功发现了这个漏洞。</p>
 <p>ps: 当然也许会有人好奇为什么选择逆向分析流而不是正向分析流，这个问题会在后续的分析过程中不断渗透，慢慢就可以明白其关键点。</p>
 <p>在分析infomation flow的过程中，<strong>明确作用域是基础中的基础.</strong>这也是分析infomation flow的关键，我们可以一起看看一段简单的代码</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/mtw0qxwezl6aint6apcu8qmp/image.png" alt="image.png-49.3kB"></p>
-<p>如果我们很简单的通过左右值去回溯，而没有考虑到函数定义的话，我们很容易将流定义为：<br><img src="http://static.zybuluo.com/LoRexxar/jriu86cbyww44k7ioktat8kn/image.png" alt="image.png-51.7kB"></p>
-<p>这样我们就错误的把这段代码定义成了存在漏洞，但很显然并不是，而正确的分析流程应该是这样的:<br><img src="http://static.zybuluo.com/LoRexxar/f7yjojkps705lo3wf1nkmeel/image.png" alt="image.png-54.7kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/mtw0qxwezl6aint6apcu8qmp/image.png" alt="image.png-49.3kB"></p>
+<p>如果我们很简单的通过左右值去回溯，而没有考虑到函数定义的话，我们很容易将流定义为：<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/jriu86cbyww44k7ioktat8kn/image.png" alt="image.png-51.7kB"></p>
+<p>这样我们就错误的把这段代码定义成了存在漏洞，但很显然并不是，而正确的分析流程应该是这样的:<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/f7yjojkps705lo3wf1nkmeel/image.png" alt="image.png-54.7kB"></p>
 <p>在这段代码中，从主语法树的作用域跟到Get函数的作用域，<strong>如何控制这个作用域的变动，就是基于AST语法树分析的一大难点</strong>，当我们在代码中不可避免的使用递归来控制作用域时，在多层递归中的统一标准也就成了分析的基础核心问题。</p>
 <p>事实上，即便你做好了这个最简单的基础核心问题，你也会遇到层出不穷的问题。这里我举两个简单的例子</p>
 <p>(1) 新函数封装</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/lb1o8e97y2cdtbvqx4zuwtke/image.png" alt="image.png-29.3kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/lb1o8e97y2cdtbvqx4zuwtke/image.png" alt="image.png-29.3kB"></p>
 <p>这是一段很经典的代码，敏感函数被封装成了新的敏感函数，参数是被二次传递的。为了解决，这样infomation flow的方向从逆向-&gt;正向的问题。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/5lwpn1hfu67ocl3jz7h6p3f4/image.png" alt="image.png-111kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/5lwpn1hfu67ocl3jz7h6p3f4/image.png" alt="image.png-111kB"></p>
 <p>通过新建大作用域来控制作用域。</p>
 <p>(2) 多重调用链</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/bp13bfx6hcyfyjr3frkwwunm/image.png" alt="image.png-55.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/bp13bfx6hcyfyjr3frkwwunm/image.png" alt="image.png-55.4kB"></p>
 <p>这是一段有漏洞的JS代码，人工的话很容易看出来问题。但是如果通过自动化的方式回溯参数的话就会发现整个流程中涉及到了多种流向。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/rtxvdakikkclp186bu72npt8/image.png" alt="image.png-63.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/rtxvdakikkclp186bu72npt8/image.png" alt="image.png-63.9kB"></p>
 <p>这里我用红色和黄色代表了流的两种流向。要解决这个问题只能通过针对类/字典变量的特殊回溯才能解决。</p>
 <p>如果说，前面的两个问题是可以被解决的话，还有很多问题是没办法被解决的，这里举一个简单的例子。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/jmpmecemnwmsvcbb4xi2eyuv/image.png" alt="image.png-31.9kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/jmpmecemnwmsvcbb4xi2eyuv/image.png" alt="image.png-31.9kB"></p>
 <p>这是一个典型的全局过滤，人工审计可以很容易看出这里被过滤了。但是如果在自动化分析过程中，当回溯到Source为<code>$_GET[&#39;a&#39;]</code>时，已经满足了从Source到sink的infomation flow。已经被识别为漏洞。一个典型的误报就出现了。</p>
 <p>而基于AST的自动化代码审计工具也正是在与这样的问题做博弈，从PHP自动化代码审计中比较知名的Rips、Cobra再到我自己二次开发的Cobra-W.</p>
 <ul>
@@ -621,7 +621,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2020/09/21/whiteboxaudit/">https://lorexxar.cn/2020/09/21/whiteboxaudit/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2020/09/21/whiteboxaudit/">September 21st 2020, 4:26:31 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2020/09/21/whiteboxaudit/">September 22nd 2020, 10:12:53 am</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2020/09/21/whiteboxaudit/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

@@ -26,15 +26,15 @@
 <meta property="og:url" content="https://lorexxar.cn/2020/07/14/geekpwn2020-noxss/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="前两天看了今年Geekpwn 2020 云端挑战赛，web题目涉及到了几个新时代前端特殊技巧，可能在实战中利用起来难度比较大，但是从原理上又很符合真实世界的逻辑，这里我们主要以解释题目为主，但是也探索一下在真实场景下的利用。">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/2oqak8fz3atmkap59oy39utf/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/ksgscemmexy9xhjzb3vgaudm/image.png">
-<meta property="og:image" content="http://static.zybuluo.com/LoRexxar/9pj1cv9nolm1ojydo1ejwpxr/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2oqak8fz3atmkap59oy39utf/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ksgscemmexy9xhjzb3vgaudm/image.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/9pj1cv9nolm1ojydo1ejwpxr/image.png">
 <meta property="article:published_time" content="2020-07-14T09:21:52.000Z">
-<meta property="article:modified_time" content="2020-07-14T09:22:25.549Z">
+<meta property="article:modified_time" content="2020-09-29T06:11:23.920Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="xss">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://static.zybuluo.com/LoRexxar/2oqak8fz3atmkap59oy39utf/image.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2oqak8fz3atmkap59oy39utf/image.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -490,7 +490,7 @@ height:50vh;
 </ul>
 <p>下面两种情况的请求将被阻止：<br>请求类型是”style” 但是 MIME 类型不是 “text/css”，<br>请求类型是”script” 但是 MIME 类型不是  JavaScript MIME 类型。</p>
 <p>在当前场景下也同样存在这个问题，如果我们尝试用script加载search页面来解决跨源问题的话，就会出现返回的application/json类型不匹配js的MIME类型。</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/2oqak8fz3atmkap59oy39utf/image.png" alt="image.png-69.4kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/2oqak8fz3atmkap59oy39utf/image.png" alt="image.png-69.4kB"></p>
 <ul>
 <li>Referrer-Policy</li>
 </ul>
@@ -503,8 +503,8 @@ height:50vh;
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> test1 = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span></span><br><span class="line"><span class="actionscript">test1.src = <span class="string">"http://127.0.0.1:3000/search?keyword=f"</span>;</span></span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.head.append(test1);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> test2 = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span></span><br><span class="line"><span class="actionscript">test2.src = <span class="string">"http://127.0.0.1:3000/search?keyword=fa"</span>;</span></span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.head.append(test2);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">test1.onload = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">	alert(<span class="string">'1'</span>);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="actionscript">test2.onload = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">	alert(<span class="string">'2'</span>);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>当我们在chrome下访问时</p>
-<p><img src="http://static.zybuluo.com/LoRexxar/ksgscemmexy9xhjzb3vgaudm/image.png" alt="image.png-60.8kB"></p>
-<p><img src="http://static.zybuluo.com/LoRexxar/9pj1cv9nolm1ojydo1ejwpxr/image.png" alt="image.png-3.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/ksgscemmexy9xhjzb3vgaudm/image.png" alt="image.png-60.8kB"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/9pj1cv9nolm1ojydo1ejwpxr/image.png" alt="image.png-3.8kB"></p>
 <p>和在firefox中不同，chrome会首先判断返回的状态码，并且触发onload事件，然后才会被CORB所拦截。这样一来，由于请求返回的差异，我们就可以通过onload事见来判断请求的返回状态码，从而逐位注得flag值。</p>
 <p>在NU1L的Wp中还用了win1.frames.length去取open窗口的内的frames数量，这个利用方式涉及到前面提到的第二点，主要是利用了搜索不到内容时，页面会多出来的iframe标签来做判断，比较神奇的是这个属性居然是不会被CORB拦截的。</p>
 <p>具体可以看NU1L的wp<br><a href="https://mp.weixin.qq.com/s/oc6KhO5yU5w6l8oKT-OaEw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/oc6KhO5yU5w6l8oKT-OaEw</a></p>
@@ -528,7 +528,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2020/07/14/geekpwn2020-noxss/">https://lorexxar.cn/2020/07/14/geekpwn2020-noxss/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2020/07/14/geekpwn2020-noxss/">July 14th 2020, 5:21:52 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2020/07/14/geekpwn2020-noxss/">July 14th 2020, 5:22:25 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2020/07/14/geekpwn2020-noxss/">September 29th 2020, 2:11:23 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
