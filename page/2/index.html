@@ -389,6 +389,37 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/02/22/wordpress-core-rce/" >
+            
+                <span>Wordpress 5.0 RCE详细分析</span>
+        </a>
+        <div class="abstract-content">
+            <p>2月20号，RIPS团队在官网公开了一篇<a href="https://blog.ripstech.com/2019/wordpress-image-remote-code-execution/" target="_blank" rel="noopener">WordPress 5.0.0 Remote Code Execution</a>，CVE编号CVE-2019-6977，文章中主要提到在author权限账号下，可以通过修改Post Meta变量覆盖、目录穿越写文件、模板包含3个漏洞构成一个RCE漏洞。</p>
+<p>但在原文中，作者只大致描述了漏洞原理，其中大量的漏洞细节被省略，甚至部分的利用和后端服务器也有相当的关系，所以在复现的过程中遇到了各种问题，我们花了大量的时间分析代码，最终终于完全还原了该漏洞，其中部分关键利用点用了和原文有些许差异的利用方式（原文说的太含糊其辞，无法复现）。在下面的分析中，我会尽量按照复现过程中的思考方式及流程，以便读者理解。</p>
+<p>感谢在复现、分析过程中一起的小伙伴@Badcode，帮助我修改了很多错误的@Venenof7、@sysorem,给我提供了很多帮助:&gt;</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "rce">rce</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/12/07/dzx3-4-ssrf/" >
             
                 <span>Discuz x3.4前台SSRF分析</span>
@@ -974,39 +1005,6 @@ height:50vh;
             <!-- tags  -->
             
             <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/04/17/0ctf2018-space/" >
-            
-                <span>TCTF/0CTF2018 h4x0rs.space Writeup</span>
-        </a>
-        <div class="abstract-content">
-            <p>TCTF/0CTF中的压轴题目，本来可以在题目还在的时候研究的，无奈又因为强网杯的事情又拖了好几天，今天才整理出来，整个题目的利用思路都是近几年才被人们提出来的，这次比赛我也是第一次遇到环境，其中关于Appcache以及Service Worker的利用方式非常有趣，能在特殊环境下起到意想不到的作用。</p>
-<p>下面的Writeup主要来自于</p>
-<p><a href="https://gist.github.com/masatokinugawa/b55a890c4b051cc6575b010e8c835803" target="_blank" rel="noopener">https://gist.github.com/masatokinugawa/b55a890c4b051cc6575b010e8c835803</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/17</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CSP">CSP</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
     
@@ -4214,9 +4212,26 @@ height:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 173
+        Total : 174
         </div>
         <!-- search  -->
         
@@ -4229,6 +4244,11 @@ height:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2020/10/30/whitebox-2/" >构造一个CodeDB来探索全新的白盒静态扫描方案</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -5369,6 +5389,10 @@ height:50vh;
         <span class="sidebar-tag-name" data-tags="SAST"><span class="iconfont-archer">&#xe606;</span>SAST</span>
     
         <span class="sidebar-tag-name" data-tags="tools"><span class="iconfont-archer">&#xe606;</span>tools</span>
+    
+        <span class="sidebar-tag-name" data-tags="白盒"><span class="iconfont-archer">&#xe606;</span>白盒</span>
+    
+        <span class="sidebar-tag-name" data-tags="静态分析"><span class="iconfont-archer">&#xe606;</span>静态分析</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
