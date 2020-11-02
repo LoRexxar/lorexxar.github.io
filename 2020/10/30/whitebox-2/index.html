@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="前段时间开源新版本KunLun-M的时候，写了一篇《从0开始聊聊自动化静态代码审计工具》的文章，里面分享了许多在这些年白盒静态扫描演变过程中出现的扫描思路、技术等等。在文章中我用了一个简单的例子描述了一下基于.QL的扫描思路，但实际在这个领域我可能只见过一个活的SemmleQL（也就是CodeQL的原型）。这篇文章中我也聊一聊这相关的东西，也分享一些我尝试探索的一些全新的静态扫描方案。 本文提到">
 <meta property="article:published_time" content="2020-10-30T03:33:22.000Z">
-<meta property="article:modified_time" content="2020-10-30T07:11:25.048Z">
+<meta property="article:modified_time" content="2020-11-02T08:50:47.732Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="白盒">
 <meta property="article:tag" content="静态分析">
@@ -310,7 +310,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">2.9k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">3.3k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -466,10 +466,14 @@ height:50vh;
 <li>上下文敏感分析：context-sensitive，属于一种过程间分析，在分析函数调用目标时会考虑调用上下文。主要面向的的场景为同一个函数/方法在不同次调用/不同位置调用时上下文不同的情况。</li>
 </ul>
 <p>当然，需要注意的是，这里仅指的是数据流分析的分类方式，与基于的技术原理无关，如果你愿意，你当然也可以基于AST来完成流敏感的分析工具。</p>
-<p>在基于数据流的扫描方案中，如果能够完整的支持各种语法充足的分析逻辑，我们就可以针对每一种漏洞寻找相应的数据流挖掘漏洞。可惜事实是，问题比想象的还要多。这里我举几个可能被解决、也可能被暂时解决、也可能没人能解决的问题作为例子。</p>
+<p>在基于数据流的扫描方案中，如果能够完整的支持各种语法充足的分析逻辑，我们就可以针对每一种漏洞分析相应的数据流挖掘漏洞。可惜事实是，问题比想象的还要多。这里我举几个可能被解决、也可能被暂时解决、也可能没人能解决的问题作为例子。</p>
 <p>1、如何判断全局过滤方案？<br>2、如何处理专用的过滤函数未完全过滤的情况？<br>3、如何审计深度重构的框架？<br>4、如何扫描储存型xss？<br>5、如何扫描二次注入？<br>6、如何扫描eval中出现的伪代码逻辑？</p>
 <p>当在现代扫描方案不断进步的同时，或许许多问题都得到一定程度的解决，但可惜的是，这就像是扫描方案与开发人员的博弈一样，我们永远致力于降低误报率、漏报率却不能真正的解决，这样一来好像问题就变得又无解了起来…</p>
-<p>当然，.QL的概念的扫描方案并不是为了解决这些问题而诞生的，可幸运的是， 从我的视角来看，基于.QL概念的扫描方案将静态扫描走到了新的路中，让我们不再拘泥于探讨如何处理流敏感、约束方案等等。上次我简单解释了基于.QL扫描方式的原理。</p>
+<p>当然，.QL的概念的扫描方案并不是为了解决这些问题而诞生的，可幸运的是， 从我的视角来看，基于.QL概念的扫描方案将静态扫描走到了新的路中，让我们不再拘泥于探讨如何处理流敏感、约束条件等等。</p>
+<p>基于.QL的扫描方案，将引擎的实现和规则开发、使用者分割开来，流分析等数据流相关的分析由引擎以及引擎的开发者来完成，使用者只需要关注规则的编写即可，当然，如何通过定义“谓词”来编写高级规则又或是不断通过多种高级规则来完善规则库体系，才是基于.QL的扫描方案真正的使用姿势。</p>
+<p>值得注意的是，我们很难在开发层面就区分出基于.QL的扫描方案以及现在普遍的分析方案的区别，我们同样需要关注代码流敏感又或是各种限制条件，所谓的CodeDB也只是一种技术手段，使用CodeDB也并不等价于基于.QL的扫描方案。换言之，可能源伞等著名的白盒扫描器中，将多种语言生成的IR统一分析，何尝不是另一种Code DB呢？</p>
+<p>事实也证明，与其说.QL改进了现代诸多白盒分析方案，不如说在当年白盒面临发展的关口时，大部分人选择了走向以数据流分析为主的方向，而Semmle QL选择了完善基础和引擎。而当我们走到现在这个关口遇到瓶颈的时期，不妨尝试看看别的思考思路，这也是这篇文章的初衷。</p>
+<p>上次我简单解释了基于.QL扫描方式的原理。</p>
 <p>其核心的原理就在于通过把每一个操作具象化模板化，并储存到数据库中。比如</p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a($b)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 
@@ -537,7 +541,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2020/10/30/whitebox-2/">https://lorexxar.cn/2020/10/30/whitebox-2/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2020/10/30/whitebox-2/">October 30th 2020, 11:33:22 am</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2020/10/30/whitebox-2/">October 30th 2020, 3:11:25 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2020/10/30/whitebox-2/">November 2nd 2020, 4:50:47 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
