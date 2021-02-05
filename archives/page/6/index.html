@@ -376,6 +376,44 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2016/11/29/hctf2016-ATField/" >
+            
+                <span>HCTF2016 ATField writeup</span>
+        </a>
+        <div class="abstract-content">
+            <p>出题的时候，主要思路是来源于2016wooyun峰会中猪猪侠的ppt，里面提到了很多关于ssrf的利用方式，而且国内其实对ssrf的研究并不多，所以一直有想法出一个这样的题，但是由于时间仓促再加上对flask的不熟悉，导致在出题的时候浪费了很多时间，而且还没能出得特别好。</p>
+<p><a href="https://github.com/LoRexxar/hctf2016_atfield" target="_blank" rel="noopener">题目源码</a></p>
+<p>由于出题的时候僵化，误解了所谓系统处理输出输入流的问题，所以一直以为ubuntu内核的centos不能正确处理，所以这里一直以为只能通过python来弹shell，由于python的shell应该默认为root…所以我在守题目的时候，每当看到正确的payload就先私聊希望不要搞事情，也做好了随时重启docker的准备，然后没想到的是:</p>
+<p>天枢大佬用我以为不可用的payload拿到了shell，并搞了各种事情…还偷偷挂起了crontab（Orz…太菜了完全没发现这个问题）</p>
+<p>这里给诸位大佬道歉Orz，</p>
+<p>Nu1L的师傅、火日师傅、NSIS、FlappyPig的师傅在结束前应该是存在有效payload，Orz</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/11/29</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "hctf">hctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2016/11/19/web2-giligili/" >
             
                 <span>hctf2016 giligili writeup</span>
@@ -976,41 +1014,6 @@
         <a class="post-tag" href="javascript:void(0);" data-tags = "shell">shell</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "linux">linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/07/17/sangebaimao_huobi/" >
-            
-                <span>sangebaimao之火币网</span>
-        </a>
-        <div class="abstract-content">
-            <p>题目在wooyun峰会上就放出来了，在上周orange菊苣和一众师傅讨论的结果下，才终于有了第一步的路，虽然没能力拿下一血，但是还是磕磕绊绊的做出来了…</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/07/17</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "php">php</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "sangebaimao">sangebaimao</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "php伪协议">php伪协议</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "file_put_contents">file_put_contents</a>
     
 </div>
             
@@ -4096,9 +4099,26 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 175
+        Total : 176
         </div>
         <!-- search  -->
         
@@ -4111,6 +4131,11 @@
     
     <div class="archive-year"> 2021 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/05</span><a class="archive-post-title" href= "/2021/02/05/kunlun-m-phpser/" >如何自动化挖掘php反序列化链 - phpunserializechain诞生记</a>
+        </li>
     
     
         <li class="archive-post-item">
