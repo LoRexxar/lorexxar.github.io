@@ -376,6 +376,31 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/07/23/gitea-cve-2019-11229/" >
+            
+                <span>CVE-2019-11229详细分析 --git config可控-RCE</span>
+        </a>
+        <div class="abstract-content">
+            <p>2019年4月15号，gitea曾爆出过一个漏洞，恰逢当时对这个漏洞比较好奇就着手去研究了一下，漏洞的描述是这样的：</p>
+<p>models/repo_mirror.go in Gitea before 1.7.6 and 1.8.x before 1.8-RC3 mishandles mirror repo URL settings, leading to remote code execution.</p>
+<p>在和朋友@hammer的一同研究下，成功控制了git config的内容，但是在从git config到RCE的过程遇到了困难，就暂时搁置了，在过了几个月之后，偶然得到@Lz1y和@x1nGuang两位大佬的启发，成功复现了这个漏洞，下面我们就来仔细研究下这个问题。</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/23</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/07/10/redis-5-x-rce/" >
             
                 <span>Redis 基于主从复制的RCE利用方式</span>
@@ -959,39 +984,6 @@ Web 白盒sqlcms这题其实相对比赛中的其他题目来说，就显得有�
         <a class="post-tag" href="javascript:void(0);" data-tags = "eth">eth</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Fomo3D">Fomo3D</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/08/22/haotian-s-2/" >
-            
-                <span>“以太坊智能合约设计缺陷问题”影响分析报告</span>
-        </a>
-        <div class="abstract-content">
-            <p>在审计各种智能合约之后，我发现了一类很有趣的问题，这类问题出现的原因不只是由于开发者的疏忽，也同样是因为智能合约本身的一些设计缺陷，在开发者不了解这些问题的基础上，就容易出现问题。</p>
-<p>智能合约checklist系列文章:</p>
-<p><a href="https://lorexxar.cn/2018/08/14/haotian-s-1/">“以太坊智能合约规范问题”影响分析报告</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "contract">contract</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "eth">eth</a>
     
 </div>
             
@@ -4161,9 +4153,26 @@ Web 白盒sqlcms这题其实相对比赛中的其他题目来说，就显得有�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 179
+        Total : 180
         </div>
         <!-- search  -->
         
@@ -4176,6 +4185,11 @@ Web 白盒sqlcms这题其实相对比赛中的其他题目来说，就显得有�
     
     <div class="archive-year"> 2021 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/19</span><a class="archive-post-title" href= "/2021/05/19/lifesuibi/" >创宇四年</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -5369,6 +5383,8 @@ Web 白盒sqlcms这题其实相对比赛中的其他题目来说，就显得有�
         <span class="sidebar-tag-name" data-tags="tongda"><span class="iconfont-archer">&#xe606;</span>tongda</span>
     
         <span class="sidebar-tag-name" data-tags="webdriver"><span class="iconfont-archer">&#xe606;</span>webdriver</span>
+    
+        <span class="sidebar-tag-name" data-tags="随笔"><span class="iconfont-archer">&#xe606;</span>随笔</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
