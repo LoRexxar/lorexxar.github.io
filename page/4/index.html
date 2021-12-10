@@ -389,6 +389,40 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2017/11/15/hctf2017-deserted-world/" >
+            
+                <span>HCTF2017-Deserted place-Writeup</span>
+        </a>
+        <div class="abstract-content">
+            <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Deserted</span> <span class="string">place</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Description</span> <span class="string"></span></span><br><span class="line"><span class="attr">maybe</span> <span class="string">nothing here </span></span><br><span class="line"><span class="attr">flag</span> <span class="string">in admin cookie</span></span><br><span class="line"><span class="attr">Now</span> <span class="string">Score 820.35</span></span><br><span class="line"><span class="attr">Team</span> <span class="string">solved 3</span></span><br></pre></td></tr></table></figure>
+
+<p>出题思路来自于一个比较特别的叫做SOME的攻击方式，全名<code>Same Origin Method Execution</code>，这是一种2015年被人提出来的攻击方式，可以用来执行同源环境下的任意方法，2年前就有人做了分析。</p>
+<p><a href="http://files.benhayak.com/Same_Origin_Method_Execution__paper.pdf" target="_blank" rel="noopener">原paper</a><br><a href="http://blog.safedog.cn/?p=13" target="_blank" rel="noopener">http://blog.safedog.cn/?p=13</a><br><a href="https://lightless.me/archives/same-origin-method-exection.html" target="_blank" rel="noopener">https://lightless.me/archives/same-origin-method-exection.html</a></p>
+<p>题目源码如下<br><a href="https://github.com/LoRexxar/HCTF2017-Deserted-place" target="_blank" rel="noopener">https://github.com/LoRexxar/HCTF2017-Deserted-place</a></p>
+<p>我们一起来研究一下</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2017/11/15/hctf2017-restore-world/" >
             
                 <span>HCTF2017-A World Restored-Writeup</span>
@@ -1010,38 +1044,6 @@ height:50vh;
         <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/05/16/nonce-bypass-script/" >
-            
-                <span>通过浏览器缓存来bypass CSP script nonce</span>
-        </a>
-        <div class="abstract-content">
-            <p>原文被我发在freebuff上<br><a href="http://www.freebuf.com/articles/web/133455.html" target="_blank" rel="noopener">http://www.freebuf.com/articles/web/133455.html</a></p>
-<p>最近看了去年google团队写的文章CSP Is Dead, Long Live CSP!，对csp有了新的认识，在文章中，google团队提出了nonce-{random}的csp实现方式，而事实上，在去年的圣诞节，Sebastian 演示了这种csp实现方式的攻击方式，也就是利用浏览器缓存来攻击，事实上，我很早就看到了这篇文章，但是当时并没有看懂，惭愧了，现在来详细分析下。</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/05/16</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "pwnhub">pwnhub</a>
     
 </div>
             
@@ -4461,9 +4463,26 @@ height:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 183
+        Total : 184
         </div>
         <!-- search  -->
         
@@ -4476,6 +4495,11 @@ height:50vh;
     
     <div class="archive-year"> 2021 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href= "/2021/12/10/log4j2-jndi/" >log4j2 JNDI注入漏洞速通~</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -5699,6 +5723,10 @@ height:50vh;
         <span class="sidebar-tag-name" data-tags="whitebox"><span class="iconfont-archer">&#xe606;</span>whitebox</span>
     
         <span class="sidebar-tag-name" data-tags="chrome ext"><span class="iconfont-archer">&#xe606;</span>chrome ext</span>
+    
+        <span class="sidebar-tag-name" data-tags="log4j2"><span class="iconfont-archer">&#xe606;</span>log4j2</span>
+    
+        <span class="sidebar-tag-name" data-tags="jndi"><span class="iconfont-archer">&#xe606;</span>jndi</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
