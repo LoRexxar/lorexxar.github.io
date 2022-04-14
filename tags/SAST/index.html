@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="LoRexxar&#39;s Blog">
-<meta property="og:url" content="https://lorexxar.cn/tags/SAST/index.html">
+<meta property="og:url" content="https://lorexxar.cn/tags/sast/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="article:author" content="LoRexxar">
 <meta name="twitter:card" content="summary">
@@ -376,27 +376,27 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/09/21/whiteboxaudit/" >
+        <a class="abstract-title" href = "/2022/04/14/sca/" >
             
-                <span>从0开始聊聊自动化静态代码审计工具</span>
+                <span>SCA的困境和出路</span>
         </a>
         <div class="abstract-content">
-            <hr>
-<p>自从人类发明了工具开始，人类就在不断为探索如何更方便快捷的做任何事情，在科技发展的过程中，人类不断地试错，不断地思考，于是才有了现代伟大的科技时代。在安全领域里，每个安全研究人员在研究的过程中，也同样的不断地探索着如何能够自动化的解决各个领域的安全问题。其中自动化代码审计就是安全自动化绕不过去的坎。</p>
-<p>这一次我们就一起聊聊自动化代码审计的发展史，也顺便聊聊如何完成一个自动化静态代码审计的关键。</p>
+            <p>SCA是什么？我想可能很多人都有这个问题。SCA的全称叫做Software Composition Analysis，有的朋友可能直接把他叫做软件成分分析，也可以叫他组件安全分析。现代的SCA大多数都是基于白盒的角度去做，也就是SAST中的一环，但是也有不少场景需求对二进制或者运行中软件做分析，当然这不是今天讨论的主要目标。这个东西最常见的地方就是github，github内置了一个简单的SCA扫描</p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/20220414170856.png" alt="img"></p>
+<p>今天我们主要聊聊白盒角度的SCA，SCA这个东西听名字好像很复杂，但是实际上把它聊的简单一点儿可以拆开两部分，一个是组件数据，另一个是漏洞数据，我们分开聊聊这两个部分。</p>
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/09/21</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/04/14</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SAST">SAST</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "sca">sca</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "tools">tools</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "sast">sast</a>
     
 </div>
             
@@ -3680,9 +3680,26 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 185
+        Total : 186
         </div>
         <!-- search  -->
         
@@ -3695,6 +3712,11 @@
     
     <div class="archive-year"> 2022 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/14</span><a class="archive-post-title" href= "/2022/04/14/sca/" >SCA的困境和出路</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -4943,6 +4965,10 @@
         <span class="sidebar-tag-name" data-tags="jndi"><span class="iconfont-archer">&#xe606;</span>jndi</span>
     
         <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
+    
+        <span class="sidebar-tag-name" data-tags="sca"><span class="iconfont-archer">&#xe606;</span>sca</span>
+    
+        <span class="sidebar-tag-name" data-tags="sast"><span class="iconfont-archer">&#xe606;</span>sast</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
