@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="LoRexxar&#39;s Blog | 信息技术分享">
-<meta property="og:url" content="https://lorexxar.cn/tags/csp/index.html">
+<meta property="og:url" content="https://lorexxar.cn/tags/CSP/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog | 信息技术分享">
 <meta property="article:author" content="LoRexxar">
 <meta name="twitter:card" content="summary">
@@ -376,32 +376,28 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2018/05/31/0ctf2018-final/" >
+        <a class="abstract-title" href = "/2018/04/17/0ctf2018-space/" >
             
-                <span>0CTF/TCTF2018 Final Web Writeup</span>
+                <span>TCTF/0CTF2018 h4x0rs.space Writeup</span>
         </a>
         <div class="abstract-content">
-            <p>最棒的CTF就是那个能带给你东西和快乐的CTF了，共勉</p>
+            <p>TCTF/0CTF中的压轴题目，本来可以在题目还在的时候研究的，无奈又因为强网杯的事情又拖了好几天，今天才整理出来，整个题目的利用思路都是近几年才被人们提出来的，这次比赛我也是第一次遇到环境，其中关于Appcache以及Service Worker的利用方式非常有趣，能在特殊环境下起到意想不到的作用。</p>
+<p>下面的Writeup主要来自于</p>
+<p><a href="https://gist.github.com/masatokinugawa/b55a890c4b051cc6575b010e8c835803" target="_blank" rel="noopener">https://gist.github.com/masatokinugawa/b55a890c4b051cc6575b010e8c835803</a></p>
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/31</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/17</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CSP">CSP</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "java">java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ssrf">ssrf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "redis">redis</a>
-    
 </div>
             
         </div>
@@ -413,28 +409,27 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2017/08/15/pwnhub%20%E6%94%B9%E8%A1%8C%E5%81%9A%E5%89%8D%E7%AB%AF/" >
+        <a class="abstract-title" href = "/2018/04/10/0ctf2018-club2/" >
             
-                <span>pwnhub 改行做前端</span>
+                <span>TCTF/0CTF2018 h4xors.club2 Writeup</span>
         </a>
         <div class="abstract-content">
-            <p>题目说实话是完成了一半，后一半是无意中上车的，有一些迷…关于注入部分是后来才发现的。</p>
-<p>这里先按照我的思路来吧</p>
+            <p>本来早就该完成的club2 wp因为清明节的关系拖了一段时间，club2这个题目用了一很精巧的postMessage漏洞。</p>
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/08/15</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/10</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CSP">CSP</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "pwnhub">pwnhub</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "postMessage">postMessage</a>
     
 </div>
             
@@ -447,96 +442,27 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2017/05/16/nonce-bypass-script/" >
+        <a class="abstract-title" href = "/2018/04/05/0ctf2018-blog/" >
             
-                <span>通过浏览器缓存来bypass CSP script nonce</span>
+                <span>TCTF/0CTF2018 XSS bl0g Writeup</span>
         </a>
         <div class="abstract-content">
-            <p>原文被我发在freebuff上<br><a href="http://www.freebuf.com/articles/web/133455.html" target="_blank" rel="noopener">http://www.freebuf.com/articles/web/133455.html</a></p>
-<p>最近看了去年google团队写的文章CSP Is Dead, Long Live CSP!，对csp有了新的认识，在文章中，google团队提出了nonce-{random}的csp实现方式，而事实上，在去年的圣诞节，Sebastian 演示了这种csp实现方式的攻击方式，也就是利用浏览器缓存来攻击，事实上，我很早就看到了这篇文章，但是当时并没有看懂，惭愧了，现在来详细分析下。</p>
+            <p>刚刚过去的TCTF/0CTF2018一如既往的给了我们惊喜，其中最大的惊喜莫过于多道xss中Bypass CSP的题目，其中有很多多应用于现代网站的防御思路，其中的很多利用思路非常精巧，值得研究，所以这里我把xss题目单独出来博文，因为它们值得更多关注！</p>
+<p>ps：writeup会在我复现整理完后不断分享出来…</p>
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/05/16</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/05</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "pwnhub">pwnhub</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/05/09/CSP%20Is%20Dead,%20Long%20Live%20CSP!%20On%20the%20Insecurity%20of%20Whitelists%20and%20the%20Future%20of%20Content%20Security%20Policy/" >
-            
-                <span>CSP Is Dead, Long Live CSP! 翻译</span>
-        </a>
-        <div class="abstract-content">
-            <p>CSP Is Dead, Long Live CSP! On the Insecurity of Whitelists and the Future of Content Security Policy</p>
-<p>无意间阅读到了去年google团队写的关于CSP现状和展望的论文，深有感触，所以翻译了大部分的文章内容，分享给大家。</p>
-<p><a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45542.pdf" target="_blank" rel="noopener">https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45542.pdf</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/05/09</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/04/24/pwnhub-jue/" >
-            
-                <span>pwnhub 绝对防御 出题思路和反思</span>
-        </a>
-        <div class="abstract-content">
-            <p>由于整个站最初的时候其实是用来测试漏洞的，所以被改成题目的时候很多应该注意的地方没有仔细推敲，在看了别人wp后仔细研究了一下，我发现题目本身漏洞就要求admin和xss点在同源下，整个漏洞被改成ctf题目是存在冲突的，再加上flag所在的地方使用了referer check本身就有问题，导致题目有了很多非预期解法，深感抱歉。</p>
-<p>下面就完整的整理一下wp和所有的非预期攻击方式</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/24</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CSP">CSP</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "pwnhub">pwnhub</a>
-    
 </div>
             
         </div>
@@ -548,332 +474,25 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2017/02/20/pwnhub-open/" >
+        <a class="abstract-title" href = "/2017/10/25/csp-paper/" >
             
-                <span>pwnhub 打开电脑</span>
+                <span>前端防御从入门到弃坑--CSP变迁</span>
         </a>
         <div class="abstract-content">
-            <p>这是个比较特别的题目，开始上来逛了逛发现其实挺迷的…</p>
+            <p>原文是我在内部showcase的时候修改而来的，总结了一些这一年接触CSP的很多感想…</p>
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/20</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/10/25</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CSP">CSP</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "pwnhub">pwnhub</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/02/16/cdn-bypass-csp/" >
-            
-                <span>有趣的cdn bypass CSP</span>
-        </a>
-        <div class="abstract-content">
-            <p>最近在逛github的时候看到一个bypass csp的挑战，也是我最近才知道的一个新思路，一般人bypass csp都是通过允许域下的某个漏洞构造文件绕过，但是其实往往没人注意到cdn的问题。</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/16</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/12/10/pwnhub-WTF-writeup/" >
-            
-                <span>pwnhub_WTF_writeup</span>
-        </a>
-        <div class="abstract-content">
-            <p>周五晚上本来是看剧看到累，然后打会儿游戏的日子，一切的祸因都是大黑客告诉我pwnhub开始了Orz…</p>
-<p>然而本以为思路是一帆风顺的，结果成功xss自己后，搞不定admin的问题，绝望到寝室断电…然而离flag只有一个转身的距离…</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/12/10</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "pwnhub">pwnhub</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/12/07/polyglot-JPEGs-bypass-csp/" >
-            
-                <span>using polyglot JPEGs bypass CSP 分析</span>
-        </a>
-        <div class="abstract-content">
-            <p>前段时间，外国爆出来的新的bypass CSP方式，这里稍微研究下。</p>
-<p><a href="http://blog.portswigger.net/2016/12/bypassing-csp-using-polyglot-jpegs.html" target="_blank" rel="noopener">http://blog.portswigger.net/2016/12/bypassing-csp-using-polyglot-jpegs.html</a></p>
-<p>但实际检查整个逻辑之后，我觉得应该算作是对上传检查的绕过，不能算作是bypass csp</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/12/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/11/30/hctf2016-xss/" >
-            
-                <span>hctf2016 guestbook&amp;secret area writeup</span>
-        </a>
-        <div class="abstract-content">
-            <p>这次比赛专门出了两个xss题目，前段时间阅读了几篇和CSP有关的文章，有了一些特别的理解，所以就专门出了2题</p>
-<p>第一题guestbook思路来自于<br><a href="http://paper.seebug.org/91/" target="_blank" rel="noopener">http://paper.seebug.org/91/</a></p>
-<p>当然我自己也写了分析文章<br><a href="http://lorexxar.cn/2016/10/28/csp-then/">http://lorexxar.cn/2016/10/28/csp-then/</a></p>
-<p>源码<br><a href="https://github.com/LoRexxar/hctf2016_guestbook" target="_blank" rel="noopener">https://github.com/LoRexxar/hctf2016_guestbook</a></p>
-<p>出题思路主要来自于CSP对域的限制，但是没想到翻车了，忘记了location的问题，导致guestbook的做法简单了一倍多，在中途的时候突然发现了几个特殊的payload，发现题目思路和去年的Boston Key Party2015中一题思路接近，不得不说，最早接触CSP就是因为BKP，但当时因为水平浅薄所以没能理解，下面附上我自己的writeup</p>
-<p>题目:guestbook<br>最终分数：226<br>完成队伍：35</p>
-<p>第二题secret area</p>
-<p>出题思路主要来自于<br><a href="https://chloe.re/2016/07/25/bypassing-paths-with-open-redirects-in-csp/" target="_blank" rel="noopener">https://chloe.re/2016/07/25/bypassing-paths-with-open-redirects-in-csp/</a></p>
-<p>当然我自己也写了分析文章<br><a href="http://lorexxar.cn/2016/10/31/csp-then2/">http://lorexxar.cn/2016/10/31/csp-then2/</a></p>
-<p>源码<br><a href="https://github.com/LoRexxar/hctf2016_secret_area" target="_blank" rel="noopener">https://github.com/LoRexxar/hctf2016_secret_area</a></p>
-<p>题目主要思路是通过重定向绕过CSP的目录限制，但是站功能一多了难免就遇到了各种问题，已知有4种解法，后面会说的详细一些</p>
-<p>题目：secret area<br>最终分数：340<br>完成队伍：16</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/11/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "hctf">hctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/10/31/csp-then2/" >
-            
-                <span>CSP进阶-302 Bypass CSP</span>
-        </a>
-        <div class="abstract-content">
-            <p>CSP真神奇，前段时间看了一篇国外的文章，导致有了新的体验，302不仅仅可以在ssrf中有特殊的表现，就连csp也可以，很强势</p>
-<p><a href="https://chloe.re/2016/07/25/bypassing-paths-with-open-redirects-in-csp/" target="_blank" rel="noopener">原文连接</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/31</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/10/28/csp-then/" >
-            
-                <span>CSP进阶-link Bypass unsafe line</span>
-        </a>
-        <div class="abstract-content">
-            <p>随着时代的发展,XSS也成不可磨灭的漏洞之一，但是攻和防的进化总是相互交织的，所以CSP也应运而成，以白名单为基础而建立的防御策略本以为会是xss的克星，但事实并不是这样的，曾经也写过一篇文章</p>
-<p>我的CSP科普文章<br><a href="http://lorexxar.cn/2016/08/08/ccsp/">http://lorexxar.cn/2016/08/08/ccsp/</a></p>
-<p>里面也提到了一些关于bypass的手段，但是没想到有些东西有点儿太过简单了，所以在看到知道创宇的文章时候有了新的想法<br><a href="http://paper.seebug.org/91/" target="_blank" rel="noopener">http://paper.seebug.org/91/</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/28</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/08/08/ccsp/" >
-            
-                <span>CSP Level 3浅析&amp;简单的bypass</span>
-        </a>
-        <div class="abstract-content">
-            <p>文章是之前发表在安全智库的文章，主要是一些CSP的分析和一部分bypass CSP的实例</p>
-<p>最近接触了很多次关于csp的东西，但是发现wooyun知识库只有2年前的<a href="http://drops.wooyun.org/tips/1439" target="_blank" rel="noopener">浏览器安全策略说之内容安全策略CSP</a>,实际阅读却发现和现在的语法差异很大，于是整理了这篇文章</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/08/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/04/20/gif-ccsp/" >
-            
-                <span>gif bypass CSP?</span>
-        </a>
-        <div class="abstract-content">
-            <p>前段时间看到了一个有趣的bypasscsp的文章，最开始是在html5sec上看到的<br><a href="http://html5sec.org/#138" target="_blank" rel="noopener">http://html5sec.org/#138</a><br>这里本来说的是关于link的import属性，但示例中却使用gif bypass了csp，研究了一下午，发现了一些有趣的东西。</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/04/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/04/08/input-bypasscsrf/" >
-            
-                <span>input属性bypass csp</span>
-        </a>
-        <div class="abstract-content">
-            <p>前两天看到一篇文章，可以通过input标签的某些属性，来控制form获取crsftoken并且完美bypass csp。</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/04/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "csrf">csrf</a>
     
 </div>
             
@@ -4208,9 +3827,38 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 188
+        Total : 189
         </div>
         <!-- search  -->
         
@@ -4223,6 +3871,11 @@
     
     <div class="archive-year"> 2023 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/14</span><a class="archive-post-title" href= "/2023/04/14/chatgpt1/" >从0到1的ChatGPT - 入门篇</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -5503,6 +5156,300 @@
         <span class="sidebar-tag-name" data-tags="cs"><span class="iconfont-archer">&#xe606;</span>cs</span>
     
         <span class="sidebar-tag-name" data-tags="CVE-2022-39197"><span class="iconfont-archer">&#xe606;</span>CVE-2022-39197</span>
+    
+        <span class="sidebar-tag-name" data-tags="chatgpt"><span class="iconfont-archer">&#xe606;</span>chatgpt</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Blogs"><span class="iconfont-archer">&#xe60a;</span>Blogs</span>
+    
+        <span class="sidebar-category-name" data-categories="Reprint"><span class="iconfont-archer">&#xe60a;</span>Reprint</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "LoRexxar"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+     
+    </body>
+</html>
+
+
+   <span class="sidebar-tag-name" data-tags="windows"><span class="iconfont-archer">&#xe606;</span>windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="c"><span class="iconfont-archer">&#xe606;</span>c</span>
+    
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reprint"><span class="iconfont-archer">&#xe606;</span>Reprint</span>
+    
+        <span class="sidebar-tag-name" data-tags="bookshelf"><span class="iconfont-archer">&#xe606;</span>bookshelf</span>
+    
+        <span class="sidebar-tag-name" data-tags="chrome_ext"><span class="iconfont-archer">&#xe606;</span>chrome_ext</span>
+    
+        <span class="sidebar-tag-name" data-tags="chrome"><span class="iconfont-archer">&#xe606;</span>chrome</span>
+    
+        <span class="sidebar-tag-name" data-tags="dns"><span class="iconfont-archer">&#xe606;</span>dns</span>
+    
+        <span class="sidebar-tag-name" data-tags="cloudeye"><span class="iconfont-archer">&#xe606;</span>cloudeye</span>
+    
+        <span class="sidebar-tag-name" data-tags="cmd"><span class="iconfont-archer">&#xe606;</span>cmd</span>
+    
+        <span class="sidebar-tag-name" data-tags="shell"><span class="iconfont-archer">&#xe606;</span>shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="node"><span class="iconfont-archer">&#xe606;</span>node</span>
+    
+        <span class="sidebar-tag-name" data-tags="contract"><span class="iconfont-archer">&#xe606;</span>contract</span>
+    
+        <span class="sidebar-tag-name" data-tags="crypto"><span class="iconfont-archer">&#xe606;</span>crypto</span>
+    
+        <span class="sidebar-tag-name" data-tags="RSA"><span class="iconfont-archer">&#xe606;</span>RSA</span>
+    
+        <span class="sidebar-tag-name" data-tags="rabins"><span class="iconfont-archer">&#xe606;</span>rabins</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="phpmailer"><span class="iconfont-archer">&#xe606;</span>phpmailer</span>
+    
+        <span class="sidebar-tag-name" data-tags="dedecms"><span class="iconfont-archer">&#xe606;</span>dedecms</span>
+    
+        <span class="sidebar-tag-name" data-tags="逻辑漏洞"><span class="iconfont-archer">&#xe606;</span>逻辑漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="book_notes"><span class="iconfont-archer">&#xe606;</span>book_notes</span>
+    
+        <span class="sidebar-tag-name" data-tags="智能合约"><span class="iconfont-archer">&#xe606;</span>智能合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar"><span class="iconfont-archer">&#xe606;</span>phar</span>
+    
+        <span class="sidebar-tag-name" data-tags="rce"><span class="iconfont-archer">&#xe606;</span>rce</span>
+    
+        <span class="sidebar-tag-name" data-tags="dvp"><span class="iconfont-archer">&#xe606;</span>dvp</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf web"><span class="iconfont-archer">&#xe606;</span>ctf web</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞分析"><span class="iconfont-archer">&#xe606;</span>漏洞分析</span>
+    
+        <span class="sidebar-tag-name" data-tags="dz"><span class="iconfont-archer">&#xe606;</span>dz</span>
+    
+        <span class="sidebar-tag-name" data-tags="反序列化漏洞"><span class="iconfont-archer">&#xe606;</span>反序列化漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="类型混淆漏洞"><span class="iconfont-archer">&#xe606;</span>类型混淆漏洞</span>
+    
+        <span class="sidebar-tag-name" data-tags="ecshop"><span class="iconfont-archer">&#xe606;</span>ecshop</span>
+    
+        <span class="sidebar-tag-name" data-tags="git"><span class="iconfont-archer">&#xe606;</span>git</span>
+    
+        <span class="sidebar-tag-name" data-tags="access"><span class="iconfont-archer">&#xe606;</span>access</span>
+    
+        <span class="sidebar-tag-name" data-tags="伪协议"><span class="iconfont-archer">&#xe606;</span>伪协议</span>
+    
+        <span class="sidebar-tag-name" data-tags="eth"><span class="iconfont-archer">&#xe606;</span>eth</span>
+    
+        <span class="sidebar-tag-name" data-tags="Fomo3D"><span class="iconfont-archer">&#xe606;</span>Fomo3D</span>
+    
+        <span class="sidebar-tag-name" data-tags="Essay"><span class="iconfont-archer">&#xe606;</span>Essay</span>
+    
+        <span class="sidebar-tag-name" data-tags="checklist"><span class="iconfont-archer">&#xe606;</span>checklist</span>
+    
+        <span class="sidebar-tag-name" data-tags="hctf"><span class="iconfont-archer">&#xe606;</span>hctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="misc"><span class="iconfont-archer">&#xe606;</span>misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="php opcache"><span class="iconfont-archer">&#xe606;</span>php opcache</span>
+    
+        <span class="sidebar-tag-name" data-tags="eassy"><span class="iconfont-archer">&#xe606;</span>eassy</span>
+    
+        <span class="sidebar-tag-name" data-tags="jsre"><span class="iconfont-archer">&#xe606;</span>jsre</span>
+    
+        <span class="sidebar-tag-name" data-tags="clrf"><span class="iconfont-archer">&#xe606;</span>clrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="struts2"><span class="iconfont-archer">&#xe606;</span>struts2</span>
+    
+        <span class="sidebar-tag-name" data-tags="injection"><span class="iconfont-archer">&#xe606;</span>injection</span>
+    
+        <span class="sidebar-tag-name" data-tags="mimic"><span class="iconfont-archer">&#xe606;</span>mimic</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwnhub"><span class="iconfont-archer">&#xe606;</span>pwnhub</span>
+    
+        <span class="sidebar-tag-name" data-tags="flask"><span class="iconfont-archer">&#xe606;</span>flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="格式化字符串"><span class="iconfont-archer">&#xe606;</span>格式化字符串</span>
+    
+        <span class="sidebar-tag-name" data-tags="模板注入"><span class="iconfont-archer">&#xe606;</span>模板注入</span>
+    
+        <span class="sidebar-tag-name" data-tags="wget"><span class="iconfont-archer">&#xe606;</span>wget</span>
+    
+        <span class="sidebar-tag-name" data-tags="js"><span class="iconfont-archer">&#xe606;</span>js</span>
+    
+        <span class="sidebar-tag-name" data-tags="weblogic"><span class="iconfont-archer">&#xe606;</span>weblogic</span>
+    
+        <span class="sidebar-tag-name" data-tags="lfi"><span class="iconfont-archer">&#xe606;</span>lfi</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="LFI"><span class="iconfont-archer">&#xe606;</span>LFI</span>
+    
+        <span class="sidebar-tag-name" data-tags="win server信息收集"><span class="iconfont-archer">&#xe606;</span>win server信息收集</span>
+    
+        <span class="sidebar-tag-name" data-tags="msf"><span class="iconfont-archer">&#xe606;</span>msf</span>
+    
+        <span class="sidebar-tag-name" data-tags="lcx端口转发"><span class="iconfont-archer">&#xe606;</span>lcx端口转发</span>
+    
+        <span class="sidebar-tag-name" data-tags="IPC通道入侵"><span class="iconfont-archer">&#xe606;</span>IPC通道入侵</span>
+    
+        <span class="sidebar-tag-name" data-tags="fastcgi"><span class="iconfont-archer">&#xe606;</span>fastcgi</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssh_sock5"><span class="iconfont-archer">&#xe606;</span>ssh_sock5</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="tqdm"><span class="iconfont-archer">&#xe606;</span>tqdm</span>
+    
+        <span class="sidebar-tag-name" data-tags="virtualenv"><span class="iconfont-archer">&#xe606;</span>virtualenv</span>
+    
+        <span class="sidebar-tag-name" data-tags="open_basedir"><span class="iconfont-archer">&#xe606;</span>open_basedir</span>
+    
+        <span class="sidebar-tag-name" data-tags="crontab"><span class="iconfont-archer">&#xe606;</span>crontab</span>
+    
+        <span class="sidebar-tag-name" data-tags="roundcube"><span class="iconfont-archer">&#xe606;</span>roundcube</span>
+    
+        <span class="sidebar-tag-name" data-tags="sangebaimao"><span class="iconfont-archer">&#xe606;</span>sangebaimao</span>
+    
+        <span class="sidebar-tag-name" data-tags="参数污染"><span class="iconfont-archer">&#xe606;</span>参数污染</span>
+    
+        <span class="sidebar-tag-name" data-tags="CBC"><span class="iconfont-archer">&#xe606;</span>CBC</span>
+    
+        <span class="sidebar-tag-name" data-tags="LD_PRELOAD"><span class="iconfont-archer">&#xe606;</span>LD_PRELOAD</span>
+    
+        <span class="sidebar-tag-name" data-tags="gopher"><span class="iconfont-archer">&#xe606;</span>gopher</span>
+    
+        <span class="sidebar-tag-name" data-tags="fcgi"><span class="iconfont-archer">&#xe606;</span>fcgi</span>
+    
+        <span class="sidebar-tag-name" data-tags="Essry"><span class="iconfont-archer">&#xe606;</span>Essry</span>
+    
+        <span class="sidebar-tag-name" data-tags="php伪协议"><span class="iconfont-archer">&#xe606;</span>php伪协议</span>
+    
+        <span class="sidebar-tag-name" data-tags="file_put_contents"><span class="iconfont-archer">&#xe606;</span>file_put_contents</span>
+    
+        <span class="sidebar-tag-name" data-tags="sqlmap"><span class="iconfont-archer">&#xe606;</span>sqlmap</span>
+    
+        <span class="sidebar-tag-name" data-tags="game"><span class="iconfont-archer">&#xe606;</span>game</span>
+    
+        <span class="sidebar-tag-name" data-tags="titan_souls"><span class="iconfont-archer">&#xe606;</span>titan_souls</span>
+    
+        <span class="sidebar-tag-name" data-tags="wordpress"><span class="iconfont-archer">&#xe606;</span>wordpress</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="条件竞争"><span class="iconfont-archer">&#xe606;</span>条件竞争</span>
+    
+        <span class="sidebar-tag-name" data-tags="SAST"><span class="iconfont-archer">&#xe606;</span>SAST</span>
+    
+        <span class="sidebar-tag-name" data-tags="tools"><span class="iconfont-archer">&#xe606;</span>tools</span>
+    
+        <span class="sidebar-tag-name" data-tags="白盒"><span class="iconfont-archer">&#xe606;</span>白盒</span>
+    
+        <span class="sidebar-tag-name" data-tags="静态分析"><span class="iconfont-archer">&#xe606;</span>静态分析</span>
+    
+        <span class="sidebar-tag-name" data-tags="django"><span class="iconfont-archer">&#xe606;</span>django</span>
+    
+        <span class="sidebar-tag-name" data-tags="LSpider"><span class="iconfont-archer">&#xe606;</span>LSpider</span>
+    
+        <span class="sidebar-tag-name" data-tags="爬虫"><span class="iconfont-archer">&#xe606;</span>爬虫</span>
+    
+        <span class="sidebar-tag-name" data-tags="tongda"><span class="iconfont-archer">&#xe606;</span>tongda</span>
+    
+        <span class="sidebar-tag-name" data-tags="webdriver"><span class="iconfont-archer">&#xe606;</span>webdriver</span>
+    
+        <span class="sidebar-tag-name" data-tags="随笔"><span class="iconfont-archer">&#xe606;</span>随笔</span>
+    
+        <span class="sidebar-tag-name" data-tags="blockchain"><span class="iconfont-archer">&#xe606;</span>blockchain</span>
+    
+        <span class="sidebar-tag-name" data-tags="devsecops"><span class="iconfont-archer">&#xe606;</span>devsecops</span>
+    
+        <span class="sidebar-tag-name" data-tags="whitebox"><span class="iconfont-archer">&#xe606;</span>whitebox</span>
+    
+        <span class="sidebar-tag-name" data-tags="chrome ext"><span class="iconfont-archer">&#xe606;</span>chrome ext</span>
+    
+        <span class="sidebar-tag-name" data-tags="log4j2"><span class="iconfont-archer">&#xe606;</span>log4j2</span>
+    
+        <span class="sidebar-tag-name" data-tags="jndi"><span class="iconfont-archer">&#xe606;</span>jndi</span>
+    
+        <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
+    
+        <span class="sidebar-tag-name" data-tags="sca"><span class="iconfont-archer">&#xe606;</span>sca</span>
+    
+        <span class="sidebar-tag-name" data-tags="sast"><span class="iconfont-archer">&#xe606;</span>sast</span>
+    
+        <span class="sidebar-tag-name" data-tags="cs"><span class="iconfont-archer">&#xe606;</span>cs</span>
+    
+        <span class="sidebar-tag-name" data-tags="CVE-2022-39197"><span class="iconfont-archer">&#xe606;</span>CVE-2022-39197</span>
+    
+        <span class="sidebar-tag-name" data-tags="chatgpt"><span class="iconfont-archer">&#xe606;</span>chatgpt</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
