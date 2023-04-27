@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP-fpm 远程代码执行漏洞(CVE-2019-11043)分析">
 <meta property="og:url" content="https://lorexxar.cn/2019/10/25/php-fpm-rce/index.html">
-<meta property="og:site_name" content="LoRexxar&#39;s Blog | 信息技术分享">
+<meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="国外安全研究员 Andrew Danau在解决一道 CTF 题目时发现，向目标服务器 URL 发送 %0a 符号时，服务返回异常，疑似存在漏洞。 2019年10月23日，github公开漏洞相关的详情以及exp。当nginx配置不当时，会导致php-fpm远程任意代码执行。 下面我们就来一点点看看漏洞的详细分析，文章中漏洞分析部分感谢团队小伙伴@Hcamael#知道创宇404实验室">
 <meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/gtaoe2qzu23jqlor19h9ekk2/image.png">
 <meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/zybuluo-backup/LoRexxar/xunv27e9x9m37f4mt5pdfer0/image.png">
