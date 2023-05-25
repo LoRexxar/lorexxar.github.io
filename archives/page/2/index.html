@@ -376,6 +376,43 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/10/30/whitebox-2/" >
+            
+                <span>构造一个CodeDB来探索全新的白盒静态扫描方案</span>
+        </a>
+        <div class="abstract-content">
+            <hr>
+<p>前段时间开源新版本KunLun-M的时候，写了一篇<a href="https://lorexxar.cn/2020/09/21/whiteboxaudit/">《从0开始聊聊自动化静态代码审计工具》</a>的文章，里面分享了许多在这些年白盒静态扫描演变过程中出现的扫描思路、技术等等。在文章中我用了一个简单的例子描述了一下基于.QL的扫描思路，但实际在这个领域我可能只见过一个活的SemmleQL（也就是CodeQL的原型）。这篇文章中我也聊一聊这相关的东西，也分享一些我尝试探索的一些全新的静态扫描方案。</p>
+<p>本文提到的小demo phpunserializechain作为星链计划的一员开源，希望能给相关的安全从业者带来帮助。</p>
+<ul>
+<li><a href="https://github.com/LoRexxar/Kunlun-M/tree/master/core/plugins/phpunserializechain" target="_blank" rel="noopener">https://github.com/LoRexxar/Kunlun-M/tree/master/core/plugins/phpunserializechain</a></li>
+</ul>
+<p>本文会提及大量的名词，其中如有解释错误或使用不当欢迎指正。</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/10/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "白盒">白盒</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "静态分析">静态分析</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/09/21/whiteboxaudit/" >
             
                 <span>从0开始聊聊自动化静态代码审计工具</span>
@@ -974,37 +1011,6 @@ Web 白盒sqlcms这题其实相对比赛中的其他题目来说，就显得有�
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "wordpress">wordpress</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/02/22/wordpress-core-rce/" >
-            
-                <span>Wordpress 5.0 RCE详细分析</span>
-        </a>
-        <div class="abstract-content">
-            <p>2月20号，RIPS团队在官网公开了一篇<a href="https://blog.ripstech.com/2019/wordpress-image-remote-code-execution/" target="_blank" rel="noopener">WordPress 5.0.0 Remote Code Execution</a>，CVE编号CVE-2019-6977，文章中主要提到在author权限账号下，可以通过修改Post Meta变量覆盖、目录穿越写文件、模板包含3个漏洞构成一个RCE漏洞。</p>
-<p>但在原文中，作者只大致描述了漏洞原理，其中大量的漏洞细节被省略，甚至部分的利用和后端服务器也有相当的关系，所以在复现的过程中遇到了各种问题，我们花了大量的时间分析代码，最终终于完全还原了该漏洞，其中部分关键利用点用了和原文有些许差异的利用方式（原文说的太含糊其辞，无法复现）。在下面的分析中，我会尽量按照复现过程中的思考方式及流程，以便读者理解。</p>
-<p>感谢在复现、分析过程中一起的小伙伴@Badcode，帮助我修改了很多错误的@Venenof7、@sysorem,给我提供了很多帮助:&gt;</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "rce">rce</a>
     
 </div>
             
@@ -4438,9 +4444,26 @@ Web 白盒sqlcms这题其实相对比赛中的其他题目来说，就显得有�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 193
+        Total : 194
         </div>
         <!-- search  -->
         
@@ -4453,6 +4476,11 @@ Web 白盒sqlcms这题其实相对比赛中的其他题目来说，就显得有�
     
     <div class="archive-year"> 2023 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2023/05/25/chatgpt5/" >从0到1的ChatGPT - 进阶篇（五）- Embeddings</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -5764,6 +5792,8 @@ Web 白盒sqlcms这题其实相对比赛中的其他题目来说，就显得有�
         <span class="sidebar-tag-name" data-tags="wechat"><span class="iconfont-archer">&#xe606;</span>wechat</span>
     
         <span class="sidebar-tag-name" data-tags="llm"><span class="iconfont-archer">&#xe606;</span>llm</span>
+    
+        <span class="sidebar-tag-name" data-tags="embeddings"><span class="iconfont-archer">&#xe606;</span>embeddings</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
