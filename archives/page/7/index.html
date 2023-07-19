@@ -376,6 +376,52 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2016/11/30/hctf2016-xss/" >
+            
+                <span>hctf2016 guestbook&amp;secret area writeup</span>
+        </a>
+        <div class="abstract-content">
+            <p>这次比赛专门出了两个xss题目，前段时间阅读了几篇和CSP有关的文章，有了一些特别的理解，所以就专门出了2题</p>
+<p>第一题guestbook思路来自于<br><a href="http://paper.seebug.org/91/" target="_blank" rel="noopener">http://paper.seebug.org/91/</a></p>
+<p>当然我自己也写了分析文章<br><a href="http://lorexxar.cn/2016/10/28/csp-then/">http://lorexxar.cn/2016/10/28/csp-then/</a></p>
+<p>源码<br><a href="https://github.com/LoRexxar/hctf2016_guestbook" target="_blank" rel="noopener">https://github.com/LoRexxar/hctf2016_guestbook</a></p>
+<p>出题思路主要来自于CSP对域的限制，但是没想到翻车了，忘记了location的问题，导致guestbook的做法简单了一倍多，在中途的时候突然发现了几个特殊的payload，发现题目思路和去年的Boston Key Party2015中一题思路接近，不得不说，最早接触CSP就是因为BKP，但当时因为水平浅薄所以没能理解，下面附上我自己的writeup</p>
+<p>题目:guestbook<br>最终分数：226<br>完成队伍：35</p>
+<p>第二题secret area</p>
+<p>出题思路主要来自于<br><a href="https://chloe.re/2016/07/25/bypassing-paths-with-open-redirects-in-csp/" target="_blank" rel="noopener">https://chloe.re/2016/07/25/bypassing-paths-with-open-redirects-in-csp/</a></p>
+<p>当然我自己也写了分析文章<br><a href="http://lorexxar.cn/2016/10/31/csp-then2/">http://lorexxar.cn/2016/10/31/csp-then2/</a></p>
+<p>源码<br><a href="https://github.com/LoRexxar/hctf2016_secret_area" target="_blank" rel="noopener">https://github.com/LoRexxar/hctf2016_secret_area</a></p>
+<p>题目主要思路是通过重定向绕过CSP的目录限制，但是站功能一多了难免就遇到了各种问题，已知有4种解法，后面会说的详细一些</p>
+<p>题目：secret area<br>最终分数：340<br>完成队伍：16</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/11/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Blogs">Blogs</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "csp">csp</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "hctf">hctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2016/11/29/hctf2016-ATField/" >
             
                 <span>HCTF2016 ATField writeup</span>
@@ -979,41 +1025,6 @@
         <a class="post-tag" href="javascript:void(0);" data-tags = "python">python</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "tqdm">tqdm</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/07/18/cmd-shell/" >
-            
-                <span>shell上一些有趣的命令</span>
-        </a>
-        <div class="abstract-content">
-            <p>有时候能碰到一些有趣的命令，那就记录下来，以后会更新在这里</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/07/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "windows">windows</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "cmd">cmd</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "shell">shell</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "linux">linux</a>
     
 </div>
             
@@ -4498,9 +4509,18 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 196
+        Total : 197
         </div>
         <!-- search  -->
         
@@ -4513,6 +4533,11 @@
     
     <div class="archive-year"> 2023 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2023/07/19/aigc1/" >打造自己的AIGC应用（一）入门篇</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -5847,6 +5872,8 @@
         <span class="sidebar-tag-name" data-tags="sd"><span class="iconfont-archer">&#xe606;</span>sd</span>
     
         <span class="sidebar-tag-name" data-tags="midjourney"><span class="iconfont-archer">&#xe606;</span>midjourney</span>
+    
+        <span class="sidebar-tag-name" data-tags="aigc"><span class="iconfont-archer">&#xe606;</span>aigc</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
