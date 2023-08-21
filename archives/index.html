@@ -376,6 +376,52 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2023/08/21/joern-and-cpg/" >
+            
+                <span>Joern与CPG是什么？</span>
+        </a>
+        <div class="abstract-content">
+            <p>从人们开始探索代码扫描这件事情开始，市面上就在不断地诞生着各种各样的工具，经过了几年的演变以及发展，对于<strong>白盒代码扫描</strong>这件事情来说，大家的观念也在逐渐趋同。</p>
+<p>无论是基于<strong>IR(Intermediate Representation)</strong>、<strong>AST(abstract syntax trees)</strong>、<strong>CFG(control flow graphs)</strong>、<strong>PFG(program dependence graphs)</strong>，又或者是其他的什么中间态。白盒代码扫描工具都在这个基础上做<strong>模拟执行、污点传播</strong>等等方案来分析挖掘漏洞。</p>
+<p>而随着<strong>CodeQL的概念</strong>逐渐被大家接受之后，现在的代码扫描工具越来越趋近于将<strong>底层和上层拆解开来</strong>，由底层的引擎将代码统一化处理，然后使用者在上层通过编写规则或者语句就可以。主流的<strong>CodeQL、Checkmarx</strong>其实都使用了类似的方案。今天要说的<strong>Joern</strong>也是如此。</p>
+<p><strong>今天介绍的Joern有什么特殊的呢？</strong></p>
+<p>首先CodeQL本身不开源只能使用，偏偏微软还做了商业化限制，以微软喜欢秋后算账的风格来讲，实在无法确定深入研究CodeQL是否值得。</p>
+<p>除此之外，市面上的很多白盒扫描工具其实是<strong>非静态的</strong>，扫描的时候不但需要配置复杂的运行环境，而且<strong>本身可能依赖编译过程</strong>，无论是自己使用还是商业化这都非常不实用。</p>
+<p>个人认为白盒工具有着几个很重要的点</p>
+<ul>
+<li><strong>静态扫描</strong>，<strong>静态扫描的优势和便利程度</strong>才是白盒比较优势的一环，毕竟白盒不是灰盒，如果对编译环境和运行环境有依赖那为什么不使用更准确的灰盒</li>
+<li><strong>扫描速度</strong>，虽然这点是很多商业化白盒软件的通病，但无论在哪家公司的DevSecOps中，最终目标肯定是把安全检测加载上线前，那么无论是1分钟、3分钟还是5分钟，<strong>扫描速度会是第一优先级</strong>，比如CheckMarx动辄几小时的扫描肯定是不现实的</li>
+<li><strong>可diy性</strong>，当然对于大部分人来说这点其实并不是很重要，但能对引擎进行深入改造会是优化开发非常重要的一点，<strong>joern是开源的</strong>，在这方面他有很大的优势</li>
+<li><strong>可拓展性</strong>，市面上大部分的白盒扫描工具动辄支持几十种语言，比如说snoarqube这种，但实际上大部分拓展语言只支持非常简单的正则拓展，<strong>我一直觉得现代白盒软件很重要的一条路就是走通用性</strong>，这也是比较有名的一些白盒工具都选择的路，在白盒扫描过程中会刻意将统一结构拆分出去再做分析扫描。</li>
+</ul>
+<p>今天介绍的joern的其实就是这类工具的一员，他最大的特点其实就是开源。</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/08/21</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "sast">sast</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "joern">joern</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "cpg">cpg</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2023/07/19/aigc1/" >
             
                 <span>打造自己的AIGC应用（一）入门篇</span>
@@ -979,40 +1025,6 @@
         <a class="post-tag" href="javascript:void(0);" data-tags = "chrome">chrome</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "webdriver">webdriver</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/03/09/tongda11-8/" >
-            
-                <span>通达OA代码审计篇二 - 11.8 后台Getshell</span>
-        </a>
-        <div class="abstract-content">
-            <hr>
-<p>前篇：<a href="https://lorexxar.cn/2021/03/03/tongda11-7rce/">通达OA代码审计篇 - 11.7 有条件的任意命令执行</a></p>
-<p>前篇中提到的漏洞在11.8版本中被完全修复后，我痛定思痛，从头开始找一个新的漏洞，于是就有了今天这个漏洞的诞生，但没想到的是，在保留到2021年初时，1月11号更新的11.9版本中再次被定向修复。</p>
-<p>今天我们也来看看这一次的漏洞逻辑~</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/03/09</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "php">php</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "tongda">tongda</a>
     
 </div>
             
@@ -4506,9 +4518,26 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 197
+        Total : 198
         </div>
         <!-- search  -->
         
@@ -4521,6 +4550,11 @@
     
     <div class="archive-year"> 2023 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href= "/2023/08/21/joern-and-cpg/" >Joern与CPG是什么？</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -5862,6 +5896,10 @@
         <span class="sidebar-tag-name" data-tags="midjourney"><span class="iconfont-archer">&#xe606;</span>midjourney</span>
     
         <span class="sidebar-tag-name" data-tags="aigc"><span class="iconfont-archer">&#xe606;</span>aigc</span>
+    
+        <span class="sidebar-tag-name" data-tags="joern"><span class="iconfont-archer">&#xe606;</span>joern</span>
+    
+        <span class="sidebar-tag-name" data-tags="cpg"><span class="iconfont-archer">&#xe606;</span>cpg</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
