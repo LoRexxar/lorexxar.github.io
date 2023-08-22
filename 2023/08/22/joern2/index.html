@@ -26,33 +26,33 @@
 <meta property="og:url" content="https://lorexxar.cn/2023/08/22/joern2/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog">
 <meta property="og:description" content="在上篇文章里，我们从Joern入手大致介绍了CPG(Code Property Graph)的设计理念和简单逻辑  https:&#x2F;&#x2F;lorexxar.cn&#x2F;2023&#x2F;08&#x2F;21&#x2F;joern-and-cpg&#x2F;  但实际上来说，如果想要更深入的了解Joern，CPG和图数据库是绕不开的一个话题。CPG作为一种代码属性图，就必须寻找一种图数据库作为载体，就像我们常用的数据和SQL数据库的关系一样。 旧版">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692605645328-0ebeba5b-1f53-43c2-aea3-10bc8d236a61.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692606692896-ee663c85-77fc-4887-b05e-0b7d83d0a7cb.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692607237756-6bbaab5a-1950-43ae-ac7a-45598be7de99.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692611086028-45813553-8ed8-4bbe-a9b6-e3edcf466eb5.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692611176176-ba4228f9-679e-404f-9427-3b805d72306c.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692612074584-1dabd5b0-eb0d-4bcd-a335-d2f3463bf756.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692612106007-3353f4cb-a061-4190-8615-32bc3b82fdac.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692612120641-a4eb94e1-226a-4633-811e-2167699e9eed.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692685954936-2ba4b2bf-6717-4651-9266-f7e9e72ef8d8.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686066774-fcd82322-c672-4036-bb1e-255fb8c2c9b4.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686088202-c8437685-eea7-42e5-b448-ddd339e7c490.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686293588-7f992135-6cf4-4b52-8549-fc0d78a4eec2.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686369841-2877744a-e1ad-454e-aefa-d2ac3fc3fc59.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686394254-27867c81-96d4-4637-ac60-5927deaf9985.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692688121461-b1e506bc-a0dc-4e82-ab4b-e38200ed382c.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692688861730-ef39cec8-026b-4868-9c3c-55b4c35b4d77.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692689267831-15c53e14-0fe0-4b34-ba8d-927d475cdf06.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692690581420-4b2f173f-f613-4529-a7fb-84f769f9db40.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692693277175-15c4a463-4fa0-4120-b86f-83b93304c3f0.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725366.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725427.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725174.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725125.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725248.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725713.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726073.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725960.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725691.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725662.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725283.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725399.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725408.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726709.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726076.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726708.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726919.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726948.png">
+<meta property="og:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726967.png">
 <meta property="article:published_time" content="2023-08-22T08:40:14.000Z">
-<meta property="article:modified_time" content="2023-08-22T08:42:08.372Z">
+<meta property="article:modified_time" content="2023-08-22T09:26:54.755Z">
 <meta property="article:author" content="LoRexxar">
 <meta property="article:tag" content="sast">
 <meta property="article:tag" content="joern">
 <meta property="article:tag" content="cpg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692605645328-0ebeba5b-1f53-43c2-aea3-10bc8d236a61.png">
+<meta name="twitter:image" content="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725366.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -485,7 +485,7 @@ height:50vh;
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a -&gt; A()</span><br><span class="line">b -&gt; A().b</span><br><span class="line">c.a -&gt; A().b.a</span><br><span class="line">c.b -&gt; ....</span><br></pre></td></tr></table></figure>
 
 <p>我甚至很难用文字的方式表达出他们之间的关系，而<strong>图在这样的场景下就变得很有优势。</strong></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692605645328-0ebeba5b-1f53-43c2-aea3-10bc8d236a61.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725366.png" alt="img"></p>
 <p>当然这只是一个粗浅的例子，但已经很明显的能感觉出来图和文字之间的差距了，<strong>图关系可以很轻松的表达出文字很难表达出来的信息量。</strong></p>
 <h1 id="Joern与图"><a href="#Joern与图" class="headerlink" title="Joern与图"></a>Joern与图</h1><p>Joern用了CPG来<strong>储存代码的所有节点关系和属性数据</strong>，由于CPG的信息量大，所以Joern甚至<strong>提供了官方的生成AST、CFG等其他结构的接口</strong>，对于C/C++甚至支持多种自定义的结构。</p>
 <ul>
@@ -500,7 +500,7 @@ height:50vh;
 <p>在Joern的命令行你可以直接<strong>使用相应的命令生成对应的格式</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cpg.method($name).dotAst.l // output AST <span class="keyword">in</span> dot format</span><br><span class="line">cpg.method($name).dotCfg.l // output CFG <span class="keyword">in</span> dot format</span><br><span class="line">...</span><br><span class="line">cpg.method($name).dotCpg14.l // output CPG<span class="string">'14 in dot format</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692606692896-ee663c85-77fc-4887-b05e-0b7d83d0a7cb.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725427.png" alt="img"></p>
 <p>有个很有意思的是，如果你的电脑装了<strong>Graphviz</strong>，Joern还可以调用Graphviz来绘图，虽然生成的图很难看。</p>
 <ul>
 <li><a href="https://graphviz.org/download/" target="_blank" rel="noopener">https://graphviz.org/download/</a></li>
@@ -508,7 +508,7 @@ height:50vh;
 <p>安装Graphviz之后我们可以通过命令来绘图</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cpg.method($name).plotDotAst // plot AST</span><br><span class="line">cpg.method($name).plotDotCfg // plot CFG</span><br><span class="line">...</span><br><span class="line">cpg.method($name).plotDotCpg14 // plot CPG<span class="string">'14</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692607237756-6bbaab5a-1950-43ae-ac7a-45598be7de99.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725174.png" alt="img"></p>
 <p>说实话，不太实用，但是很方便</p>
 <h1 id="Neo4J"><a href="#Neo4J" class="headerlink" title="Neo4J"></a>Neo4J</h1><p>相比Graphviz这种仅仅用来临时展示图的应用来说，<strong>Neo4J则是标准而且非常成熟的图数据库</strong>，不但性能强，而且还实用。</p>
 <ul>
@@ -528,52 +528,52 @@ height:50vh;
 
 <p>其他的比如创建节点、删除节点、创建关系、搜索匹配的节点以及关系等等就不赘述了，算是比较符合理解的语言逻辑。</p>
 <p>而相对于普通的数据库来说，<strong>图数据库有着可能是一种优势的特性，就是可以直接通过Neo4j的浏览器直接操作图内容以及结构。</strong></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692611086028-45813553-8ed8-4bbe-a9b6-e3edcf466eb5.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725125.png" alt="img"></p>
 <p>直接<strong>用鼠标点击各个节点查看对应的属性以及它们之间的关系</strong>，并且可以直接拖动他们。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692611176176-ba4228f9-679e-404f-9427-3b805d72306c.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725248.png" alt="img"></p>
 <p>点击节点下面的按钮，可以直接<strong>查看到节点连接到的其他节点</strong>，很方便也很直观。</p>
 <h1 id="Joern与Neo4J"><a href="#Joern与Neo4J" class="headerlink" title="Joern与Neo4J"></a>Joern与Neo4J</h1><p>前面说了，<strong>Joern使用了自己做的OverflowDBl来作为图数据库存储CPG</strong>，但CPG本身没有什么特异性，也就意味着他可以在任意一种图数据库上导入。</p>
 <p>而Joern本身是自带了这个功能的，就是joern-export。<strong>它支持你导出Joern的CPG到neo4j  , graphml, graphson 和 graphviz dot。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./joern-export --repr=all --format=neo4jcsv</span><br><span class="line">./joern-export --repr=all --format=graphml</span><br><span class="line">./joern-export --repr=all --format=graphson</span><br><span class="line">./joern-export --repr=all --format=dot</span><br></pre></td></tr></table></figure>
 
 <p>要使用joern-export导出数据的话，<strong>需要指定CPG的位置</strong>，这个东西会存在<strong>Joern目录下的workspace</strong>当中，并且需要指定output，默认是./out。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692612074584-1dabd5b0-eb0d-4bcd-a335-d2f3463bf756.png" alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692612106007-3353f4cb-a061-4190-8615-32bc3b82fdac.png" alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692612120641-a4eb94e1-226a-4633-811e-2167699e9eed.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725713.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726073.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725960.png" alt="img"></p>
 <p>然后我们可以想办法<strong>把这些csv文件导入到Neo4j当中</strong>。当然你可以用一些自己的方式导入，但joern的这个图还挺麻烦的，主要是<strong>neo4j导入复杂结构数据需要指定好各种csv文件的关联。</strong></p>
 <p>但joern当然也给出了导入的办法，在生成文件的时候会<strong>给出一个导入命令的范例</strong>，照着范例就可以搞定了。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692685954936-2ba4b2bf-6717-4651-9266-f7e9e72ef8d8.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725691.png" alt="img"></p>
 <p>首先joern导入数据是有限制的，<strong>只能导入import目录下的文件</strong>，这个import文件一般会在对应链接的server目录下面，如果你使用的是neo4j的desltop浏览器，那么你可以直接打开对应的import目录，并把文件复制过去。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686066774-fcd82322-c672-4036-bb1e-255fb8c2c9b4.png" alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686088202-c8437685-eea7-42e5-b448-ddd339e7c490.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725662.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725283.png" alt="img"></p>
 <p>除了文件以外，还有就是这个/bin/cypher-shell的位置，<strong>这个脚本就在对应链接目录的bin下</strong></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686293588-7f992135-6cf4-4b52-8549-fc0d78a4eec2.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725399.png" alt="img"></p>
 <p>然后构造对应的find命令生成执行导入即可，其实它的原理也比较简单，就是<strong>依次执行*_cypher.csv文件中的命令，然后导入header和data。</strong></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686369841-2877744a-e1ad-454e-aefa-d2ac3fc3fc59.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221725408.png" alt="img"></p>
 <p>最终导入的数据就是这样的</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692686394254-27867c81-96d4-4637-ac60-5927deaf9985.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726709.png" alt="img"></p>
 <h1 id="用cypher在Neo4J上查询漏洞"><a href="#用cypher在Neo4J上查询漏洞" class="headerlink" title="用cypher在Neo4J上查询漏洞"></a>用cypher在Neo4J上查询漏洞</h1><p>当我们把CPG导入到Neo4J上之后，理论上来说我们可以用cypher来完成我们在Joern中做的所有工作。</p>
 <p>这里还是拿上篇文章中用到的RCE代码来举例子。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692688121461-b1e506bc-a0dc-4e82-ab4b-e38200ed382c.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726076.png" alt="img"></p>
 <p>对应Joern的语句为</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def source = cpg.method.where(_.annotation.name(".*Mapping")).parameter</span><br><span class="line"></span><br><span class="line">def sink = cpg.call.name("exec")</span><br></pre></td></tr></table></figure>
 
 <p>首先匹配注解节点满足.*Mapping的</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (n:ANNOTATION) where n.NAME=~<span class="string">".*Mapping"</span> RETURN n LIMIT <span class="number">25</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692688861730-ef39cec8-026b-4868-9c3c-55b4c35b4d77.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726708.png" alt="img"></p>
 <p>然后找这些对应节点关联的方法</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (m:METHOD)-[:AST]-&gt;(n:ANNOTATION) where n.NAME=~".*Mapping" RETURN n LIMIT 25</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692689267831-15c53e14-0fe0-4b34-ba8d-927d475cdf06.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726919.png" alt="img"></p>
 <p>然后找一下对应调用exec方法的节点</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (n:CALL) where n.NAME=<span class="string">"exec"</span> RETURN n LIMIT <span class="number">25</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692690581420-4b2f173f-f613-4529-a7fb-84f769f9db40.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726948.png" alt="img"></p>
 <p>然后我们把两个节点连接起来，并查找最短路径，这里的[*..10]表示最长不超过10个关系</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (p1:METHOD)-[:AST]-&gt;(n:ANNOTATION),(p2:CALL),p=shortestpath((p1)-[*..10]-(p2)) where n.NAME=~".*Mapping" and p2.NAME="exec" RETURN p LIMIT 25</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/26687441/1692693277175-15c4a463-4fa0-4120-b86f-83b93304c3f0.png" alt="img"></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202308221726967.png" alt="img"></p>
 <p>这里范例算是比较简单的，所以用这个还算比较简单的语句就可以查询到结果，正好对应漏洞利用链。</p>
 
     </article>
@@ -583,7 +583,7 @@ height:50vh;
             <p>原文作者：<a href="https://lorexxar.cn">LoRexxar</a>
             <p>原文链接：<a href="https://lorexxar.cn/2023/08/22/joern2/">https://lorexxar.cn/2023/08/22/joern2/</a>
             <p>发表日期：<a href="https://lorexxar.cn/2023/08/22/joern2/">August 22nd 2023, 4:40:14 pm</a>
-            <p>更新日期：<a href="https://lorexxar.cn/2023/08/22/joern2/">August 22nd 2023, 4:42:08 pm</a>
+            <p>更新日期：<a href="https://lorexxar.cn/2023/08/22/joern2/">August 22nd 2023, 5:26:54 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
