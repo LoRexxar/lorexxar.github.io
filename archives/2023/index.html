@@ -376,9 +376,52 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2023/08/22/joern2/" >
+            
+                <span>深入浅出Joern（二）CPG与图数据库</span>
+        </a>
+        <div class="abstract-content">
+            <p>在上篇文章里，我们从Joern入手大致介绍了<strong>CPG(Code Property Graph)</strong>的设计理念和简单逻辑</p>
+<ul>
+<li><a href="https://lorexxar.cn/2023/08/21/joern-and-cpg/">https://lorexxar.cn/2023/08/21/joern-and-cpg/</a></li>
+</ul>
+<p>但实际上来说，如果想要更深入的了解Joern，<strong>CPG和图数据库</strong>是绕不开的一个话题。CPG作为一种<strong>代码属性图</strong>，就必须寻找一种图数据库作为载体，就像我们常用的数据和SQL数据库的关系一样。</p>
+<p>旧版本的Joern使用的<strong>Gremlin</strong>，但后来的开发中换成了<strong>OverflowDB</strong>，在joern中也完全支持使用<strong>OverflowDB的查询语法</strong>。</p>
+<ul>
+<li><a href="https://github.com/ShiftLeftSecurity/overflowdb" target="_blank" rel="noopener">https://github.com/ShiftLeftSecurity/overflowdb</a></li>
+</ul>
+<p>但属性图本身没有什么特异性，比较常见的比如<strong>Neo4J，OrientDB</strong>或者<strong>JanesGraph</strong>都支持CPG的表现形式。</p>
+<p>但，在这之前，我们首先需要知道，<strong>为什么是图？</strong></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/08/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "sast">sast</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "joern">joern</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "cpg">cpg</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2023/08/21/joern-and-cpg/" >
             
-                <span>Joern与CPG是什么？</span>
+                <span>深入浅出Joern（一）Joern与CPG是什么？</span>
         </a>
         <div class="abstract-content">
             <p>从人们开始探索代码扫描这件事情开始，市面上就在不断地诞生着各种各样的工具，经过了几年的演变以及发展，对于<strong>白盒代码扫描</strong>这件事情来说，大家的观念也在逐渐趋同。</p>
@@ -4226,9 +4269,26 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 198
+        Total : 199
         </div>
         <!-- search  -->
         
@@ -4244,7 +4304,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/21</span><a class="archive-post-title" href= "/2023/08/21/joern-and-cpg/" >Joern与CPG是什么？</a>
+            <span class="archive-post-date">08/22</span><a class="archive-post-title" href= "/2023/08/22/joern2/" >深入浅出Joern（二）CPG与图数据库</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href= "/2023/08/21/joern-and-cpg/" >深入浅出Joern（一）Joern与CPG是什么？</a>
         </li>
     
     
