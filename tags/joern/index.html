@@ -451,6 +451,48 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2023/10/26/joerninrw2/">
+                
+                <span class="abstract-title-text">Joern In RealWorld (2) - Jumpserver随机数种子泄露导致账户劫持漏洞（CVE-2023-42820）</span>
+            </a>
+            <div class="abstract-content">
+                <p>Jumpserver是一个开源的django架构的堡垒机系统，由<strong>lawliet &amp; zhiniang peng(@edwardzpeng) with Sangfor</strong>在上个月报送了这个漏洞</p>
+<ul>
+<li><a href="https://github.com/jumpserver/jumpserver/security/advisories/GHSA-7prv-g565-82qp" target="_blank" rel="noopener">https://github.com/jumpserver/jumpserver/security/advisories/GHSA-7prv-g565-82qp</a></li>
+</ul>
+<p>漏洞原理其实比较神奇，一个常用的第三方组件库<a href="https://github.com/mbi/django-simple-captcha" target="_blank" rel="noopener">django-simple-captcha</a>有<strong>泄露随机数种子</strong>的问题，再配合Jumpserver<strong>使用了错误的随机数方案</strong>导致了最终的漏洞。</p>
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/10/26">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/10/26</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="sast">sast</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="joern">joern</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2023/10/20/joern4/">
                 
                 <span class="abstract-title-text">深入浅出Joern（四）不常用语法大全</span>
@@ -463,7 +505,7 @@
             
             <div class="abstract-post-meta">
                 <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/10/24">
+                <div class="abstract-date" title="Last updated: 2023/10/25">
                     <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/10/20</span>
                 </div>
                 <!-- tags -->
@@ -1772,7 +1814,24 @@
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -4255,7 +4314,7 @@
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 202
+        Total : 203
         </div>
         <!-- search  -->
         
@@ -4269,6 +4328,12 @@
             <div class="archive-year"> 2023 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span>
+            <a class="archive-post-title" href="/2023/10/26/joerninrw2/">Joern In RealWorld (2) - Jumpserver随机数种子泄露导致账户劫持漏洞（CVE-2023-42820）</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">10/20</span>
