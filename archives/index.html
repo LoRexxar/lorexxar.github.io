@@ -451,6 +451,54 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2025/12/31/react2shell/">
+                
+                <span class="abstract-title-text">不容错过的2025年度漏洞：React2Shell（CVE-2025-55182）分析</span>
+            </a>
+            <div class="abstract-content">
+                <p>2025年12月3日，时隔4年，安全圈又一个通杀环境的核弹漏洞被公开，CVSS评分10.0，影响范围React 19+全版本，Next.js 15/16，无条件默认环境RCE漏洞，史称React2shell。</p>
+<p><font style="color:rgb(0, 0, 0);">该漏洞由安全研究员 Lachlan Davidson 于 2025 年 11 月 29 日发现，在3号被公开</font></p>
+<ul>
+<li><a href="https://www.tenable.com/blog/react2shell-cve-2025-55182-react-server-components-rce" target="_blank" rel="noopener">https://www.tenable.com/blog/react2shell-cve-2025-55182-react-server-components-rce</a></li>
+</ul>
+<p>最早的版本大家讨论的结论是，只有使用rsc作为后端的环境才会受到漏洞的利用，主要原因还是受到了最早版本poc的影响，也就是ejpir专门构造的漏洞环境和poc。</p>
+<p>但是很快maple3142在12月5日发布了真正的poc</p>
+<ul>
+<li><a href="https://gist.github.com/maple3142/48bc9393f45e068cf8c90ab865c0f5f3" target="_blank" rel="noopener">https://gist.github.com/maple3142/48bc9393f45e068cf8c90ab865c0f5f3</a></li>
+</ul>
+<p>在更快的时间内，next.js默认环境全版本通杀直接影响了以dify为代表的许多平台，一下子引爆了漏洞的影响范围，漏洞正式进入2阶段，大范围利用以及企业内部自查阶段。</p>
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2025/12/31">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2025/12/31</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="rce">rce</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="react2shell">react2shell</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2024/06/11/phpcgi-rce/">
                 
                 <span class="abstract-title-text">PHP CGI Windows平台远程代码执行漏洞（CVE-2024-4577）分析与复现</span>
@@ -1224,50 +1272,6 @@
                     <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/02/21</span>
                 </div>
                 <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2022/11/02/cs-xss2rce/">
-                
-                <span class="abstract-title-text">CS Xss2Rce CVE-2022-39197分析与复现</span>
-            </a>
-            <div class="abstract-content">
-                <p>前段时间这个漏洞被挖掘出来之后的时候还是引发了很多关注的，但是最初一直都没有什么像样的分析文章出来，最早看@漂亮鼠的文章之后才大体上对这个漏洞有了一个基本的认识。</p>
-<p><a href="https://mp.weixin.qq.com/s/l5e2p_WtYSCYYhYE0lzRdQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/l5e2p_WtYSCYYhYE0lzRdQ</a></p>
-<p>但是不知道是我的java水平真的不够，又或者说这篇文章中隐去的部分太多了，我顺着文章研究了一段时间但是几个点都串不起来。后来又接二连三的看了几篇文章，直到看完@pang0lin才算是把逻辑串联起来许多</p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzkzNjMxNDM0Mg==&amp;mid=2247485450&amp;idx=1&amp;sn=5662a9f2c081fc8521eee651b357323f&amp;chksm=c2a1dc83f5d655957cf2a1c88adf45cd0d028316f536e0a8a18c9e7cb0440869ed4077822ce8&amp;mpshare=1&amp;scene=1&amp;srcid=1017PFOrquxivFM2ck4Prl9m&amp;sharer_sharetime=1665993698480&amp;sharer_shareid=8c0858e06fee9d607c68521b3949c3e9#rd" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzkzNjMxNDM0Mg==&amp;mid=2247485450&amp;idx=1&amp;sn=5662a9f2c081fc8521eee651b357323f&amp;chksm=c2a1dc83f5d655957cf2a1c88adf45cd0d028316f536e0a8a18c9e7cb0440869ed4077822ce8&amp;mpshare=1&amp;scene=1&amp;srcid=1017PFOrquxivFM2ck4Prl9m&amp;sharer_sharetime=1665993698480&amp;sharer_shareid=8c0858e06fee9d607c68521b3949c3e9#rd</a></p>
-<p>这篇文章不知道什么时候发出来，主要是记录一下整个复现分析的心路历程，以便以后需要的时候没处看。</p>
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/11/02">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/11/02</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="cs">cs</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="CVE-2022-39197">CVE-2022-39197</a>
-    
-</div>
-
                 
             </div>
         </article>
@@ -2400,7 +2404,38 @@
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -5017,7 +5052,7 @@
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 206
+        Total : 207
         </div>
         <!-- search  -->
         
@@ -5027,6 +5062,21 @@
     
         
             
+            
+            <div class="archive-year"> 2025 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/31</span>
+            <a class="archive-post-title" href="/2025/12/31/react2shell/">不容错过的2025年度漏洞：React2Shell（CVE-2025-55182）分析</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
             
             <div class="archive-year"> 2024 </div>
             <ul class="year-list">
@@ -7056,6 +7106,11 @@
             <span class="sidebar-tag-name" data-tags="代码审计">
                 <span class="iconfont-archer">&#xe606;</span>
                 代码审计
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="react2shell">
+                <span class="iconfont-archer">&#xe606;</span>
+                react2shell
             </span>
         
     </div>
