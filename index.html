@@ -463,6 +463,7 @@
         
         
             
+            
         
         <article class="index-post">
             <a class="abstract-title" href="/2026/07/21/fs1-2-83rce/">
@@ -470,10 +471,11 @@
                 <span class="abstract-title-text">2026年了，核弹还是fastjson，fastjson1.2.83 RCE是怎么回事？</span>
             </a>
             <div class="abstract-content">
-                7月19日，推上的一名安全研究员声称，他发现了一个在fastjson 1.2.83版本中无需gadget的RCE漏洞。一时间激起千帆浪。
-Fastjson虽然已经停止维护1版本，但是1版本的Fj依旧是互联网上应用最多的Java JSON库之一，虽然1.2.83没有在维护，但是在长期和fastjson对抗的时间里，83版本仅可以基于expectClass和第三方库构成的gadget做的极其有限的攻击利用，几乎无法RCE，所以很多厂家没有选择更新到FJ2增加不确定性。
-在过去的1天多时间内，基于作者的部分信息，大家正在逐渐探索出了漏洞的真相。
-在7月22日，原作者公开了他们的研究文档http...
+                <p>7月19日，推上的一名安全研究员声称，他发现了一个在fastjson 1.2.83版本中无需gadget的RCE漏洞。一时间激起千帆浪。<br><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202607221545781.png" alt="img"></p>
+<p>Fastjson虽然已经停止维护1版本，但是1版本的Fj依旧是互联网上应用最多的Java JSON库之一，虽然1.2.83没有在维护，但是在长期和fastjson对抗的时间里，83版本仅可以基于expectClass和第三方库构成的gadget做的极其有限的攻击利用，几乎无法RCE，所以很多厂家没有选择更新到FJ2增加不确定性。</p>
+<p><strong>在过去的1天多时间内，基于作者的部分信息，大家正在逐渐探索出了漏洞的真相</strong>。</p>
+<p>在7月22日，原作者公开了他们的研究文档<a href="https://fearsoff.org/cn/research/fastjson-1-2-83-rce" target="_blank" rel="noopener">https://fearsoff.org/cn/research/fastjson-1-2-83-rce</a></p>
+<p><img src="https://lorexxar-blog.oss-cn-shanghai.aliyuncs.com/blog/202607221545358.png" alt="img"></p>
             </div>
             <!-- read more -->
             
