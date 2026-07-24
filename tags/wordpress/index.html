@@ -21,7 +21,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="LoRexxar&#39;s Blog | 信息技术分享">
-<meta property="og:url" content="https://lorexxar.cn/tags/wordpress/index.html">
+<meta property="og:url" content="https://lorexxar.cn/tags/Wordpress/index.html">
 <meta property="og:site_name" content="LoRexxar&#39;s Blog | 信息技术分享">
 <meta property="article:author" content="LoRexxar">
 <meta name="twitter:card" content="summary">
@@ -451,111 +451,33 @@
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/2019/03/14/wp5-1-1xss/">
+            <a class="abstract-title" href="/2026/07/24/wp2shell/">
                 
-                <span class="abstract-title-text">聊聊WordPress 5.1.1 CSRF to RCE漏洞</span>
+                <span class="abstract-title-text">Wordpress wp2shell 未授权RCE（CVE-2026-63030 / CVE-2026-60137）</span>
             </a>
             <div class="abstract-content">
-                <p>2019年3月13日， RIPS团队公开了一篇关于WordPress 5.1.1的XSS漏洞详情，标题起的很响亮，叫做wordpress csrf to rce,<br><a href="https://blog.ripstech.com/2019/wordpress-csrf-to-rce/" target="_blank" rel="noopener">https://blog.ripstech.com/2019/wordpress-csrf-to-rce/</a></p>
-<p>下面我们就来详细聊聊这个漏洞。</p>
+                <p>2026年了，在AI时代下总感觉什么都有可能，但是看到Wordpress居然能有原生未授权RCE还是感觉不可思议。Wordpress算是我曾经深度研究过的php源码之一，虽然wp架构复杂但是开发习惯很好，封装也比较严格，尤其是对权限的分割都做得很好，在5.0之后我一直认为wp不太可能出未授权的大漏洞了。</p>
+<p>但很快，这个漏洞的挖掘者通过两个漏洞的组合就实现了这不可思议的一幕。</p>
+<p>据说作者用AI完成了这个漏洞挖掘，并获得了50w刀的赏金（我没有求证，听说）。</p>
+<ul>
+<li><a href="https://bugbunny.ai/blog/wordpress-7-0-2-rce-deep-dive#three-fixes-for-three-broken-assumptions" target="_blank" rel="noopener">https://bugbunny.ai/blog/wordpress-7-0-2-rce-deep-dive#three-fixes-for-three-broken-assumptions</a></li>
+<li>影响版本：WordPress 6.9.0<del>6.9.4、7.0.0</del>7.0.1</li>
+</ul>
+<p>接下来我们就古法分析一下这个漏洞具体是怎么回事。</p>
             </div>
             <!-- read more -->
             
             <div class="abstract-post-meta">
                 <!-- date -->
-                <div class="abstract-date" title="Last updated: 2020/09/29">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/14</span>
+                <div class="abstract-date" title="Last updated: 2026/07/24">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2026/07/24</span>
                 </div>
                 <!-- tags -->
                 
                     <div class= abstract-tags >
     
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="wordpress">wordpress</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2017/12/19/wordpress-pl2/">
-                
-                <span class="abstract-title-text">WordPress Updraftplus 插件漏洞2则以及一些有趣的故事</span>
-            </a>
-            <div class="abstract-content">
-                <p>几个月前代码审计的时候，翻了翻wordpress的几个插件，因为wordpress的主要功能基本都是后台的，很少有前台能触发的漏洞，也就没看了，后来顺手就把挖到的2个后台漏洞申请了cve，没想到引来两个人讨论…</p>
-<p>你觉得，什么样的漏洞才算是漏洞呢？</p>
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2020/09/29">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/12/19</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ssrf">ssrf</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="wordpress">wordpress</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="条件竞争">条件竞争</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2017/10/25/wordpress/">
-                
-                <span class="abstract-title-text">WordPress安全架构分析</span>
-            </a>
-            <div class="abstract-content">
-                <p>文章搞得乱七八糟给大家添麻烦了，干货不多，有需要的人阅读就好了，文章首发在seebug paper上。</p>
-<h1 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h1><p>WordPress是一个以PHP和MySQL为平台的自由开源的博客软件和内容管理系统。WordPress具有插件架构和模板系统。Alexa排行前100万的网站中有超过16.7%的网站使用WordPress。到了2011年8月，约22%的新网站采用了WordPress。WordPress是目前因特网上最流行的博客系统。</p>
-<p>在zoomeye上可以搜索到的wordpress站点超过500万，毫不夸张的说，每时每刻都有数不清楚的人试图从wordpress上挖掘漏洞…</p>
-<p>由于前一段时间一直在对wordpress做代码审计，所以今天就对wordpress做一个比较完整的架构安全分析…</p>
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2020/09/29">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/10/25</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="php">php</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="wordpress">wordpress</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="代码审计">代码审计</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="Wordpress">Wordpress</a>
     
 </div>
 
@@ -1717,7 +1639,26 @@
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -4418,7 +4359,7 @@
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 212
+        Total : 213
         </div>
         <!-- search  -->
         
@@ -4432,6 +4373,12 @@
             <div class="archive-year"> 2026 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/24</span>
+            <a class="archive-post-title" href="/2026/07/24/wp2shell/">Wordpress wp2shell 未授权RCE（CVE-2026-63030 / CVE-2026-60137）</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">07/21</span>
@@ -6546,6 +6493,107 @@
             <span class="sidebar-tag-name" data-tags="fastjson">
                 <span class="iconfont-archer">&#xe606;</span>
                 fastjson
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Wordpress">
+                <span class="iconfont-archer">&#xe606;</span>
+                Wordpress
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Blogs">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Blogs
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Reprint">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reprint
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://lorexxar.cn",
+        root: siteMetaRoot,
+        author: "LoRexxar"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>
+     <span class="sidebar-tag-name" data-tags="gpt">
+                <span class="iconfont-archer">&#xe606;</span>
+                gpt
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="openclawd">
+                <span class="iconfont-archer">&#xe606;</span>
+                openclawd
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="agent">
+                <span class="iconfont-archer">&#xe606;</span>
+                agent
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ghostbits">
+                <span class="iconfont-archer">&#xe606;</span>
+                ghostbits
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="fastjson">
+                <span class="iconfont-archer">&#xe606;</span>
+                fastjson
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Wordpress">
+                <span class="iconfont-archer">&#xe606;</span>
+                Wordpress
             </span>
         
     </div>

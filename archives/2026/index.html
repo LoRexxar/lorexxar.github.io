@@ -451,6 +451,49 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2026/07/24/wp2shell/">
+                
+                <span class="abstract-title-text">Wordpress wp2shell 未授权RCE（CVE-2026-63030 / CVE-2026-60137）</span>
+            </a>
+            <div class="abstract-content">
+                <p>2026年了，在AI时代下总感觉什么都有可能，但是看到Wordpress居然能有原生未授权RCE还是感觉不可思议。Wordpress算是我曾经深度研究过的php源码之一，虽然wp架构复杂但是开发习惯很好，封装也比较严格，尤其是对权限的分割都做得很好，在5.0之后我一直认为wp不太可能出未授权的大漏洞了。</p>
+<p>但很快，这个漏洞的挖掘者通过两个漏洞的组合就实现了这不可思议的一幕。</p>
+<p>据说作者用AI完成了这个漏洞挖掘，并获得了50w刀的赏金（我没有求证，听说）。</p>
+<ul>
+<li><a href="https://bugbunny.ai/blog/wordpress-7-0-2-rce-deep-dive#three-fixes-for-three-broken-assumptions" target="_blank" rel="noopener">https://bugbunny.ai/blog/wordpress-7-0-2-rce-deep-dive#three-fixes-for-three-broken-assumptions</a></li>
+<li>影响版本：WordPress 6.9.0<del>6.9.4、7.0.0</del>7.0.1</li>
+</ul>
+<p>接下来我们就古法分析一下这个漏洞具体是怎么回事。</p>
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2026/07/24">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2026/07/24</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Wordpress">Wordpress</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2026/07/21/fs1-2-83rce/">
                 
                 <span class="abstract-title-text">2026年了，核弹还是fastjson，fastjson1.2.83 RCE是怎么回事？</span>
@@ -1797,7 +1840,26 @@
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -4498,7 +4560,7 @@
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 212
+        Total : 213
         </div>
         <!-- search  -->
         
@@ -4512,6 +4574,12 @@
             <div class="archive-year"> 2026 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/24</span>
+            <a class="archive-post-title" href="/2026/07/24/wp2shell/">Wordpress wp2shell 未授权RCE（CVE-2026-63030 / CVE-2026-60137）</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">07/21</span>
@@ -6626,6 +6694,11 @@
             <span class="sidebar-tag-name" data-tags="fastjson">
                 <span class="iconfont-archer">&#xe606;</span>
                 fastjson
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Wordpress">
+                <span class="iconfont-archer">&#xe606;</span>
+                Wordpress
             </span>
         
     </div>
